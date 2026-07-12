@@ -225,19 +225,22 @@ Build a Python-based AI news intelligence agent that monitors 11 tiers of local 
 - [x] Tier 7 — YouTube monitor (via YouTube Data API)
 - [x] Tier 8 — Instagram browser scraper
 - [x] Tier 10 — OpenStreetMap/Nominatim business search
-- [x] Tier 11 — Twitter browser scraper (Nitter)
+- [x] Tier 11 — Twitter browser scraper
 - [x] `aggregator.py` — collects all sources, deduplicates, categories
 - [x] `summarizer.py` — OpenCode LLM categorization + headline generation
-- [x] `dashboard.py` — FastAPI web UI (port 8000)
+- [x] `dashboard.py` — FastAPI web UI (port 8000) with local background scheduling
 - [x] Daily digest output (CLI)
 - [x] End-to-end pipeline tested — 200+ items collected per run
+- [x] Created `src/build_static.py` to compile dashboard static HTML
+- [x] Added `.github/workflows/scrape.yml` for automated 2-hour runner execution
+- [x] Initialized Git, resolved ignored paths with `.gitignore`, and successfully pushed to GitHub repository (`wrobr27-debug/News-Agent`)
 
-### 🚧 Still To Do
-- [ ] Set up `.env` with your OpenCode API key, Twitter handle, YouTube API key
-- [ ] Set up YouTube API key (free, requires Google Cloud project)
-- [ ] Test LLM summarization with OpenCode API
-- [ ] Test Twitter scraper with your Twitter handle
-- [ ] Test Instagram scraper (may require login)
-- [ ] Deploy as automated Windows Task Scheduler daily task
-- [ ] Add more source URLs as needed
-- [ ] Add Hindi/English bilingual headline generation
+### 🚧 Future Execution Plan & Next Steps
+- [ ] **Configure Repository Secrets on GitHub:** Add `OPENCODE_API_KEY`, `YOUTUBE_API_KEY`, and `TWITTER_HANDLE` in the GitHub repo Settings.
+- [ ] **Trigger First Cloud Run:** Run the workflow manually from the "Actions" tab of the repository to test first-run scraping and Page compilation.
+- [ ] **Verify Live Website:** Confirm that GitHub Pages deploys `dist/index.html` successfully.
+- [ ] **Hindi/English Bilingual Headline Generation:** Update the LLM summarizer prompt to output titles in both Hindi and English.
+- [ ] **Source Freshness Tracking:** Show "last checked" status for all scrapers on the dashboard.
+- [ ] **Semantic Deduplication:** Use TF-IDF or text similarity to cluster similar news items published by different newspapers on the same day.
+- [ ] **Telegram/Email integration:** Enable instant breaking news alerts pushed to a private editorial channel.
+

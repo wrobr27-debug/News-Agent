@@ -96,6 +96,7 @@
 news agent/
 ├── .env                          # Actual API keys (git-ignored)
 ├── .env.example                  # Template for API keys
+├── .gitignore                    # Git ignore file for security
 ├── pyproject.toml                # Python project metadata & dependencies
 ├── execution plan.md             # Original design plan (Phase 1–5)
 ├── run.bat                      # Quick launcher (chcp 65001 + python src\main.py)
@@ -103,9 +104,16 @@ news agent/
 ├── setup_scheduler.ps1          # Windows Task Scheduler installer (PowerShell)
 ├── report.md                    # ← THIS FILE (architecture blueprint)
 │
+├── .github/
+│   └── workflows/
+│       └── scrape.yml            # GitHub Actions 2-hourly workflow
+│
 ├── data/                        # Runtime data directory
 │   ├── news_agent.db            # SQLite database (seen items)
 │   └── pipeline.log             # Last pipeline run log
+│
+├── dist/                        # Public build directory
+│   └── index.html               # Compiled static HTML dashboard
 │
 ├── src/                         # All source code
 │   ├── __init__.py              # Package marker (empty)
@@ -115,6 +123,7 @@ news agent/
 │   │                            #   mark_seen, get_todays_items)
 │   ├── aggregator.py            # Pipeline orchestration: collect → dedup →
 │   │                            #   summarize → notify → print
+│   ├── build_static.py          # Static HTML compiler for GitHub Pages
 │   ├── summarizer.py            # LLM categorization via OpenCode Zen API
 │   ├── dashboard.py             # FastAPI web UI (inline HTML/CSS, no Jinja2)
 │   ├── notifier.py              # Windows toast notification via winotify
@@ -151,11 +160,13 @@ news agent/
 | `src/database.py` | 72 | SQLite dedup: SHA-256 hashing, 30-day TTL |
 | `src/summarizer.py` | 104 | OpenCode LLM batch categorization + keyword fallback |
 | `src/aggregator.py` | 135 | Pipeline orchestration, digest print, safe helpers |
+| `src/build_static.py` | 38 | Compiles Today's SQLite DB rows into static `dist/index.html` |
 | `src/dashboard.py` | 111 | FastAPI app, inline HTML/CSS, / and /refresh routes |
 | `src/notifier.py` | 42 | Windows toast via winotify, fallback to PowerShell |
 | `src/config.py` | 20 | Loads .env → Settings singleton |
 | `src/main.py` | 42 | CLI: `python src/main.py` or `python src/main.py dashboard [--social]` |
 | `pyproject.toml` | 27 | 11 dependencies, Python ≥3.11 |
+| `.github/workflows/scrape.yml` | 70 | Runs scraper, updates DB, compiles static site and deploys to GitHub Pages |
 
 ---
 
@@ -912,6 +923,16 @@ chcp 65001 >nul
 cd /d "%~dp0"
 python src\main.py %*
 ```
+
+### 12.5 GitHub Actions & GitHub Pages (24/7 Serverless Live Setup)
+
+To run continuously and completely for free, the project uses **GitHub Actions** as the execution runner and scheduler, and **GitHub Pages** as the web host.
+
+* **Workflow (`.github/workflows/scrape.yml`):** Runs every 2 hours on a cron schedule (`0 */2 * * *`) on a headless Ubuntu runner. It configures Python, installs dependencies, downloads Playwright webkit, and executes:
+  1. `python src/main.py --social` (runs the scraper and updates `data/news_agent.db`).
+  2. `python src/build_static.py` (compiles the daily items into `dist/index.html`).
+  3. Git commits the updated database and index file back to the repository (using the `[skip ci]` flag to avoid build loops).
+  4. Deploys the static `dist/` folder directly to GitHub Pages.
 
 ---
 
