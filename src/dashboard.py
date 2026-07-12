@@ -169,9 +169,16 @@ def _section(name: str, items: list) -> str:
 async def dashboard():
     items = get_todays_items()
 
+    from src.summarizer import _guess_category
+    from src.sources.government import NewsItem
+
     cats = {}
     for item in items:
-        cat = item[5] or "news"
+        cat = item[5]
+        if not cat or cat == "general":
+            temp_item = NewsItem(source=item[0], title=item[1], url=item[2], summary=item[6] or "")
+            cat = _guess_category(temp_item)
+            
         clean_cat = cat.replace("breaking:", "").strip()
         cats.setdefault(clean_cat, []).append(item)
 

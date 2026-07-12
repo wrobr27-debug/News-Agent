@@ -4,472 +4,567 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bilaspur News Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f5;color:#333;padding:20px}
-.hdr{background:#1a237e;color:#fff;padding:20px 30px;border-radius:12px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}
-.hdr h1{font-size:24px}
-.hdr .meta{font-size:14px;opacity:.8}
-.btn{background:#3949ab;color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;cursor:pointer;text-decoration:none;display:inline-block;margin:2px}
-.btn:hover{background:#303f9f}
-.stats{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap}
-.sc{background:#fff;padding:16px 24px;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.1);flex:1;min-width:120px;text-align:center}
-.sc .n{font-size:28px;font-weight:700;color:#1a237e}
-.sc .l{font-size:12px;color:#666;margin-top:4px}
-.sec{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:16px;overflow:hidden}
-.sh{padding:14px 20px;font-weight:600;font-size:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee}
-.sh .c{background:#e8eaf6;color:#1a237e;padding:2px 10px;border-radius:12px;font-size:13px}
+body{font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;background:#f8f9fa;color:#212529;padding:24px;line-height:1.5}
+.hdr{background:linear-gradient(135deg, #1a237e 0%, #303f9f 100%);color:#fff;padding:24px 32px;border-radius:16px;margin-bottom:30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(26, 35, 126, 0.15)}
+.hdr h1{font-size:26px;font-weight:700;letter-spacing:-0.5px}
+.hdr .meta{font-size:14px;opacity:.9;margin-top:4px}
+.btn{background:rgba(255,255,255,0.15);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.25)}
+.btn:hover{background:rgba(255,255,255,0.25);transform:translateY(-1px)}
+.stats{display:flex;gap:16px;margin-bottom:30px;flex-wrap:wrap}
+.sc-link{text-decoration:none;display:block;flex:1;min-width:140px;transition:all 0.2s}
+.sc-link:hover{transform:translateY(-4px)}
+.sc{background:#fff;padding:16px 20px;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,.02), 0 1px 3px rgba(0,0,0,.05);text-align:center;border:1px solid #f1f3f5;height:100%}
+.sc .n{font-size:32px;font-weight:800;color:#1a237e}
+.sc .l{font-size:12px;color:#495057;margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.sec{background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,.02), 0 1px 3px rgba(0,0,0,.05);margin-bottom:24px;overflow:hidden;border:1px solid #e9ecef;scroll-margin-top:24px}
+.sh{padding:16px 24px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f3f5;background:#f8f9fa;color:#1a237e}
+.sh .c{background:#e8eaf6;color:#1a237e;padding:2px 12px;border-radius:20px;font-size:13px;font-weight:700}
 .sb{padding:8px 0}
-.ni{padding:10px 20px;border-bottom:1px solid #f0f0f0}
-.ni:hover{background:#fafafa}
-.ni .t{font-size:14px;font-weight:500;margin-bottom:4px}
-.ni .t a{color:#1a237e;text-decoration:none}
-.ni .t a:hover{text-decoration:underline}
-.ni .s{font-size:12px;color:#888}
-.ni .tm{font-size:11px;color:#aaa;margin-left:8px}
+.ni{padding:16px 24px;border-bottom:1px solid #f1f3f5;transition:background 0.2s}
+.ni:hover{background:#f8f9fa}
+.ni .t{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.ni .t a{color:#1a237e;text-decoration:none;line-height:1.4}
+.ni .t a:hover{color:#303f9f;text-decoration:underline}
+.ni .s{font-size:12px;color:#6c757d;font-weight:500}
+.ni .tm{color:#6c757d;font-weight:400;margin-left:4px}
+.ni .summary{font-size:13.5px;color:#495057;margin-top:8px;line-height:1.5;background:#fdfdfd;padding:10px 14px;border-radius:6px;border-left:3px solid #3f51b5;border-right:1px solid #eee;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.badge.breaking{background:#ff1744;color:#fff}
 .empty{text-align:center;padding:60px 20px;color:#888}
 .empty h2{margin-bottom:12px}
 </style>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // Convert last updated time to local browser timezone
+  const lastUpdatedEl = document.getElementById("last-updated-time");
+  if (lastUpdatedEl) {
+    const utcStr = lastUpdatedEl.getAttribute("data-utc");
+    if (utcStr) {
+      const date = new Date(utcStr.replace(" ", "T") + "Z");
+      lastUpdatedEl.textContent = date.toLocaleString();
+    }
+  }
+  
+  // Convert news scraped time to local time (extracting just the hour:minute)
+  document.querySelectorAll(".local-time").forEach(el => {
+    const utcStr = el.getAttribute("data-utc");
+    if (utcStr) {
+      const date = new Date(utcStr.replace(" ", "T") + "Z");
+      el.textContent = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+  });
+});
+</script>
 </head>
 <body>
 <div class="hdr">
-<div><h1>Bilaspur News Agent</h1><div class="meta">2026-07-12 &middot; 202 items today</div></div>
+<div><h1>Bilaspur News Agent</h1><div class="meta">Last updated: <span id="last-updated-time" data-utc="2026-07-12T19:11:05.268345">2026-07-12T19:11:05.268345</span> &middot; 202 items today</div></div>
 
 </div>
 <div class="stats">
-<div class="sc"><div class="n">5</div><div class="l">Bilaspur Grand News</div></div><div class="sc"><div class="n">4</div><div class="l">Bilaspur Police</div></div><div class="sc"><div class="n">44</div><div class="l">Bilaspur Railway Division</div></div><div class="sc"><div class="n">11</div><div class="l">Bilaspur Smart City</div></div><div class="sc"><div class="n">21</div><div class="l">District Administration Bilaspur</div></div><div class="sc"><div class="n">14</div><div class="l">Government Engineering College Bilaspur</div></div><div class="sc"><div class="n">37</div><div class="l">Guru Ghasidas Vishwavidyalaya</div></div><div class="sc"><div class="n">4</div><div class="l">Nagar Nigam Bilaspur</div></div><div class="sc"><div class="n">16</div><div class="l">OpenStreetMap</div></div><div class="sc"><div class="n">46</div><div class="l">The Hitavada</div></div>
+<a href="#business" class="sc-link"><div class="sc"><div class="n">11</div><div class="l">business</div></div></a><a href="#education" class="sc-link"><div class="sc"><div class="n">41</div><div class="l">education</div></div></a><a href="#government" class="sc-link"><div class="sc"><div class="n">32</div><div class="l">government</div></div></a><a href="#health" class="sc-link"><div class="sc"><div class="n">8</div><div class="l">health</div></div></a><a href="#infrastructure" class="sc-link"><div class="sc"><div class="n">9</div><div class="l">infrastructure</div></div></a><a href="#news" class="sc-link"><div class="sc"><div class="n">53</div><div class="l">news</div></div></a><a href="#police" class="sc-link"><div class="sc"><div class="n">9</div><div class="l">police</div></div></a><a href="#railway" class="sc-link"><div class="sc"><div class="n">38</div><div class="l">railway</div></div></a><a href="#social" class="sc-link"><div class="sc"><div class="n">1</div><div class="l">social</div></div></a>
 </div>
-<div class="sec">
-<div class="sh"><span>BILASPUR GRAND NEWS</span><span class="c">5</span></div>
+<div class="sec" id="business">
+<div class="sh"><span>BUSINESS</span><span class="c">11</span></div>
 <div class="sb"><div class="ni">
-<div class="t"><a href="https://youtube.com/watch?v=sp17pNXi46g" target="_blank" rel="noopener">GRAND NEWS BILASPUR: EVENING FINAL NEWS 12.07.2026</a></div>
-<div class="s">Bilaspur Grand News<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://youtube.com/watch?v=Ow58VYbCxPI" target="_blank" rel="noopener">GRAND NEWS BILASPUR:चिकित्सा सेवा है, व्यापार नहीं&amp;#39;— मरीजों के हित में सख्त कार्रवाई की मांग</a></div>
-<div class="s">Bilaspur Grand News<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://youtube.com/watch?v=nXco4zbWn_s" target="_blank" rel="noopener">GRAND NEWS BILASPUR:इमरान प्रतापगढ़ी की हुंकार, शिक्षा व्यवस्था की खामियों पर सरकार को घेरा</a></div>
-<div class="s">Bilaspur Grand News<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://youtube.com/watch?v=2vMamqez-6Q" target="_blank" rel="noopener">GRAND NEWS BILASPUR: FINAL NEWS 12.07.2026 MORNING</a></div>
-<div class="s">Bilaspur Grand News<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://youtube.com/watch?v=7YR6qWh0N1s" target="_blank" rel="noopener">GRAND NEWS BILASPUR:अम्बा पेट्रोल पंप पर छात्रों का खौफनाक तांडव</a></div>
-<div class="s">Bilaspur Grand News<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>BILASPUR POLICE</span><span class="c">4</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/press-release" target="_blank" rel="noopener">Press Releases</a></div>
-<div class="s">Bilaspur Police<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-12/bsp-range-constable-recruitment-result-23-24_0.pdf" target="_blank" rel="noopener">Final result of Chhattisgarh Police constable recruitment exam 2023-24 With Marks (Bilaspur range- Dist -Bilaspur,Korba,Mungeli,GPM) chhattisgarh</a></div>
-<div class="s">Bilaspur Police<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-12/bsp-selection-waiting-list.pdf" target="_blank" rel="noopener">Final result of Chhattisgarh Police constable recruitment exam 2023-24- Bilaspur</a></div>
-<div class="s">Bilaspur Police<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-11/press-note-regarding-trade-test-constable-trade-centre-no.01-bilaspur-range.pdf" target="_blank" rel="noopener">Press note regarding trade test of Constable(trade) for Constable recruitment 2023-24, Centre no. 01,Bilaspur Range</a></div>
-<div class="s">Bilaspur Police<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>BILASPUR RAILWAY DIVISION</span><span class="c">44</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,1443,268" target="_blank" rel="noopener">Press Releases</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2220,2643" target="_blank" rel="noopener">Question and Answar Key Prob Account Clerk Exam</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2676" target="_blank" rel="noopener">Gaz. Office Order 2025</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2701" target="_blank" rel="noopener">Gaz. Office Order 2026</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531" target="_blank" rel="noopener">Gaz. Office Order 2024</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2578" target="_blank" rel="noopener">Office Order 2019</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2579" target="_blank" rel="noopener">Office Order 2020</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2580" target="_blank" rel="noopener">Office Order 2021</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2606" target="_blank" rel="noopener">Office Order 2022</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2619" target="_blank" rel="noopener">Office Order 2023</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2235,2585" target="_blank" rel="noopener">Standing Orders</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2238,2574" target="_blank" rel="noopener">ZONAL SAFETY CIRCULARS</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2239,2705" target="_blank" rel="noopener">Question and Answar Key  CVI (Traffic) Exam</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2239,2694" target="_blank" rel="noopener">Compendium Of Vigilance Circulars</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2270,2284,2654" target="_blank" rel="noopener">CBT/TBT EXAM-2026</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2270,2284,2550" target="_blank" rel="noopener">NOTIFICATIONS</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2270,2287,2365" target="_blank" rel="noopener">QUESTION PAPER  ANSWER KEY PAPER  FOR WRITTEN EXAMINATION</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2695" target="_blank" rel="noopener">CBT/TBT EXAM</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2534" target="_blank" rel="noopener">Result/Panel/Marks/Eligible -परिणाम/पैनल/अंक/योग्य</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2536" target="_blank" rel="noopener">Selection Calendar-चयन कैलेंडर</a></div>
-<div class="s">Bilaspur Railway Division<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>BILASPUR SMART CITY</span><span class="c">11</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="tel:18008333068" target="_blank" rel="noopener">1800 833 3068 (Helpline)</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://icccbilaspur.zohodesk.in/portal/en/newticket" target="_blank" rel="noopener">Submit Your Complaint</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/servicesSingle.html" target="_blank" rel="noopener">Real-timemonitoring of Security, Traffic, and City Utilities.</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/#itprojects" target="_blank" rel="noopener">Explore Our Smart Projects</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/itms.html" target="_blank" rel="noopener">Intelligent Traffic Management System (ITMS)</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/gis.html" target="_blank" rel="noopener">Geographical Information Centre (GIS)</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/iwms.html" target="_blank" rel="noopener">Intelligent Waste Management System (IWMS)</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/epathsala.html" target="_blank" rel="noopener">E-Paathshaala (Smart Classrooms)</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/iot-water-project.html" target="_blank" rel="noopener">IoT-based Digitalization of Potable Water Distribution Network</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.icccbilaspur.in/smart_street_light.html" target="_blank" rel="noopener">Smart Street Light Monitoring System</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.presear.com" target="_blank" rel="noopener">Presear Softwares PVT LTD</a></div>
-<div class="s">Bilaspur Smart City<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>DISTRICT ADMINISTRATION BILASPUR</span><span class="c">21</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/announcements/" target="_blank" rel="noopener">Announcements</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/recruitment/" target="_blank" rel="noopener">Recruitment</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/admission-forms/" target="_blank" rel="noopener">Admission Forms</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/assembly-election-2018" target="_blank" rel="noopener">Assembly Election 2018</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/loksabha-election-2019" target="_blank" rel="noopener">Loksabha Election 2019</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/local-election-2020" target="_blank" rel="noopener">Local Election 2020</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/category/press-release/" target="_blank" rel="noopener">Press Release</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice/publication-of-results-following-the-entrance-examination-for-admission-to-class-6-in-the-academic-year-2026-27-under-the-chief-ministers-scheduled-caste-and-scheduled-tribe-student-excellence-schem/" target="_blank" rel="noopener">Publication of results following the entrance examination for admission to Class 6 in the academic year 2026-27 under the Chief Minister’s Scheduled Caste and Scheduled Tribe Student Excellence Scheme</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice/information-regarding-interview-written-skill-test-under-chhattisgarh-state-rural-livelihood-mission-bihan-district-bilaspur/" target="_blank" rel="noopener">Information regarding interview / written / skill test under Chhattisgarh State Rural Livelihood Mission “Bihan” District Bilaspur.</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice/notice-regarding-admission-to-class-11-via-lateral-entry-at-prayas-residential-schools-for-boys-and-girls-and-the-prayas-girls-residential-school-for-other-backward-classes-in-bilaspur/" target="_blank" rel="noopener">Notice Regarding Admission to Class 11 Via Lateral Entry at Prayas Residential Schools (for boys and girls) and the Prayas Girls’ Residential School (for Other Backward Classes) in Bilaspur.</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice/contractual-recruitment-of-assistant-veterinary-field-officers-under-the-district-mineral-foundation-trust/" target="_blank" rel="noopener">Contractual recruitment for the post of Assistant Animal Field Officer under the District Mineral Foundation Trust.</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice/expression-of-interest-for-the-selection-of-a-coaching-institute-for-classes-9-to-12-at-prayas-residential-school-bilaspur-operated-under-the-chief-ministers-child-future-security-scheme/" target="_blank" rel="noopener">Expression of Interest for the selection of a coaching institute for Classes 9 to 12 at Prayas Residential School, Bilaspur—operated under the Chief Minister’s Child Future Security Scheme—for the aca</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.facebook.com/ECI/" target="_blank" rel="noopener">Election Commission Of India,Facebook</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.youtube.com/eci" target="_blank" rel="noopener">Election Commission Of India,Youtube</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://eci.gov.in" target="_blank" rel="noopener">Election Commission Of India</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/document-category/office-order/" target="_blank" rel="noopener">Office Order</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/deo-portal/" target="_blank" rel="noopener">District Election Officer</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/lok-sabha-election-2024-2/" target="_blank" rel="noopener">Lok Sabha Election 2024</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/parliamentary-election-2024-daily-expenditure-of-candidates/" target="_blank" rel="noopener">Parliamentary Election 2024 Daily Expenditure Of Candidates</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/assembly-election-2023" target="_blank" rel="noopener">Assembly Election 2023</a></div>
-<div class="s">District Administration Bilaspur<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>GOVERNMENT ENGINEERING COLLEGE BILASPUR</span><span class="c">14</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2026/07/Whatsapp-Scan-4-July-2026-at-12.59.37.pdf" target="_blank" rel="noopener">Admission Rules for First Year 2026-27</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2026/07/Whatsapp-Scan-4-July-2026-at-13.01.25.pdf" target="_blank" rel="noopener">Admission instruction for upcoming First Year students of B.Tech &amp; M.Tech(Counselling Process, Fees Details &amp; Admission Form) (2026-27)</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://gecbsp.ac.in/?p=7880" target="_blank" rel="noopener">PM Internship Scheme</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://gecbsp.ac.in/?p=7652" target="_blank" rel="noopener">Agniveer Scheme</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/12/Our-Recruiters-GEC-Bilaspur.pdf" target="_blank" rel="noopener">Our Recruiters</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/10/notice-scholarship.pdf" target="_blank" rel="noopener">— Notice regarding scholarship of students for session 2025-26</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/11/Document-80.pdf" target="_blank" rel="noopener">–Walk-in-Interview for Part Time Lecturer in Mining Engg. Department on 18.11.2025</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/07/Document-49-1.pdf" target="_blank" rel="noopener">–Walk-in-Interview for Part Time Lecturer in Civil, Electrical, ET&amp;T &amp; Mining Engg. Department on 12.08.2025</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/02/Order_PTL-27-Feb-2025-15-53-361.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (Elect. Dept.) (Even Sem 2024-25)</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/01/PTL_CSE-IT-Maths-2025-20-Jan-2025-11-35-14.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (CSE, IT, &amp; Maths Dept.) (Even Sem 2024-25)</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/01/PTL_CE-EE-2025-20-Jan-2025-11-31-14.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (Civil &amp; Elect. Dept) (Even Sem 2024-25)</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/?page_id=6517" target="_blank" rel="noopener">RECRUITMENT</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/?page_id=6528" target="_blank" rel="noopener">Quotation &amp; TENDER</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2020/04/aaaaa-converted.pdf" target="_blank" rel="noopener">Help Desk (CSVTU Exams)</a></div>
-<div class="s">Government Engineering College Bilaspur<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>GURU GHASIDAS VISHWAVIDYALAYA</span><span class="c">37</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/Laboratory_Assistant-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Laboratory Assistant</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/LDC-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Lower Division Clerk (LDC)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/Steno-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Stenographer</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/UDC-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Upper Division Clerk (UDC)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/international-affairs-admissions" target="_blank" rel="noopener">International Affairs Admissions</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://ggu.ac.in/social-connect/swavalambi-chhattisgarh-scheme/" target="_blank" rel="noopener">Swavalambi Chhattisgarh Scheme</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://ggu.ac.in/social-connect/saarthi-yojana/" target="_blank" rel="noopener">GGV Saarthi Yojana</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://ggu.ac.in//social-connect/sudama-yojana/" target="_blank" rel="noopener">GGV Sudama Yojana</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://ggu.ac.in/amenity/nss/" target="_blank" rel="noopener">National Service Scheme (NSS)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/amenity/dsw/notice/notification/" target="_blank" rel="noopener">Welfare Schemes</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/student-activities" target="_blank" rel="noopener">Activity / Notifications</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://cdoe.ggu.ac.in/course-libary" target="_blank" rel="noopener">Online Courses Admission Open</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/swayam-notification" target="_blank" rel="noopener">Swayam Notification</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://cdoe.ggu.ac.in/onlineprograms/?utm_source=GGV&amp;utm_medium=Main_Website&amp;utm_campaign=OnlineProgrammes" target="_blank" rel="noopener">Admission (Online Mode)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/phd-registration-notifications/" target="_blank" rel="noopener">Ph.D. Registration Notifications</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/phd-award-notifications/" target="_blank" rel="noopener">Ph.D. Award Notifications</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/research-supervision-notifications/" target="_blank" rel="noopener">Research Supervision Notifications</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/section/coe/" target="_blank" rel="noopener">Controller Of Examinations</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/offices" target="_blank" rel="noopener">Exam/Offices/Sections</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.ggu.ac.in/notice/fellowship-awards-scholarship" target="_blank" rel="noopener">Fellowship/Awards/Scholarship</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>NAGAR NIGAM BILASPUR</span><span class="c">4</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="https://www.bilaspurnagarnigam.com/recruitment.php" target="_blank" rel="noopener">Recruitment</a></div>
-<div class="s">Nagar Nigam Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.bilaspurnagarnigam.com/publicnotice.php" target="_blank" rel="noopener">Public Notice</a></div>
-<div class="s">Nagar Nigam Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.bilaspurnagarnigam.com/pressrelease.php" target="_blank" rel="noopener">Press Release</a></div>
-<div class="s">Nagar Nigam Bilaspur<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://nigambilaspur.com/website/admin/theme/upload/Screenshot 2024-10-18 154254.png" target="_blank" rel="noopener">tender1 year agotender</a></div>
-<div class="s">Nagar Nigam Bilaspur<span class="tm">2026-07-12</span></div>
-</div></div>
-</div><div class="sec">
-<div class="sh"><span>OPENSTREETMAP</span><span class="c">16</span></div>
-<div class="sb"><div class="ni">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0880880&amp;mlon=82.1365760" target="_blank" rel="noopener">New Clinic/Hospital: Usha memorial Skin &amp; Eye Hospital</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/1/15/Symbiosis-Institute-of-Business-Management-SIBM-Nagpur-s-MBA-programme-Earns-National-Board-of-Accreditation.html" target="_blank" rel="noopener">Symbiosis Institute of Business Management (SIBM) Nagpur’s MBA programme Earns National Board of Accreditation (NBA)</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.1358957&amp;mlon=82.1306238" target="_blank" rel="noopener">New Restaurant: Canteen GEC Bilaspur</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0573285&amp;mlon=82.1705626" target="_blank" rel="noopener">New Restaurant: DADA BIRYANI</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0721701&amp;mlon=82.1618509" target="_blank" rel="noopener">New Cafe: Urban Bistro</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0704946&amp;mlon=82.1748814" target="_blank" rel="noopener">New Hotel: Hotel INTERCITY</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0572189&amp;mlon=82.1708100" target="_blank" rel="noopener">New Hotel: MarWARI HOTEL AND LODGE</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0945833&amp;mlon=82.1255491" target="_blank" rel="noopener">New Hotel: Marriott Courtyard</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0750555&amp;mlon=82.1582231" target="_blank" rel="noopener">New Hotel: न्यू भगत लॉज, पुराना बस स्टेन्ड, बिलासपुर</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0736454&amp;mlon=82.1622104" target="_blank" rel="noopener">New Hotel: JEET CONTINENTIAL</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/media/notices/tendereoi/CATENDER2026.pdf" target="_blank" rel="noopener">E-Tender Ref. No. 37/CA Services/Store/GGV/2026 DATE: 09/06/2026</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://nigambilaspur.com/website/admin/theme/upload/Screenshot 2024-10-18 154254.png" target="_blank" rel="noopener">Nagar Nigam Bilaspur invites tenders for road construction / सड़क निर्माण के लिए नगर निगम बिलासपुर ने निविदा आमंत्रित की</a></div>
+<div class="s">Nagar Nigam Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Nagar Nigam Bilaspur invites tenders for road construction / सड़क निर्माण के लिए नगर निगम बिलासपुर ने निविदा आमंत्रित की</div>
+</div></div>
+</div><div class="sec" id="education">
+<div class="sh"><span>EDUCATION</span><span class="c">41</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/2/7/treat-exams-like-festivals-focus-on-improving-life-pm-modi.html" target="_blank" rel="noopener">Treat exams like festivals, focus on improving life: PM Modi</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/centre-point-school-swimmers-shine.html" target="_blank" rel="noopener">Centre Point School swimmers shine</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/Laboratory_Assistant-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Laboratory Assistant</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/LDC-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Lower Division Clerk (LDC)</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/Steno-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Stenographer</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/UDC-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Upper Division Clerk (UDC)</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/notice/international-affairs-admissions" target="_blank" rel="noopener">International Affairs Admissions</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://cdoe.ggu.ac.in/course-libary" target="_blank" rel="noopener">Online Courses Admission Open</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2026/07/Whatsapp-Scan-4-July-2026-at-12.59.37.pdf" target="_blank" rel="noopener">Admission Rules for First Year 2026-27</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2026/07/Whatsapp-Scan-4-July-2026-at-13.01.25.pdf" target="_blank" rel="noopener">Admission instruction for upcoming First Year students of B.Tech &amp; M.Tech(Counselling Process, Fees Details &amp; Admission Form) (2026-27)</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/12/Our-Recruiters-GEC-Bilaspur.pdf" target="_blank" rel="noopener">Our Recruiters</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/10/notice-scholarship.pdf" target="_blank" rel="noopener">— Notice regarding scholarship of students for session 2025-26</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/11/Document-80.pdf" target="_blank" rel="noopener">–Walk-in-Interview for Part Time Lecturer in Mining Engg. Department on 18.11.2025</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/07/Document-49-1.pdf" target="_blank" rel="noopener">–Walk-in-Interview for Part Time Lecturer in Civil, Electrical, ET&amp;T &amp; Mining Engg. Department on 12.08.2025</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/02/Order_PTL-27-Feb-2025-15-53-361.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (Elect. Dept.) (Even Sem 2024-25)</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/01/PTL_CSE-IT-Maths-2025-20-Jan-2025-11-35-14.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (CSE, IT, &amp; Maths Dept.) (Even Sem 2024-25)</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/01/PTL_CE-EE-2025-20-Jan-2025-11-31-14.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (Civil &amp; Elect. Dept) (Even Sem 2024-25)</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/?page_id=6517" target="_blank" rel="noopener">RECRUITMENT</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/?page_id=6528" target="_blank" rel="noopener">Quotation &amp; TENDER</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2020/04/aaaaa-converted.pdf" target="_blank" rel="noopener">Help Desk (CSVTU Exams)</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div></div>
+</div><div class="sec" id="government">
+<div class="sh"><span>GOVERNMENT</span><span class="c">32</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/only-2650-of-states-villages-certified-under-har-ghar-jal-scheme-till-2024-cag.html" target="_blank" rel="noopener">Only 26.50% of State’s villages certified under ‘Har Ghar Jal’ scheme till 2024: CAG</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/youth-dreams-aspirations-take-wings-in-mp-govt-focuses-on-employment-cm-dr-yadav.html" target="_blank" rel="noopener">Youth dreams, aspirations take wings in MP, Govt focuses on employment: CM Dr Yadav</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://ggu.ac.in/social-connect/swavalambi-chhattisgarh-scheme/" target="_blank" rel="noopener">Swavalambi Chhattisgarh Scheme</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://ggu.ac.in/social-connect/saarthi-yojana/" target="_blank" rel="noopener">GGV Saarthi Yojana</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://ggu.ac.in//social-connect/sudama-yojana/" target="_blank" rel="noopener">GGV Sudama Yojana</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://ggu.ac.in/amenity/nss/" target="_blank" rel="noopener">National Service Scheme (NSS)</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/amenity/dsw/notice/notification/" target="_blank" rel="noopener">Welfare Schemes</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://gecbsp.ac.in/?p=7880" target="_blank" rel="noopener">PM Internship Scheme</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://gecbsp.ac.in/?p=7652" target="_blank" rel="noopener">Agniveer Scheme</a></div>
+<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/amenity/nss/" target="_blank" rel="noopener">National Service Scheme (NSS)</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.ggu.ac.in/media/notices/admissions/B._Tech._Lateral_Entry_vacant_seat_detail_27.6.25.pdf" target="_blank" rel="noopener">Vacant Seat Details for admission in B.Tech. 2nd Year (III Semester) through lateral entry Scheme (2025-26)</a></div>
+<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/announcements/" target="_blank" rel="noopener">District Administration Bilaspur Announcements / जिला प्रशासन बिलासपुर की घोषणाएँ</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">District Administration Bilaspur Announcements / जिला प्रशासन बिलासपुर की घोषणाएँ</div>
+</div><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/recruitment/" target="_blank" rel="noopener">Recruitment by District Administration Bilaspur / जिला प्रशासन बिलासपुर में भर्ती</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Recruitment by District Administration Bilaspur / जिला प्रशासन बिलासपुर में भर्ती</div>
+</div><div class="ni">
+<div class="t"><span class="badge breaking">BREAKING</span><a href="https://bilaspur.gov.in/en/notice_category/loksabha-election-2019" target="_blank" rel="noopener">Loksabha Election 2019 announced by District Administration Bilaspur / लोकसभा चुनाव 2019 के लिए जिला प्रशासन बिलासपुर द्वारा घोषणा</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Loksabha Election 2019 announced by District Administration Bilaspur / लोकसभा चुनाव 2019 के लिए जिला प्रशासन बिलासपुर द्वारा घोषणा</div>
+</div><div class="ni">
+<div class="t"><span class="badge breaking">BREAKING</span><a href="https://bilaspur.gov.in/en/notice_category/local-election-2020" target="_blank" rel="noopener">Local Election 2020 schedule released by District Administration Bilaspur / जिला प्रशासन बिलासपुर द्वारा स्थानीय चुनाव 2020 की तिथि जारी</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Local Election 2020 schedule released by District Administration Bilaspur / जिला प्रशासन बिलासपुर द्वारा स्थानीय चुनाव 2020 की तिथि जारी</div>
+</div><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/category/press-release/" target="_blank" rel="noopener">Press Release from District Administration Bilaspur on new schemes / जिला प्रशासन बिलासपुर द्वारा नई योजनाओं के बारे में प्रेस विज्ञप्ति</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Press Release from District Administration Bilaspur on new schemes / जिला प्रशासन बिलासपुर द्वारा नई योजनाओं के बारे में प्रेस विज्ञप्ति</div>
+</div><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/notice/notice-regarding-admission-to-class-11-via-lateral-entry-at-prayas-residential-schools-for-boys-and-girls-and-the-prayas-girls-residential-school-for-other-backward-classes-in-bilaspur/" target="_blank" rel="noopener">Notice Regarding Admission to Class 11 Via Lateral Entry at Prayas Residential Schools (for boys and girls) and the Prayas Girls’ Residential School (for Other Backward Classes) in Bilaspur.</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/notice/contractual-recruitment-of-assistant-veterinary-field-officers-under-the-district-mineral-foundation-trust/" target="_blank" rel="noopener">Contractual recruitment for the post of Assistant Animal Field Officer under the District Mineral Foundation Trust.</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/notice/expression-of-interest-for-the-selection-of-a-coaching-institute-for-classes-9-to-12-at-prayas-residential-school-bilaspur-operated-under-the-chief-ministers-child-future-security-scheme/" target="_blank" rel="noopener">Expression of Interest for the selection of a coaching institute for Classes 9 to 12 at Prayas Residential School, Bilaspur—operated under the Chief Minister’s Child Future Security Scheme—for the aca</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.facebook.com/ECI/" target="_blank" rel="noopener">Election Commission Of India,Facebook</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div></div>
+</div><div class="sec" id="health">
+<div class="sh"><span>HEALTH</span><span class="c">8</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0880880&amp;mlon=82.1365760" target="_blank" rel="noopener">New Clinic/Hospital: Usha memorial Skin &amp; Eye Hospital</a></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/jt-task-force-launches-campaign-against-illegal-mining-in-patan.html" target="_blank" rel="noopener">Jt task force launches campaign against illegal mining in Patan</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/multilingual-health-app-helping-women-detect-breast-cancer-earlier.html" target="_blank" rel="noopener">Multilingual health app helpingwomen detect breast cancer earlier</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.1109604&amp;mlon=82.1399692" target="_blank" rel="noopener">New Clinic/Hospital: Multi Super Specialty Hospital</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0979110&amp;mlon=82.1304350" target="_blank" rel="noopener">New Clinic/Hospital: Bilaspur Hospital</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0975946&amp;mlon=82.1629147" target="_blank" rel="noopener">New Clinic/Hospital: Shri Childrens Hospital</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0922070&amp;mlon=82.1276340" target="_blank" rel="noopener">New Clinic/Hospital: Shri Krishna Hospital</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0919880&amp;mlon=82.1279049" target="_blank" rel="noopener">New Clinic/Hospital: Narayani Hospital</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0935277&amp;mlon=82.1707383" target="_blank" rel="noopener">New Gym: Gym</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.1368627&amp;mlon=82.1304664" target="_blank" rel="noopener">New Gym: College Outdoor Fitness Gym</a></div>
-<div class="s">OpenStreetMap<span class="tm">2026-07-12</span></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
 </div></div>
-</div><div class="sec">
-<div class="sh"><span>THE HITAVADA</span><span class="c">46</span></div>
+</div><div class="sec" id="infrastructure">
+<div class="sh"><span>INFRASTRUCTURE</span><span class="c">9</span></div>
 <div class="sb"><div class="ni">
+<div class="t"><a href="tel:18008333068" target="_blank" rel="noopener">Bilaspur Smart City Helpline 1800 833 3068 / बिलासपुर स्मार्ट सिटी हेल्पलाइन 1800 833 3068</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Bilaspur Smart City Helpline 1800 833 3068 / बिलासपुर स्मार्ट सिटी हेल्पलाइन 1800 833 3068</div>
+</div><div class="ni">
+<div class="t"><a href="https://icccbilaspur.zohodesk.in/portal/en/newticket" target="_blank" rel="noopener">Submit Your Complaint</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/#itprojects" target="_blank" rel="noopener">Explore Our Smart Projects</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/gis.html" target="_blank" rel="noopener">Geographical Information Centre (GIS)</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/iwms.html" target="_blank" rel="noopener">Intelligent Waste Management System (IWMS)</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/epathsala.html" target="_blank" rel="noopener">E-Paathshaala (Smart Classrooms)</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/iot-water-project.html" target="_blank" rel="noopener">IoT-based Digitalization of Potable Water Distribution Network</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/smart_street_light.html" target="_blank" rel="noopener">Smart Street Light Monitoring System</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.presear.com" target="_blank" rel="noopener">Presear Softwares PVT LTD</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div></div>
+</div><div class="sec" id="news">
+<div class="sh"><span>NEWS</span><span class="c">53</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://youtube.com/watch?v=sp17pNXi46g" target="_blank" rel="noopener">GRAND NEWS BILASPUR: EVENING FINAL NEWS 12.07.2026</a></div>
+<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://youtube.com/watch?v=Ow58VYbCxPI" target="_blank" rel="noopener">GRAND NEWS BILASPUR:चिकित्सा सेवा है, व्यापार नहीं&amp;#39;— मरीजों के हित में सख्त कार्रवाई की मांग</a></div>
+<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://youtube.com/watch?v=nXco4zbWn_s" target="_blank" rel="noopener">GRAND NEWS BILASPUR:इमरान प्रतापगढ़ी की हुंकार, शिक्षा व्यवस्था की खामियों पर सरकार को घेरा</a></div>
+<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://youtube.com/watch?v=2vMamqez-6Q" target="_blank" rel="noopener">GRAND NEWS BILASPUR: FINAL NEWS 12.07.2026 MORNING</a></div>
+<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://youtube.com/watch?v=7YR6qWh0N1s" target="_blank" rel="noopener">GRAND NEWS BILASPUR:अम्बा पेट्रोल पंप पर छात्रों का खौफनाक तांडव</a></div>
+<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
+
+</div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/12/23-Naxalites-with-cumulative-bounty-of-Rs-1.18-cr-surrender-in-Chhattisgarh.html" target="_blank" rel="noopener">23 Naxalites with cumulative bounty of Rs 1.18 cr surrender in Chhattisgarh</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/12/Can-t-draw-conclusions-from-preliminary-report_-pilots--conversation-brief--Minister-on-AAIB-report.html" target="_blank" rel="noopener">Can't draw conclusions from preliminary report, pilots' conversation brief: Minister on AAIB report</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/india-seeks-review-of-tariff-cites-flaws-in-ustrs-labour-report.html" target="_blank" rel="noopener">India seeks review of tariff, cites flaws in USTR’s labour report</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/nita-ambani-ranks-1st-on-this-years-fortune-most-powerful-women-list.html" target="_blank" rel="noopener">Nita Ambani ranks 1st on this year’s Fortune Most Powerful Women list</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/15-indian-tourists-killed-in-vietnam-boat-capsize.html" target="_blank" rel="noopener">15 Indian tourists killed in Vietnam boat capsize</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/ins-mahendragiri-to-strengthen-indias-maritime-reach-bolster-eastern-seaboard.html" target="_blank" rel="noopener">‘INS Mahendragiri to strengthen India’s maritime reach, bolster eastern seaboard’</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/ukrainian-drones-hit-more-russian-oil-facilities-set-two-oil-tankers-ablaze-.html" target="_blank" rel="noopener">Ukrainian drones hit more Russian oil facilities, set two oil tankers ablaze</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/chanting-mahamritunjya-mantra-may-help-reduce-blood-pressure-heart-rate-study.html" target="_blank" rel="noopener">Chanting ‘Mahamritunjya mantra’ may help reduce blood pressure, heart rate: Study</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/nep-implementation-status-55-pc-universities-participate-in-nirf-56-pc-offer-four-year-ug-course.html" target="_blank" rel="noopener">NEP implementation status:, 55 pc universities participate in NIRF; 56 pc offer four-year UG course</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/v-p-launches-loa-for-sustainable-harnessing-of-fisheries-in-high-seas.html" target="_blank" rel="noopener">V-P launches LoA for sustainable harnessing of fisheries in high seas</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/around-3k-lpg-cylinders-swept-into-river-in-raigad-after-hpcl-plant-wall-collapses.html" target="_blank" rel="noopener">Around 3K LPG cylinders swept into river in Raigad after HPCL plant wall collapses</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2025/12/1/solar-group-signs-agreement-with-csir-nal-to-develop-indigenous-150-kg-loitering-munition-uav.html" target="_blank" rel="noopener">Solar Group signs agreement with CSIR-NAL To develop indigenous 150 kg loitering munition UAV</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/1/15/Symbiosis-Institute-of-Business-Management-SIBM-Nagpur-s-MBA-programme-Earns-National-Board-of-Accreditation.html" target="_blank" rel="noopener">Symbiosis Institute of Business Management (SIBM) Nagpur’s MBA programme Earns National Board of Accreditation (NBA)</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2025/4/5/Leadership-Learning-and-Legacy-SIBM-Nagpur-Celebrates-a-Year-of-Growth.html" target="_blank" rel="noopener">Leadership, Learning, and Legacy: SIBM Nagpur Celebrates a Year of Growth</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/2/7/treat-exams-like-festivals-focus-on-improving-life-pm-modi.html" target="_blank" rel="noopener">Treat exams like festivals, focus on improving life: PM Modi</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/4/9/pmmy-reflects-every-dream-given-support-to-grow-pm.html" target="_blank" rel="noopener">PMMY reflects every dream given support to grow: PM</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
-</div><div class="ni">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/3/26/91000-missing-girls-traced-in-mah-over-13-yrs-most-cases-linked-to-love-ties-says-fadnavis.html" target="_blank" rel="noopener">91,000 missing girls traced in Mah over 13 yrs, most cases linked to love ties, says Fadnavis</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
 <div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/air-india-to-resume-ngp-mum-flights.html" target="_blank" rel="noopener">Air India to resume Ngp-Mum flights;</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div></div>
+</div><div class="sec" id="police">
+<div class="sh"><span>POLICE</span><span class="c">9</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/3/26/91000-missing-girls-traced-in-mah-over-13-yrs-most-cases-linked-to-love-ties-says-fadnavis.html" target="_blank" rel="noopener">91,000 missing girls traced in Mah over 13 yrs, most cases linked to love ties, says Fadnavis</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
 </div><div class="ni">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/stray-dogs-be-fed-at-designated-spots-only.html" target="_blank" rel="noopener">‘Stray dogs be fed at designated spots only’</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2238,2574" target="_blank" rel="noopener">ZONAL SAFETY CIRCULARS</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
 </div><div class="ni">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/brics-has-strength-to-shape-future-of-global-mobility-gadkari.html" target="_blank" rel="noopener">BRICS has strength to shape future of global mobility: Gadkari</a></div>
-<div class="s">The Hitavada<span class="tm"></span></div>
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2239,2705" target="_blank" rel="noopener">Question and Answar Key  CVI (Traffic) Exam</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><span class="badge breaking">BREAKING</span><a href="https://bilaspur.cgpolice.gov.in/press-release" target="_blank" rel="noopener">Press Releases from Bilaspur Police / बिलासपुर पुलिस की प्रेस विज्ञप्तियाँ</a></div>
+<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Press Releases from Bilaspur Police / बिलासपुर पुलिस की प्रेस विज्ञप्तियाँ</div>
+</div><div class="ni">
+<div class="t"><span class="badge breaking">BREAKING</span><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-12/bsp-range-constable-recruitment-result-23-24_0.pdf" target="_blank" rel="noopener">Chhattisgarh Police constable exam result 2023-24 (Bilaspur range) / छत्तीसगढ़ पुलिस कांस्टेबल परीक्षा 2023-24 का परिणाम (बिलासपुर रेंज)</a></div>
+<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Chhattisgarh Police constable exam result 2023-24 (Bilaspur range) / छत्तीसगढ़ पुलिस कांस्टेबल परीक्षा 2023-24 का परिणाम (बिलासपुर रेंज)</div>
+</div><div class="ni">
+<div class="t"><span class="badge breaking">BREAKING</span><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-12/bsp-selection-waiting-list.pdf" target="_blank" rel="noopener">Chhattisgarh Police constable exam final result 2023-24 - Bilaspur / छत्तीसगढ़ पुलिस कांस्टेबल परीक्षा 2023-24 का अंतिम परिणाम - बिलासपुर</a></div>
+<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Chhattisgarh Police constable exam final result 2023-24 - Bilaspur / छत्तीसगढ़ पुलिस कांस्टेबल परीक्षा 2023-24 का अंतिम परिणाम - बिलासपुर</div>
+</div><div class="ni">
+<div class="t"><span class="badge breaking">BREAKING</span><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-11/press-note-regarding-trade-test-constable-trade-centre-no.01-bilaspur-range.pdf" target="_blank" rel="noopener">Trade test notice for Constable recruitment 2023-24, Centre 01, Bilaspur Range / कांस्टेबल भर्ती 2023-24 के लिए ट्रेड टेस्ट की सूचना, केंद्र 01, बिलासपुर</a></div>
+<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Trade test notice for Constable recruitment 2023-24, Centre 01, Bilaspur Range / कांस्टेबल भर्ती 2023-24 के लिए ट्रेड टेस्ट की सूचना, केंद्र 01, बिलासपुर</div>
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/servicesSingle.html" target="_blank" rel="noopener">Real-timemonitoring of Security, Traffic, and City Utilities.</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.icccbilaspur.in/itms.html" target="_blank" rel="noopener">Intelligent Traffic Management System (ITMS)</a></div>
+<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+
+</div></div>
+</div><div class="sec" id="railway">
+<div class="sh"><span>RAILWAY</span><span class="c">38</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/ngt-restrains-sports-activities-at-intl-cricket-stadium-pending-compliance.html" target="_blank" rel="noopener">NGT restrains sports activities at Int’l cricket stadium pending compliance</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/23/ed-files-fema-case-against-e-commerce-platform-myntra-linked-companies-and-directors-for-contravention-of-over.html" target="_blank" rel="noopener">ED files FEMA case against e-commerce platform Myntra, linked companies and directors for 'contravention' of over Rs 1,654 crore.</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/14/Citizens-must-know-value-of-freedom-of-speech_-expression-and-observe-self-regulation_-restraint--SC..html" target="_blank" rel="noopener">Citizens must know value of freedom of speech, expression and observe self regulation, restraint: SC.</a></div>
+<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,1443,268" target="_blank" rel="noopener">Press Releases</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2676" target="_blank" rel="noopener">Gaz. Office Order 2025</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2701" target="_blank" rel="noopener">Gaz. Office Order 2026</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531" target="_blank" rel="noopener">Gaz. Office Order 2024</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2578" target="_blank" rel="noopener">Office Order 2019</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2579" target="_blank" rel="noopener">Office Order 2020</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2580" target="_blank" rel="noopener">Office Order 2021</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2606" target="_blank" rel="noopener">Office Order 2022</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2619" target="_blank" rel="noopener">Office Order 2023</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2235,2585" target="_blank" rel="noopener">Standing Orders</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2239,2694" target="_blank" rel="noopener">Compendium Of Vigilance Circulars</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2270,2284,2550" target="_blank" rel="noopener">NOTIFICATIONS</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2536" target="_blank" rel="noopener">Selection Calendar-चयन कैलेंडर</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2569" target="_blank" rel="noopener">NOTIFICATION-अधिसूचना</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2304,2415" target="_blank" rel="noopener">Junior Clerk (Level 2) Selection – Against 33 1Ú3 % Quota</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2272,2315,2495" target="_blank" rel="noopener">Notification</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div><div class="ni">
+<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2272,2315,2644" target="_blank" rel="noopener">Trade Union Secret Ballot Election-2024</a></div>
+<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
+
+</div></div>
+</div><div class="sec" id="social">
+<div class="sh"><span>SOCIAL</span><span class="c">1</span></div>
+<div class="sb"><div class="ni">
+<div class="t"><a href="https://bilaspur.gov.in/en/notice/information-regarding-interview-written-skill-test-under-chhattisgarh-state-rural-livelihood-mission-bihan-district-bilaspur/" target="_blank" rel="noopener">Bihan Mission test notice by District Bilaspur / बिलासपुर जिले द्वारा बीहन मिशन के लिए परीक्षा सूचना</a></div>
+<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
+<div class="summary">Bihan Mission test notice by District Bilaspur / बिलासपुर जिले द्वारा बीहन मिशन के लिए परीक्षा सूचना</div>
 </div></div>
 </div>
 </body>
