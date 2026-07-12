@@ -15,21 +15,9 @@ def build():
 
     cats = {}
     for item in items:
-        # Group by category (which is at index 0 in get_todays_items output:
-        # source_name is index 0, title is 1, url is 2, published_at is 3, first_seen_at is 4)
-        # Wait, get_todays_items returns: (source_name, title, url, published_at, first_seen_at)
-        # But wait! In src/dashboard.py:
-        # cats.setdefault(item[0], []).append(item)
-        # Wait! item[0] is the source_name!
-        # Ah, yes. The current dashboard groups by source name, not category. Let's make sure it matches
-        # dashboard.py exactly. Let's look at dashboard.py lines 85-88:
-        # cats = {}
-        # for item in items:
-        #     cat = item[0] or "other"
-        #     cats.setdefault(cat, []).append(item)
-        # Yes, item[0] (source_name) is used as the key.
-        cat = item[0] or "other"
-        cats.setdefault(cat, []).append(item)
+        cat = item[5] or "news"
+        clean_cat = cat.replace("breaking:", "").strip()
+        cats.setdefault(clean_cat, []).append(item)
 
     cards = "".join(_card(k, len(v)) for k, v in sorted(cats.items()))
 
@@ -38,7 +26,8 @@ def build():
     else:
         sections = '<div class="empty"><h2>No news collected yet</h2><p>Check back later.</p></div>'
 
-    html = HEAD.replace("__DATE__", datetime.now().isoformat()[:10])
+    now_utc = datetime.utcnow().isoformat()
+    html = HEAD.replace("__DATE_UTC__", now_utc)
     html = html.replace("__TOTAL__", str(len(items)))
     html = html.replace("__CARDS__", cards)
     html = html.replace("__SECTIONS__", sections)

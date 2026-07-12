@@ -23,11 +23,22 @@ def init_db():
             title TEXT,
             url TEXT,
             published_at TEXT,
-            first_seen_at TEXT DEFAULT (datetime('now'))
+            first_seen_at TEXT DEFAULT (datetime('now')),
+            category TEXT DEFAULT 'general',
+            summary TEXT DEFAULT ''
         );
 
         CREATE INDEX IF NOT EXISTS idx_seen_hash ON seen_items(source_hash);
     """)
+    # Add columns if they do not exist in the table (migration)
+    cursor = conn.cursor()
+    cursor.execute("PRAGMA table_info(seen_items)")
+    columns = [row[1] for row in cursor.fetchall()]
+    if "category" not in columns:
+        conn.execute("ALTER TABLE seen_items ADD COLUMN category TEXT DEFAULT 'general'")
+    if "summary" not in columns:
+        conn.execute("ALTER TABLE seen_items ADD COLUMN summary TEXT DEFAULT ''")
+    conn.commit()
     conn.close()
 
 
@@ -61,11 +72,22 @@ def mark_seen(source: str, unique_id: str, title: str = "", url: str = "", publi
     conn.close()
 
 
+def update_item_details(source: str, unique_id: str, title: str, category: str, summary: str):
+    item_hash = make_hash(source, unique_id)
+    conn = get_conn()
+    conn.execute(
+        "UPDATE seen_items SET title = ?, category = ?, summary = ? WHERE source_hash = ?",
+        (title, category, summary, item_hash),
+    )
+    conn.commit()
+    conn.close()
+
+
 def get_todays_items():
     conn = get_conn()
     today = datetime.utcnow().date().isoformat()
     rows = conn.execute(
-        "SELECT source_name, title, url, published_at, first_seen_at FROM seen_items WHERE date(first_seen_at) = ? ORDER BY first_seen_at DESC",
+        "SELECT source_name, title, url, published_at, first_seen_at, category, summary FROM seen_items WHERE date(first_seen_at) = ? ORDER BY first_seen_at DESC",
         (today,),
     ).fetchall()
     conn.close()

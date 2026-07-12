@@ -50,7 +50,8 @@ def _process_batch(client: OpenAI, batch: list[NewsItem]):
                 "content": (
                     "You categorize Bilaspur news. Return a JSON array. "
                     "Each object: category (government/police/education/business/event/news/social/infrastructure/health/railway/other), "
-                    "headline (max 60 chars), importance (1-5). ONLY valid JSON."
+                    "headline (format: 'English Headline / हिंदी हेडलाइन', max 120 chars total), "
+                    "importance (1-5). ONLY valid JSON."
                 )
             },
             {
@@ -76,6 +77,8 @@ def _process_batch(client: OpenAI, batch: list[NewsItem]):
         for j, result in enumerate(results):
             if j < len(batch):
                 batch[j].category = result.get("category", batch[j].category)
+                if result.get("headline"):
+                    batch[j].title = result.get("headline")
                 if not batch[j].summary:
                     batch[j].summary = result.get("headline", "")
                 if result.get("importance", 0) >= 4:
