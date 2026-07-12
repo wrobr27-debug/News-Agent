@@ -1,0 +1,72 @@
+import sqlite3
+import hashlib
+from datetime import datetime, timedelta
+from pathlib import Path
+
+DB_PATH = Path("data") / "news_agent.db"
+
+
+def get_conn():
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(str(DB_PATH))
+    conn.execute("PRAGMA journal_mode=WAL")
+    return conn
+
+
+def init_db():
+    conn = get_conn()
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS seen_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            source_hash TEXT UNIQUE NOT NULL,
+            source_name TEXT NOT NULL,
+            title TEXT,
+            url TEXT,
+            published_at TEXT,
+            first_seen_at TEXT DEFAULT (datetime('now'))
+        );
+
+        CREATE INDEX IF NOT EXISTS idx_seen_hash ON seen_items(source_hash);
+    """)
+    conn.close()
+
+
+def make_hash(source: str, unique_id: str) -> str:
+    raw = f"{source}:{unique_id}"
+    return hashlib.sha256(raw.encode()).hexdigest()
+
+
+def is_duplicate(source: str, unique_id: str, ttl_days: int = 30) -> bool:
+    item_hash = make_hash(source, unique_id)
+    conn = get_conn()
+    cutoff = (datetime.utcnow() - timedelta(days=ttl_days)).isoformat()
+    row = conn.execute(
+        "SELECT 1 FROM seen_items WHERE source_hash = ? AND first_seen_at > ?",
+        (item_hash, cutoff),
+    ).fetchone()
+    conn.close()
+    return row is not None
+
+
+def mark_seen(source: str, unique_id: str, title: str = "", url: str = "", published_at: str = ""):
+    item_hash = make_hash(source, unique_id)
+    conn = get_conn()
+    conn.execute(
+        """INSERT OR IGNORE INTO seen_items
+           (source_hash, source_name, title, url, published_at)
+           VALUES (?, ?, ?, ?, ?)""",
+        (item_hash, source, title, url, published_at),
+    )
+    conn.commit()
+    conn.close()
+
+
+def get_todays_items():
+    conn = get_conn()
+    today = datetime.utcnow().date().isoformat()
+    rows = conn.execute(
+        "SELECT source_name, title, url, published_at, first_seen_at FROM seen_items WHERE date(first_seen_at) = ? ORDER BY first_seen_at DESC",
+        (today,),
+    ).fetchall()
+    conn.close()
+    return rows
