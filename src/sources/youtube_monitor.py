@@ -54,9 +54,12 @@ def process_video_and_transcribe(video_id: str) -> dict:
     result = {"transcript": "", "image_url": "", "image_url_2": ""}
     
     try:
-        # Download worst video stream (lightweight mp4)
-        cmd_dl = [sys.executable, "-m", "yt_dlp", "-f", "worst[ext=mp4]", "-o", str(video_path), video_url]
-        subprocess.run(cmd_dl, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=75)
+        # Download worst video stream (lightweight/any format)
+        cmd_dl = [sys.executable, "-m", "yt_dlp", "-f", "worst", "-o", str(video_path), video_url]
+        res_dl = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=75)
+        if res_dl.returncode != 0:
+            print(f"yt-dlp failed for video {video_id}. Stderr: {res_dl.stderr}")
+            raise subprocess.CalledProcessError(res_dl.returncode, cmd_dl, output=res_dl.stdout, stderr=res_dl.stderr)
         
         if video_path.exists():
             # 1. Extract screenshots at 2s and 5s
@@ -140,9 +143,15 @@ def scrape_all(api_key: str) -> list[NewsItem]:
                         split_item.image_url = img_url
                         split_item.image_url_2 = img_url_2
                         items.append(split_item)
-            except Exception:
+            except Exception as e:
+                print(f"Error processing YouTube video entry: {e}")
+                import traceback
+                traceback.print_exc()
                 continue
-    except Exception:
+    except Exception as e:
+        print(f"YouTube scraper outer failure: {e}")
+        import traceback
+        traceback.print_exc()
         return items
 
     return items

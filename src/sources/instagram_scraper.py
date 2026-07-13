@@ -25,9 +25,12 @@ def process_reel_video_and_extract_frames(reel_url: str, post_id: str) -> tuple[
     video_path = temp_dir / f"{post_id}.mp4"
     
     try:
-        # Download the worst resolution mp4 for speed and bandwidth efficiency
-        cmd = [sys.executable, "-m", "yt_dlp", "-f", "worst[ext=mp4]", "-o", str(video_path), reel_url]
-        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=40)
+        # Download the worst resolution video for speed and bandwidth efficiency
+        cmd = [sys.executable, "-m", "yt_dlp", "-f", "worst", "-o", str(video_path), reel_url]
+        res = subprocess.run(cmd, capture_output=True, text=True, timeout=40)
+        if res.returncode != 0:
+            print(f"yt-dlp failed for Reel {reel_url}. Stderr: {res.stderr}")
+            raise subprocess.CalledProcessError(res.returncode, cmd, output=res.stdout, stderr=res.stderr)
         
         if video_path.exists():
             img1, img2 = extract_frames(str(video_path), prefix=f"reel_{post_id}")

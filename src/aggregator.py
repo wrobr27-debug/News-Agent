@@ -102,7 +102,7 @@ def deduplicate_semantic(items: list[NewsItem], threshold: float = 0.4) -> list[
             sim = cosine_similarity(tf_vectors[i], tf_vectors[j])
             if sim >= threshold:
                 skipped.add(j)
-                print(f"Skipping semantic duplicate:\n  Keep: [{items[i].source}] {items[i].title}\n  Skip: [{items[j].source}] {items[j].title} (Similarity: {sim:.2f})")
+                print(f"Skipping semantic duplicate:\n  Keep: [{items[i].source}] {_safe(items[i].title)}\n  Skip: [{items[j].source}] {_safe(items[j].title)} (Similarity: {sim:.2f})")
                 
     return [items[i] for i in keep_indices]
 

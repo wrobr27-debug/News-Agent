@@ -1,3 +1,4 @@
+from datetime import datetime
 from openai import OpenAI
 from src.config import settings
 from src.sources.government import NewsItem
