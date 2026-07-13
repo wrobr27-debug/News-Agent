@@ -176,8 +176,15 @@ def _section(name: str, items: list) -> str:
             time_display += f'Scraped: <span class="local-time" data-utc="{scraped_time}">{scraped_time}</span>'
             
         if is_grid:
-            img_url = item[7] or "https://cdn-icons-png.flaticon.com/512/120/120084.png"
-            img_url_2 = item[8] or "https://cdn-icons-png.flaticon.com/512/174/174855.png"
+            if name.lower() == "youtube":
+                default_banner = "https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+                default_avatar = "https://cdn-icons-png.flaticon.com/512/1384/1384060.png"
+            else:
+                default_banner = "https://cdn-icons-png.flaticon.com/512/120/120084.png"
+                default_avatar = "https://cdn-icons-png.flaticon.com/512/174/174855.png"
+                
+            img_url = item[7] or default_banner
+            img_url_2 = item[8] or default_avatar
             summary_text = item[6] or ""
             
             rows += f"""<div class="ni soc-card">
