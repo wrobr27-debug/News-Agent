@@ -25,7 +25,8 @@ def init_db():
             published_at TEXT,
             first_seen_at TEXT DEFAULT (datetime('now')),
             category TEXT DEFAULT 'general',
-            summary TEXT DEFAULT ''
+            summary TEXT DEFAULT '',
+            image_url TEXT DEFAULT ''
         );
 
         CREATE INDEX IF NOT EXISTS idx_seen_hash ON seen_items(source_hash);
@@ -38,6 +39,8 @@ def init_db():
         conn.execute("ALTER TABLE seen_items ADD COLUMN category TEXT DEFAULT 'general'")
     if "summary" not in columns:
         conn.execute("ALTER TABLE seen_items ADD COLUMN summary TEXT DEFAULT ''")
+    if "image_url" not in columns:
+        conn.execute("ALTER TABLE seen_items ADD COLUMN image_url TEXT DEFAULT ''")
     conn.commit()
     conn.close()
 
@@ -59,14 +62,14 @@ def is_duplicate(source: str, unique_id: str, ttl_days: int = 30) -> bool:
     return row is not None
 
 
-def mark_seen(source: str, unique_id: str, title: str = "", url: str = "", published_at: str = ""):
+def mark_seen(source: str, unique_id: str, title: str = "", url: str = "", published_at: str = "", image_url: str = ""):
     item_hash = make_hash(source, unique_id)
     conn = get_conn()
     conn.execute(
         """INSERT OR IGNORE INTO seen_items
-           (source_hash, source_name, title, url, published_at)
-           VALUES (?, ?, ?, ?, ?)""",
-        (item_hash, source, title, url, published_at),
+           (source_hash, source_name, title, url, published_at, image_url)
+           VALUES (?, ?, ?, ?, ?, ?)""",
+        (item_hash, source, title, url, published_at, image_url),
     )
     conn.commit()
     conn.close()
@@ -87,7 +90,7 @@ def get_todays_items():
     conn = get_conn()
     today = datetime.utcnow().date().isoformat()
     rows = conn.execute(
-        "SELECT source_name, title, url, published_at, first_seen_at, category, summary FROM seen_items WHERE date(first_seen_at) = ? ORDER BY first_seen_at DESC",
+        "SELECT source_name, title, url, published_at, first_seen_at, category, summary, image_url FROM seen_items WHERE date(first_seen_at) = ? ORDER BY first_seen_at DESC",
         (today,),
     ).fetchall()
     conn.close()

@@ -37,15 +37,15 @@ def scrape_all() -> list[NewsItem]:
 
                 posts = page.evaluate("""() => {
                     const results = [];
-                    const links = document.querySelectorAll('a[href*="/p/"]');
+                    const links = document.querySelectorAll('a[href*="/p/"], a[href*="/reel/"]');
                     for (const a of links) {
                         const href = a.href;
-                        if (!href.includes('/p/')) continue;
                         const img = a.querySelector('img');
                         const alt = img?.alt || '';
-                        const text = alt.slice(0, 200);
+                        const src = img?.src || '';
+                        const text = alt.slice(0, 500);
                         if (text.length > 5) {
-                            results.push({ text, href });
+                            results.push({ text, href, image_url: src });
                         }
                         if (results.length >= 4) break;
                     }
@@ -53,12 +53,16 @@ def scrape_all() -> list[NewsItem]:
                 }""")
 
                 for post in posts:
+                    text = post.get("text", "")
+                    title = text[:80] if len(text) > 80 else text
                     items.append(NewsItem(
                         source=f"Instagram/@{username}",
-                        title=post.get("text", "(photo)")[:200],
+                        title=title or "(photo)",
                         url=post.get("href", url),
+                        summary=text,
                         category="social",
                         published_at=datetime.now().isoformat()[:10],
+                        image_url=post.get("image_url", ""),
                     ))
             except Exception:
                 continue

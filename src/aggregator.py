@@ -122,7 +122,7 @@ def deduplicate(items: list[NewsItem]) -> list[NewsItem]:
     
     for item in unique_items:
         unique_id = item.url or item.title
-        mark_seen(item.source, unique_id, item.title, item.url, item.published_at)
+        mark_seen(item.source, unique_id, item.title, item.url, item.published_at, item.image_url)
         
     return unique_items
 

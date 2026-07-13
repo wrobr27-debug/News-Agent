@@ -77,12 +77,17 @@ body{font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;backgrou
 .sb{padding:8px 0}
 .ni{padding:16px 24px;border-bottom:1px solid #f1f3f5;transition:background 0.2s}
 .ni:hover{background:#f8f9fa}
-.ni .t{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-.ni .t a{color:#1a237e;text-decoration:none;line-height:1.4}
-.ni .t a:hover{color:#303f9f;text-decoration:underline}
-.ni .s{font-size:12px;color:#6c757d;font-weight:500}
-.ni .tm{color:#6c757d;font-weight:400;margin-left:4px}
-.ni .summary{font-size:13.5px;color:#495057;margin-top:8px;line-height:1.5;background:#fdfdfd;padding:10px 14px;border-radius:6px;border-left:3px solid #3f51b5;border-right:1px solid #eee;border-top:1px solid #eee;border-bottom:1px solid #eee}
+.ni-content{display:flex;gap:16px;align-items:flex-start}
+.ni-thumb{flex-shrink:0;width:95px;height:95px;border-radius:8px;overflow:hidden;border:1px solid #e9ecef}
+.ni-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.2s}
+.ni-thumb img:hover{transform:scale(1.05)}
+.ni-text{flex:1}
+.ni-text .t{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.ni-text .t a{color:#1a237e;text-decoration:none;line-height:1.4}
+.ni-text .t a:hover{color:#303f9f;text-decoration:underline}
+.ni-text .s{font-size:12px;color:#6c757d;font-weight:500}
+.ni-text .tm{color:#6c757d;font-weight:400;margin-left:4px}
+.ni-text .summary{font-size:13.5px;color:#495057;margin-top:8px;line-height:1.5;background:#fdfdfd;padding:10px 14px;border-radius:6px;border-left:3px solid #3f51b5;border-right:1px solid #eee;border-top:1px solid #eee;border-bottom:1px solid #eee}
 .badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
 .badge.breaking{background:#ff1744;color:#fff}
 .empty{text-align:center;padding:60px 20px;color:#888}
@@ -136,7 +141,7 @@ def _card(name: str, count: int) -> str:
 def _section(name: str, items: list) -> str:
     rows = ""
     for item in items[:20]:
-        # item[0] = source_name, item[1] = title, item[2] = url, item[3] = published_at, item[4] = first_seen_at, item[5] = category, item[6] = summary
+        # item[0] = source_name, item[1] = title, item[2] = url, item[3] = published_at, item[4] = first_seen_at, item[5] = category, item[6] = summary, item[7] = image_url
         is_breaking = "breaking:" in (item[5] or "")
         breaking_badge = '<span class="badge breaking">BREAKING</span>' if is_breaking else ''
         summary_html = f'<div class="summary">{_e(item[6])}</div>' if item[6] else ''
@@ -152,10 +157,21 @@ def _section(name: str, items: list) -> str:
                 time_display += " &middot; "
             time_display += f'Scraped: <span class="local-time" data-utc="{scraped_time}">{scraped_time}</span>'
             
+        thumb_html = ""
+        if len(item) > 7 and item[7]:
+            thumb_html = f"""<div class="ni-thumb">
+<a href="{_e(item[2])}" target="_blank" rel="noopener"><img src="{_e(item[7])}" alt="Cover Image" /></a>
+</div>"""
+
         rows += f"""<div class="ni">
+<div class="ni-content">
+{thumb_html}
+<div class="ni-text">
 <div class="t">{breaking_badge}<a href="{_e(item[2])}" target="_blank" rel="noopener">{_e(item[1])}</a></div>
 <div class="s">{_e(item[0])} &middot; <span class="tm">{time_display}</span></div>
 {summary_html}
+</div>
+</div>
 </div>"""
     
     clean_id = name.lower().strip()

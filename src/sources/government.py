@@ -15,6 +15,7 @@ class NewsItem(BaseModel):
     summary: str = ""
     published_at: str = ""
     category: str = "general"
+    image_url: str = ""
 
 
 GOVERNMENT_SOURCES = [
