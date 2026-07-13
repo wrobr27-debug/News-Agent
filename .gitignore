@@ -4,3 +4,5 @@ __pycache__/
 data/pipeline.log
 *.docx
 .vscode/
+data/temp_reels/
+data/temp_yt/

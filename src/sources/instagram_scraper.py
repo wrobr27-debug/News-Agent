@@ -1,19 +1,51 @@
 from datetime import datetime
 from pathlib import Path
+import subprocess
+import sys
+import os
 from src.sources.government import NewsItem
 from src.config import settings
 
 INSTAGRAM_ACCOUNTS = [
-    "bilaspurgrandnews",
+    "g_news_bilaspur",
+    "decode_bilaspur",
+    "bilaspurcrime",
+    "bilaspur_today_news",
+    "lokswar.in",
     "bilaspurdiaries",
-    "bilaspur_times",
 ]
+
+
+def process_reel_video_and_extract_frames(reel_url: str, post_id: str) -> tuple[str, str]:
+    """Download the Reel video stream and extract screenshots at 2s and 5s using ffmpeg."""
+    from src.video_processor import extract_frames
+    
+    temp_dir = Path("data") / "temp_reels"
+    temp_dir.mkdir(parents=True, exist_ok=True)
+    video_path = temp_dir / f"{post_id}.mp4"
+    
+    try:
+        # Download the worst resolution mp4 for speed and bandwidth efficiency
+        cmd = [sys.executable, "-m", "yt_dlp", "-f", "worst[ext=mp4]", "-o", str(video_path), reel_url]
+        subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=40)
+        
+        if video_path.exists():
+            img1, img2 = extract_frames(str(video_path), prefix=f"reel_{post_id}")
+            return img1, img2
+    except Exception as e:
+        print(f"Failed to download/extract frames from Reel {reel_url}: {e}")
+    finally:
+        if video_path.exists():
+            try:
+                os.remove(video_path)
+            except Exception:
+                pass
+    return "", ""
 
 
 def scrape_via_google(page, username: str) -> list[dict]:
     results = []
     try:
-        # Search Google Video Search for this Instagram profile
         query = f'site:instagram.com/reel OR site:instagram.com/p "{username}"'
         url = f"https://www.google.com/search?q={query}&tbm=vid"
         page.goto(url, wait_until="domcontentloaded", timeout=15000)
@@ -93,6 +125,22 @@ def scrape_via_imginn(username: str) -> list[NewsItem]:
             # Truncate title
             title = caption[:80] if len(caption) > 80 else caption
             
+            # Post identifier for unique frame names
+            post_id = a["href"].split("/p/")[-1].split("/reel/")[-1].replace("/", "").strip()
+            
+            # Attempt to download video and clip frames
+            img_url = ""
+            img_url_2 = ""
+            if "/reel/" in a["href"] or "/p/" in a["href"]:
+                img_url, img_url_2 = process_reel_video_and_extract_frames(href, post_id)
+                
+            # Fallback to local image hosting (download cover / avatar files) if clipping fails
+            from src.video_processor import download_image
+            if not img_url:
+                img_url = download_image(img_src)
+            if not img_url_2:
+                img_url_2 = download_image(profile_pic) if profile_pic else "https://cdn-icons-png.flaticon.com/512/174/174855.png"
+            
             items.append(NewsItem(
                 source=f"Instagram/@{username}",
                 title=title or "(photo/reel)",
@@ -100,8 +148,8 @@ def scrape_via_imginn(username: str) -> list[NewsItem]:
                 summary=caption,
                 category="social",
                 published_at=datetime.now().isoformat()[:10],
-                image_url=img_src,
-                image_url_2=profile_pic or "https://cdn-icons-png.flaticon.com/512/174/174855.png"
+                image_url=img_url,
+                image_url_2=img_url_2
             ))
         print(f"Scraped {len(items)} items from Imginn mirror for @{username}.")
         return items

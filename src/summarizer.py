@@ -105,3 +105,85 @@ def _guess_category(item: NewsItem) -> str:
         if any(k in text for k in keywords):
             return cat
     return "news"
+
+
+def split_yt_transcript_into_stories(title: str, transcript: str, source: str, base_url: str) -> list[NewsItem]:
+    """Split a multi-story YouTube transcript into individual NewsItems using the LLM."""
+    if not settings.opencode_api_key or not transcript or len(transcript) < 150:
+        # Fallback: if transcript is short or no key, return a single item with the original transcript as summary
+        return [NewsItem(
+            source=source,
+            title=title,
+            url=base_url,
+            summary=transcript or title,
+            category="youtube",
+            published_at=datetime.now().isoformat()[:10]
+        )]
+        
+    client = OpenAI(
+        api_key=settings.opencode_api_key,
+        base_url=settings.opencode_api_base,
+    )
+    
+    try:
+        resp = client.chat.completions.create(
+            model=settings.opencode_model,
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are a news editor. You are given a transcript of a news broadcast containing one or more distinct news stories about Bilaspur city. "
+                        "Split the transcript into a JSON array of individual news stories. If there is only one story, return a single object inside the array. "
+                        "Each object must have: "
+                        "category (government/police/education/business/event/news/social/infrastructure/health/railway/other), "
+                        "headline (format: 'English Headline / हिंदी हेडलाइन', max 120 chars total), "
+                        "summary (a detailed 2-3 sentence summary/description of the story in Hindi or English, max 200 chars), "
+                        "importance (1-5). "
+                        "ONLY return valid JSON. Do not include markdown code block backticks."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": f"Title: {title}\nTranscript:\n{transcript}"
+                }
+            ],
+            temperature=0.1,
+            max_tokens=3000,
+        )
+        
+        content = resp.choices[0].message.content
+        if not content:
+            raise ValueError("Empty response")
+            
+        import json, re
+        content = content.strip()
+        match = re.search(r'\[.*?\]', content, re.DOTALL)
+        if match:
+            content = match.group()
+        results = json.loads(content)
+        
+        items = []
+        for idx, result in enumerate(results):
+            category = result.get("category", "youtube")
+            if result.get("importance", 0) >= 4:
+                category = "breaking:" + category
+                
+            items.append(NewsItem(
+                source=source,
+                title=result.get("headline", title),
+                url=f"{base_url}#story{idx+1}" if len(results) > 1 else base_url,
+                summary=result.get("summary", ""),
+                category=category,
+                published_at=datetime.now().isoformat()[:10]
+            ))
+        return items
+    except Exception as e:
+        print(f"Failed to split transcript into stories: {e}")
+        return [NewsItem(
+            source=source,
+            title=title,
+            url=base_url,
+            summary=transcript or title,
+            category="youtube",
+            published_at=datetime.now().isoformat()[:10]
+        )]
