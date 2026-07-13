@@ -88,10 +88,12 @@ def update_item_details(source: str, unique_id: str, title: str, category: str, 
 
 def get_todays_items():
     conn = get_conn()
-    today = datetime.utcnow().date().isoformat()
+    # Fetch all items from the last 24 hours to avoid timezone/day-change blank pages
+    cutoff = (datetime.utcnow() - timedelta(hours=24)).strftime("%Y-%m-%d %H:%M:%S")
     rows = conn.execute(
-        "SELECT source_name, title, url, published_at, first_seen_at, category, summary, image_url FROM seen_items WHERE date(first_seen_at) = ? ORDER BY first_seen_at DESC",
-        (today,),
+        "SELECT source_name, title, url, published_at, first_seen_at, category, summary, image_url "
+        "FROM seen_items WHERE first_seen_at > ? ORDER BY first_seen_at DESC",
+        (cutoff,),
     ).fetchall()
     conn.close()
     return rows
