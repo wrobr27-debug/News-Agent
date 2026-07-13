@@ -122,7 +122,7 @@ def deduplicate(items: list[NewsItem]) -> list[NewsItem]:
     
     for item in unique_items:
         unique_id = item.url or item.title
-        mark_seen(item.source, unique_id, item.title, item.url, item.published_at, item.image_url)
+        mark_seen(item.source, unique_id, item.title, item.url, item.published_at, item.image_url, item.image_url_2)
         
     return unique_items
 
@@ -182,8 +182,13 @@ CATEGORY_SYMBOLS = {
 
 
 def _safe(text: str, maxlen: int = 80) -> str:
-    s = text[:maxlen].encode("utf-8", errors="replace").decode("utf-8", errors="replace")
-    return s.replace("\ufffd", "?")
+    import sys
+    s = text[:maxlen]
+    try:
+        s.encode(sys.stdout.encoding or 'utf-8')
+        return s
+    except Exception:
+        return s.encode('ascii', 'ignore').decode('ascii')
 
 
 def print_digest(items: list[NewsItem]):

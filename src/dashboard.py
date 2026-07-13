@@ -75,6 +75,7 @@ body{font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;backgrou
 .sh{padding:16px 24px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f3f5;background:#f8f9fa;color:#1a237e}
 .sh .c{background:#e8eaf6;color:#1a237e;padding:2px 12px;border-radius:20px;font-size:13px;font-weight:700}
 .sb{padding:8px 0}
+.sb.grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:24px;padding:24px;background:#fafafa}
 .ni{padding:16px 24px;border-bottom:1px solid #f1f3f5;transition:background 0.2s}
 .ni:hover{background:#f8f9fa}
 .ni-content{display:flex;gap:16px;align-items:flex-start}
@@ -92,6 +93,23 @@ body{font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;backgrou
 .badge.breaking{background:#ff1744;color:#fff}
 .empty{text-align:center;padding:60px 20px;color:#888}
 .empty h2{margin-bottom:12px}
+
+/* Social Card styling for Instagram/YouTube Grid */
+.ni.soc-card{padding:0;border-radius:12px;border:1px solid #e9ecef;background:#fff;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,0.03);display:flex;flex-direction:column;transition:all 0.2s}
+.ni.soc-card:hover{transform:translateY(-3px);box-shadow:0 8px 16px rgba(0,0,0,0.06)}
+.soc-banner{width:100%;height:220px;overflow:hidden;border-bottom:1px solid #f1f3f5;background:#eaeaea}
+.soc-banner img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s}
+.soc-banner img:hover{transform:scale(1.03)}
+.soc-body{padding:18px;flex:1;display:flex;flex-direction:column}
+.soc-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.soc-avatar{width:36px;height:36px;border-radius:50%;object-fit:cover;border:1.5px solid #1a237e;background:#fff;padding:1px}
+.soc-meta{display:flex;flex-direction:column}
+.soc-author{font-weight:700;font-size:13.5px;color:#212529}
+.soc-time{font-size:11px;color:#868e96;margin-top:1px}
+.soc-title{font-size:15px;font-weight:700;margin-bottom:10px;line-height:1.4}
+.soc-title a{color:#1a237e;text-decoration:none}
+.soc-title a:hover{color:#303f9f;text-decoration:underline}
+.soc-desc{font-size:13px;color:#495057;line-height:1.5;background:#f8f9fa;padding:10px 12px;border-radius:8px;border-left:3px solid #ff4081;flex:1;white-space:pre-wrap}
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -135,17 +153,17 @@ def _e(text: str) -> str:
 
 def _card(name: str, count: int) -> str:
     clean_id = name.lower().strip()
-    return f'<a href="#{clean_id}" class="sc-link"><div class="sc"><div class="n">{count}</div><div class="l">{_e(name)}</div></div></a>'
+    display_name = f"{name.upper()} NEWS" if name.lower() == "instagram" else (f"{name.upper()} VIDEOS" if name.lower() == "youtube" else name.upper())
+    return f'<a href="#{clean_id}" class="sc-link"><div class="sc"><div class="n">{count}</div><div class="l">{_e(display_name)}</div></div></a>'
 
 
 def _section(name: str, items: list) -> str:
+    is_grid = name.lower() in ["instagram", "youtube"]
+    sb_class = "sb grid" if is_grid else "sb"
+    
     rows = ""
     for item in items[:20]:
-        # item[0] = source_name, item[1] = title, item[2] = url, item[3] = published_at, item[4] = first_seen_at, item[5] = category, item[6] = summary, item[7] = image_url
-        is_breaking = "breaking:" in (item[5] or "")
-        breaking_badge = '<span class="badge breaking">BREAKING</span>' if is_breaking else ''
-        summary_html = f'<div class="summary">{_e(item[6])}</div>' if item[6] else ''
-        
+        # item[0] = source_name, item[1] = title, item[2] = url, item[3] = published_at, item[4] = first_seen_at, item[5] = category, item[6] = summary, item[7] = image_url, item[8] = image_url_2
         pub_time = item[3] or ""
         scraped_time = item[4] or ""
         
@@ -157,13 +175,39 @@ def _section(name: str, items: list) -> str:
                 time_display += " &middot; "
             time_display += f'Scraped: <span class="local-time" data-utc="{scraped_time}">{scraped_time}</span>'
             
-        thumb_html = ""
-        if len(item) > 7 and item[7]:
-            thumb_html = f"""<div class="ni-thumb">
+        if is_grid:
+            img_url = item[7] or "https://cdn-icons-png.flaticon.com/512/120/120084.png"
+            img_url_2 = item[8] or "https://cdn-icons-png.flaticon.com/512/174/174855.png"
+            summary_text = item[6] or ""
+            
+            rows += f"""<div class="ni soc-card">
+<div class="soc-banner">
+<a href="{_e(item[2])}" target="_blank" rel="noopener"><img src="{_e(img_url)}" alt="Featured Image" /></a>
+</div>
+<div class="soc-body">
+<div class="soc-header">
+<img class="soc-avatar" src="{_e(img_url_2)}" alt="Avatar" />
+<div class="soc-meta">
+<span class="soc-author">{_e(item[0])}</span>
+<span class="soc-time">{time_display}</span>
+</div>
+</div>
+<div class="soc-title"><a href="{_e(item[2])}" target="_blank" rel="noopener">{_e(item[1])}</a></div>
+<div class="soc-desc">{_e(summary_text)}</div>
+</div>
+</div>"""
+        else:
+            is_breaking = "breaking:" in (item[5] or "")
+            breaking_badge = '<span class="badge breaking">BREAKING</span>' if is_breaking else ''
+            summary_html = f'<div class="summary">{_e(item[6])}</div>' if item[6] else ''
+            
+            thumb_html = ""
+            if len(item) > 7 and item[7]:
+                thumb_html = f"""<div class="ni-thumb">
 <a href="{_e(item[2])}" target="_blank" rel="noopener"><img src="{_e(item[7])}" alt="Cover Image" /></a>
 </div>"""
 
-        rows += f"""<div class="ni">
+            rows += f"""<div class="ni">
 <div class="ni-content">
 {thumb_html}
 <div class="ni-text">
@@ -175,9 +219,10 @@ def _section(name: str, items: list) -> str:
 </div>"""
     
     clean_id = name.lower().strip()
+    display_name = f"{name.upper()} NEWS" if name.lower() == "instagram" else (f"{name.upper()} VIDEOS" if name.lower() == "youtube" else name.upper())
     return f"""<div class="sec" id="{clean_id}">
-<div class="sh"><span>{_e(name.upper())}</span><span class="c">{len(items)}</span></div>
-<div class="sb">{rows}</div>
+<div class="sh"><span>{_e(display_name)}</span><span class="c">{len(items)}</span></div>
+<div class="{sb_class}">{rows}</div>
 </div>"""
 
 
@@ -190,8 +235,14 @@ async def dashboard():
 
     cats = {}
     for item in items:
+        # Override grouping for social sources to map to dedicated categories
+        source_lower = item[0].lower()
         cat = item[5]
-        if not cat or cat == "general":
+        if source_lower.startswith("instagram"):
+            cat = "instagram"
+        elif source_lower in ["bilaspur grand news", "ibc24", "news18 chhattisgarh", "zee mpcg"] or cat == "video":
+            cat = "youtube"
+        elif not cat or cat == "general":
             temp_item = NewsItem(source=item[0], title=item[1], url=item[2], summary=item[6] or "")
             cat = _guess_category(temp_item)
             

@@ -18,8 +18,13 @@ def build():
 
     cats = {}
     for item in items:
+        source_lower = item[0].lower()
         cat = item[5]
-        if not cat or cat == "general":
+        if source_lower.startswith("instagram"):
+            cat = "instagram"
+        elif source_lower in ["bilaspur grand news", "ibc24", "news18 chhattisgarh", "zee mpcg"] or cat == "video":
+            cat = "youtube"
+        elif not cat or cat == "general":
             temp_item = NewsItem(source=item[0], title=item[1], url=item[2], summary=item[6] or "")
             cat = _guess_category(temp_item)
             
