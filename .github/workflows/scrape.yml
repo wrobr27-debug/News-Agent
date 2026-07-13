@@ -41,6 +41,11 @@ jobs:
         run: |
           playwright install chromium --with-deps
 
+      - name: Install system dependencies (ffmpeg)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
       - name: Run Scraper Pipeline
         env:
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
