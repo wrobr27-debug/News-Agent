@@ -526,11 +526,14 @@ body {
     border-radius: 1.5rem;
     max-width: 650px;
     width: 90%;
+    max-height: 90vh;
     padding: 2rem;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
     transform: translateY(20px);
     transition: transform 0.3s ease;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-overlay.active .modal-content {
@@ -586,6 +589,8 @@ body {
     padding: 1.25rem;
     border-radius: 0.75rem;
     border: 1px solid rgba(0,0,0,0.03);
+    overflow-y: auto;
+    flex: 1;
 }
 
 .modal-footer {
@@ -608,6 +613,67 @@ body {
 
 .empty p {
     color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1.5rem 1rem;
+    }
+    .hdr {
+        flex-direction: column;
+        gap: 1.25rem;
+        align-items: stretch;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .hdr h1 {
+        font-size: 1.8rem;
+    }
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    .sc-link {
+        min-width: 0;
+    }
+    .sc {
+        padding: 1rem;
+    }
+    .sc .n {
+        font-size: 1.8rem;
+    }
+    .sh {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .ni-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .ni-thumb {
+        width: 100%;
+        height: 180px;
+    }
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    .modal-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 <script>
@@ -723,7 +789,7 @@ function closeReaderModal() {
     <div class="hdr">
         <div>
             <h1>Bilaspur News Hub</h1>
-            <div class="meta">Last updated: <span id="last-updated-time" data-utc="2026-07-14T15:24:20.239445">2026-07-14T15:24:20.239445</span> &middot; 210 items today</div>
+            <div class="meta">Last updated: <span id="last-updated-time" data-utc="2026-07-14T17:13:54.377696">2026-07-14T17:13:54.377696</span> &middot; 230 items today</div>
         </div>
         
     </div>
@@ -752,12 +818,12 @@ function closeReaderModal() {
     </div>
 
     <div class="stats">
-    <a href="#business" class="sc-link"><div class="sc"><div class="n">7</div><div class="l">BUSINESS</div></div></a><a href="#education" class="sc-link"><div class="sc"><div class="n">41</div><div class="l">EDUCATION</div></div></a><a href="#event" class="sc-link"><div class="sc"><div class="n">1</div><div class="l">EVENT</div></div></a><a href="#government" class="sc-link"><div class="sc"><div class="n">31</div><div class="l">GOVERNMENT</div></div></a><a href="#health" class="sc-link"><div class="sc"><div class="n">4</div><div class="l">HEALTH</div></div></a><a href="#infrastructure" class="sc-link"><div class="sc"><div class="n">8</div><div class="l">INFRASTRUCTURE</div></div></a><a href="#news" class="sc-link"><div class="sc"><div class="n">93</div><div class="l">NEWS</div></div></a><a href="#police" class="sc-link"><div class="sc"><div class="n">6</div><div class="l">POLICE</div></div></a><a href="#social" class="sc-link"><div class="sc"><div class="n">1</div><div class="l">SOCIAL</div></div></a><a href="#youtube" class="sc-link"><div class="sc"><div class="n">18</div><div class="l">YOUTUBE VIDEOS</div></div></a>
+    <a href="#business" class="sc-link"><div class="sc"><div class="n">8</div><div class="l">BUSINESS</div></div></a><a href="#education" class="sc-link"><div class="sc"><div class="n">43</div><div class="l">EDUCATION</div></div></a><a href="#event" class="sc-link"><div class="sc"><div class="n">1</div><div class="l">EVENT</div></div></a><a href="#government" class="sc-link"><div class="sc"><div class="n">33</div><div class="l">GOVERNMENT</div></div></a><a href="#health" class="sc-link"><div class="sc"><div class="n">5</div><div class="l">HEALTH</div></div></a><a href="#infrastructure" class="sc-link"><div class="sc"><div class="n">8</div><div class="l">INFRASTRUCTURE</div></div></a><a href="#instagram" class="sc-link"><div class="sc"><div class="n">2</div><div class="l">INSTAGRAM NEWS</div></div></a><a href="#news" class="sc-link"><div class="sc"><div class="n">93</div><div class="l">NEWS</div></div></a><a href="#police" class="sc-link"><div class="sc"><div class="n">12</div><div class="l">POLICE</div></div></a><a href="#social" class="sc-link"><div class="sc"><div class="n">1</div><div class="l">SOCIAL</div></div></a><a href="#youtube" class="sc-link"><div class="sc"><div class="n">24</div><div class="l">YOUTUBE VIDEOS</div></div></a>
     </div>
 
     <div id="news-container">
     <div class="sec" id="business">
-<div class="sh"><span>BUSINESS</span><span class="c">7</span></div>
+<div class="sh"><span>BUSINESS</span><span class="c">8</span></div>
 <div class="sb"><div class="ni news-item-wrapper" data-category="business" data-title="E-Tender Ref. No. 37/CA Services/Store/GGV/2026 DATE: 09/06/2026" data-summary="" data-source="Guru Ghasidas Vishwavidyalaya">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('E-Tender Ref. No. 37/CA Services/Store/GGV/2026 DATE: 09/06/2026', 'Guru Ghasidas Vishwavidyalaya', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'https://www.ggu.ac.in/media/notices/tendereoi/CATENDER2026.pdf')">
@@ -835,9 +901,20 @@ function closeReaderModal() {
 <div class="summary" onclick="openReaderModal('New MarWARI Hotel and Lodge opens in Bilaspur / मारवाड़ी होटल एंड लॉज बिलासपुर में खुला', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'MarWARI Hotel and Lodge, located on Station Road, has started operations offering accommodation and dining facilities in Bilaspur. The new venue aims to cater to travelers and business guests in the area.', 'https://www.openstreetmap.org/?mlat=22.0572189&amp;mlon=82.1708100')">MarWARI Hotel and Lodge, located on Station Road, has started operations offering accommodation and dining facilities in Bilaspur. The new venue aims to cater to travelers and business guests in the area.</div>
 </div>
 </div>
+</div><div class="ni news-item-wrapper" data-category="business" data-title="Marriott Courtyard opens new hotel in Bilaspur / बिलासपुर में मैरियट कोर्टयार्ड का नया होटल खुला" data-summary="Marriott Courtyard has inaugurated a new hotel at NH130A, Green Garden Colony, Bilaspur, offering accommodation and amenities." data-source="OpenStreetMap">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Marriott Courtyard opens new hotel in Bilaspur / बिलासपुर में मैरियट कोर्टयार्ड का नया होटल खुला', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Marriott Courtyard has inaugurated a new hotel at NH130A, Green Garden Colony, Bilaspur, offering accommodation and amenities.', 'https://www.openstreetmap.org/?mlat=22.0945833&amp;mlon=82.1255491')">
+<img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&amp;auto=format&amp;fit=crop&amp;q=60" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Marriott Courtyard opens new hotel in Bilaspur / बिलासपुर में मैरियट कोर्टयार्ड का नया होटल खुला', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Marriott Courtyard has inaugurated a new hotel at NH130A, Green Garden Colony, Bilaspur, offering accommodation and amenities.', 'https://www.openstreetmap.org/?mlat=22.0945833&amp;mlon=82.1255491')">Marriott Courtyard opens new hotel in Bilaspur / बिलासपुर में मैरियट कोर्टयार्ड का नया होटल खुला</a></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Marriott Courtyard opens new hotel in Bilaspur / बिलासपुर में मैरियट कोर्टयार्ड का नया होटल खुला', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Marriott Courtyard has inaugurated a new hotel at NH130A, Green Garden Colony, Bilaspur, offering accommodation and amenities.', 'https://www.openstreetmap.org/?mlat=22.0945833&amp;mlon=82.1255491')">Marriott Courtyard has inaugurated a new hotel at NH130A, Green Garden Colony, Bilaspur, offering accommodation and amenities.</div>
+</div>
+</div>
 </div></div>
 </div><div class="sec" id="education">
-<div class="sh"><span>EDUCATION</span><span class="c">41</span></div>
+<div class="sh"><span>EDUCATION</span><span class="c">43</span></div>
 <div class="sb"><div class="ni news-item-wrapper" data-category="education" data-title="Chhattisgarh High Court rejects 14 teachers' petitions for cadre progression / छत्तीसगढ़ हाई कोर्ट ने शिक्षकों की क्रमोन्नति वेतनमान याचिकाओं को खारिज किया" data-summary="The Chhattisgarh High Court dismissed 14 teachers' petitions for cadre progression and higher pay scales. This setback may affect salary negotiations, and legal experts say it sets a precedent for future cases." data-source="Nai Dunia Bilaspur">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('Chhattisgarh High Court rejects 14 teachers\' petitions for cadre progression / छत्तीसगढ़ हाई कोर्ट ने शिक्षकों की क्रमोन्नति वेतनमान याचिकाओं को खारिज किया', 'Nai Dunia Bilaspur', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:34:38&quot;&gt;2026-07-14 11:34:38&lt;/span&gt;', 'The Chhattisgarh High Court dismissed 14 teachers\' petitions for cadre progression and higher pay scales. This setback may affect salary negotiations, and legal experts say it sets a precedent for future cases.', 'https://www.naidunia.com/chhattisgarh/bilaspur-chhattisgarh-high-court-dismisses-14-petitions-seeking-promotion-to-teachers-8451416')">
@@ -858,6 +935,17 @@ function closeReaderModal() {
 <div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('High Court Asks Education Secretary on Cheating Teachers in Mahasamund / महासमुंद नकल कांड: हाई कोर्ट ने शिक्षा सचिव से शिक्षकों पर कार्रवाई के बारे में पूछा', 'Nai Dunia Bilaspur', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 13:03:09&quot;&gt;2026-07-14 13:03:09&lt;/span&gt;', 'The Chhattisgarh High Court has inquired about the action taken against teachers implicated in the massive cheating case at Mahasamund. Education Secretary was asked to report the status of disciplinary measures. The case underscores the seriousness of exam malpractices in the state.', 'https://www.naidunia.com/chhattisgarh/bilaspur-mahasamund-cheating-scandal-high-court-strict-asks-education-secretary-what-action-was-taken-against-teachers-who-facilitated-cheating-8451341')">High Court Asks Education Secretary on Cheating Teachers in Mahasamund / महासमुंद नकल कांड: हाई कोर्ट ने शिक्षा सचिव से शिक्षकों पर कार्रवाई के बारे में पूछा</a></div>
 <div class="s">Nai Dunia Bilaspur &middot; <span class="tm">Published: Tue, 14 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 13:03:09">2026-07-14 13:03:09</span></span></div>
 <div class="summary" onclick="openReaderModal('High Court Asks Education Secretary on Cheating Teachers in Mahasamund / महासमुंद नकल कांड: हाई कोर्ट ने शिक्षा सचिव से शिक्षकों पर कार्रवाई के बारे में पूछा', 'Nai Dunia Bilaspur', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 13:03:09&quot;&gt;2026-07-14 13:03:09&lt;/span&gt;', 'The Chhattisgarh High Court has inquired about the action taken against teachers implicated in the massive cheating case at Mahasamund. Education Secretary was asked to report the status of disciplinary measures. The case underscores the seriousness of exam malpractices in the state.', 'https://www.naidunia.com/chhattisgarh/bilaspur-mahasamund-cheating-scandal-high-court-strict-asks-education-secretary-what-action-was-taken-against-teachers-who-facilitated-cheating-8451341')">The Chhattisgarh High Court has inquired about the action taken against teachers implicated in the massive cheating case at Mahasamund. Education Secretary was asked to report the status of disciplinary measures. The case underscores the seriousness of exam malpractices in the state.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="education" data-title="Maharishi Vidya Mandir accused of denying exams, TC; dept responds / महर्षि विद्या मंदिर पर परीक्षा व टीसी रोकने का आरोप, शिक्षा विभाग ने मांगा जवाब" data-summary="The private school in Rajendra Nagar allegedly prevented students from taking annual exams and withheld transfer certificates. After a CM helpline complaint, the education department has sought an explanation from the school." data-source="CG Wall">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Maharishi Vidya Mandir accused of denying exams, TC; dept responds / महर्षि विद्या मंदिर पर परीक्षा व टीसी रोकने का आरोप, शिक्षा विभाग ने मांगा जवाब', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The private school in Rajendra Nagar allegedly prevented students from taking annual exams and withheld transfer certificates. After a CM helpline complaint, the education department has sought an explanation from the school.', 'https://cgwall.in/serious-allegations-against-maharishi-vidya-mandir-tc-deprived-of-annual-examination-also-stopped/')">
+<img src="https://cgwall.in/wp-content/uploads/2026/07/IMG-20260714-WA0004.webp" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Maharishi Vidya Mandir accused of denying exams, TC; dept responds / महर्षि विद्या मंदिर पर परीक्षा व टीसी रोकने का आरोप, शिक्षा विभाग ने मांगा जवाब', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The private school in Rajendra Nagar allegedly prevented students from taking annual exams and withheld transfer certificates. After a CM helpline complaint, the education department has sought an explanation from the school.', 'https://cgwall.in/serious-allegations-against-maharishi-vidya-mandir-tc-deprived-of-annual-examination-also-stopped/')">Maharishi Vidya Mandir accused of denying exams, TC; dept responds / महर्षि विद्या मंदिर पर परीक्षा व टीसी रोकने का आरोप, शिक्षा विभाग ने मांगा जवाब</a></div>
+<div class="s">CG Wall &middot; <span class="tm">Published: Tue, 14 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Maharishi Vidya Mandir accused of denying exams, TC; dept responds / महर्षि विद्या मंदिर पर परीक्षा व टीसी रोकने का आरोप, शिक्षा विभाग ने मांगा जवाब', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The private school in Rajendra Nagar allegedly prevented students from taking annual exams and withheld transfer certificates. After a CM helpline complaint, the education department has sought an explanation from the school.', 'https://cgwall.in/serious-allegations-against-maharishi-vidya-mandir-tc-deprived-of-annual-examination-also-stopped/')">The private school in Rajendra Nagar allegedly prevented students from taking annual exams and withheld transfer certificates. After a CM helpline complaint, the education department has sought an explanation from the school.</div>
 </div>
 </div>
 </div><div class="ni news-item-wrapper" data-category="education" data-title="High Court quashes teacher’s dismissal, orders reinstatement / शिक्षिका की बर्खास्तगी रद्द, सेवा बहाली का आदेश" data-summary="The Chhattisgarh High Court struck down a teacher’s dismissal, calling it unconstitutional without a departmental inquiry. It ordered her immediate reinstatement, reinforcing due process in government employment." data-source="Nai Dunia Bilaspur">
@@ -1047,17 +1135,6 @@ function closeReaderModal() {
 
 </div>
 </div>
-</div><div class="ni news-item-wrapper" data-category="education" data-title="— Notice regarding scholarship of students for session 2025-26" data-summary="" data-source="Government Engineering College Bilaspur">
-<div class="ni-content">
-<div class="ni-thumb" onclick="openReaderModal('— Notice regarding scholarship of students for session 2025-26', 'Government Engineering College Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'http://gecbsp.ac.in/wp-content/uploads/2025/10/notice-scholarship.pdf')">
-<img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&amp;auto=format&amp;fit=crop&amp;q=60" alt="Cover Image" />
-</div>
-<div class="ni-text">
-<div class="t"><a onclick="openReaderModal('— Notice regarding scholarship of students for session 2025-26', 'Government Engineering College Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'http://gecbsp.ac.in/wp-content/uploads/2025/10/notice-scholarship.pdf')">— Notice regarding scholarship of students for session 2025-26</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 11:16:12">2026-07-14 11:16:12</span></span></div>
-
-</div>
-</div>
 </div></div>
 </div><div class="sec" id="event">
 <div class="sh"><span>EVENT</span><span class="c">1</span></div>
@@ -1074,7 +1151,7 @@ function closeReaderModal() {
 </div>
 </div></div>
 </div><div class="sec" id="government">
-<div class="sh"><span>GOVERNMENT</span><span class="c">31</span></div>
+<div class="sh"><span>GOVERNMENT</span><span class="c">33</span></div>
 <div class="sb"><div class="ni news-item-wrapper" data-category="government" data-title="NIA court acquits two in 13-year Naxal case / 13 साल पुराने नक्सली मुठभेड़ मामले में दो आरोपित बरी" data-summary="An NIA court acquitted two men in a 13‑year‑old Naxal encounter case due to lack of evidence. The verdict underscores concerns about evidence preservation in long‑standing investigations." data-source="Nai Dunia Bilaspur">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('NIA court acquits two in 13-year Naxal case / 13 साल पुराने नक्सली मुठभेड़ मामले में दो आरोपित बरी', 'Nai Dunia Bilaspur', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:45:18&quot;&gt;2026-07-14 11:45:18&lt;/span&gt;', 'An NIA court acquitted two men in a 13‑year‑old Naxal encounter case due to lack of evidence. The verdict underscores concerns about evidence preservation in long‑standing investigations.', 'https://www.naidunia.com/chhattisgarh/bilaspur-nia-court-acquits-two-accused-in-13yearold-naxalite-encounter-case-due-to-lack-of-evidence-8451352')">
@@ -1108,6 +1185,17 @@ function closeReaderModal() {
 <div class="summary" onclick="openReaderModal('Chhattisgarh High Court withdraws pregnancy case order / छत्तीसगढ़ हाई कोर्ट ने गर्भावस्था मामले का आदेश वापस लिया', 'Nai Dunia Bilaspur', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'The court decided it had not yet reached a verdict on the pregnancy-related matter and thus withdrew its previous order. Police were informed about the development.', 'https://www.naidunia.com/chhattisgarh/bilaspur-no-decision-had-actually-been-reached-regarding-the-pregnancy-chhattisgarh-high-court-recalls-its-order-8451315')">The court decided it had not yet reached a verdict on the pregnancy-related matter and thus withdrew its previous order. Police were informed about the development.</div>
 </div>
 </div>
+</div><div class="ni news-item-wrapper" data-category="government" data-title="Bilaspur joins 20 green ATM projects, rice via ATM / बिलासपुर 20 ग्रीन एटीएम प्रोजेक्ट में शामिल, एटीएम से मिलेगा चावल" data-summary="Food Controller Amrit Kujur announced Bilaspur is now part of 20 green ATM projects across India. This will enable rice distribution through ATMs, making the PDS more transparent, accessible and tech‑driven." data-source="CG Wall">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Bilaspur joins 20 green ATM projects, rice via ATM / बिलासपुर 20 ग्रीन एटीएम प्रोजेक्ट में शामिल, एटीएम से मिलेगा चावल', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Food Controller Amrit Kujur announced Bilaspur is now part of 20 green ATM projects across India. This will enable rice distribution through ATMs, making the PDS more transparent, accessible and tech‑driven.', 'https://cgwall.in/food-controller-amrit-kujur-shares-details-bilaspur-joins-the-countrys-20-green-atm-projects-rice-will-now-be-available-from-atms/')">
+<img src="https://cgwall.in/wp-content/uploads/2026/07/20260714_221146-scaled.webp" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><a onclick="openReaderModal('Bilaspur joins 20 green ATM projects, rice via ATM / बिलासपुर 20 ग्रीन एटीएम प्रोजेक्ट में शामिल, एटीएम से मिलेगा चावल', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Food Controller Amrit Kujur announced Bilaspur is now part of 20 green ATM projects across India. This will enable rice distribution through ATMs, making the PDS more transparent, accessible and tech‑driven.', 'https://cgwall.in/food-controller-amrit-kujur-shares-details-bilaspur-joins-the-countrys-20-green-atm-projects-rice-will-now-be-available-from-atms/')">Bilaspur joins 20 green ATM projects, rice via ATM / बिलासपुर 20 ग्रीन एटीएम प्रोजेक्ट में शामिल, एटीएम से मिलेगा चावल</a></div>
+<div class="s">CG Wall &middot; <span class="tm">Published: Tue, 14 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Bilaspur joins 20 green ATM projects, rice via ATM / बिलासपुर 20 ग्रीन एटीएम प्रोजेक्ट में शामिल, एटीएम से मिलेगा चावल', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Food Controller Amrit Kujur announced Bilaspur is now part of 20 green ATM projects across India. This will enable rice distribution through ATMs, making the PDS more transparent, accessible and tech‑driven.', 'https://cgwall.in/food-controller-amrit-kujur-shares-details-bilaspur-joins-the-countrys-20-green-atm-projects-rice-will-now-be-available-from-atms/')">Food Controller Amrit Kujur announced Bilaspur is now part of 20 green ATM projects across India. This will enable rice distribution through ATMs, making the PDS more transparent, accessible and tech‑driven.</div>
+</div>
+</div>
 </div><div class="ni news-item-wrapper" data-category="government" data-title="High Court rejects Raipur Municipal Corporation pension plea / हाई कोर्ट ने रायपुर नगर निगम की पेंशन याचिका खारिज की" data-summary="The court dismissed the corporation's petition regarding a pension case, questioning why facts were not presented during the hearing. This sets a precedent for future pension disputes." data-source="Nai Dunia Bilaspur">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('High Court rejects Raipur Municipal Corporation pension plea / हाई कोर्ट ने रायपुर नगर निगम की पेंशन याचिका खारिज की', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'The court dismissed the corporation\'s petition regarding a pension case, questioning why facts were not presented during the hearing. This sets a precedent for future pension disputes.', 'https://www.naidunia.com/chhattisgarh/bilaspur-high-courts-major-ruling-on-a-pension-matter-raipur-municipal-corporations-petition-dismissed-8451236')">
@@ -1117,6 +1205,17 @@ function closeReaderModal() {
 <div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('High Court rejects Raipur Municipal Corporation pension plea / हाई कोर्ट ने रायपुर नगर निगम की पेंशन याचिका खारिज की', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'The court dismissed the corporation\'s petition regarding a pension case, questioning why facts were not presented during the hearing. This sets a precedent for future pension disputes.', 'https://www.naidunia.com/chhattisgarh/bilaspur-high-courts-major-ruling-on-a-pension-matter-raipur-municipal-corporations-petition-dismissed-8451236')">High Court rejects Raipur Municipal Corporation pension plea / हाई कोर्ट ने रायपुर नगर निगम की पेंशन याचिका खारिज की</a></div>
 <div class="s">Nai Dunia Bilaspur &middot; <span class="tm">Published: Mon, 13 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 15:23:48">2026-07-14 15:23:48</span></span></div>
 <div class="summary" onclick="openReaderModal('High Court rejects Raipur Municipal Corporation pension plea / हाई कोर्ट ने रायपुर नगर निगम की पेंशन याचिका खारिज की', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'The court dismissed the corporation\'s petition regarding a pension case, questioning why facts were not presented during the hearing. This sets a precedent for future pension disputes.', 'https://www.naidunia.com/chhattisgarh/bilaspur-high-courts-major-ruling-on-a-pension-matter-raipur-municipal-corporations-petition-dismissed-8451236')">The court dismissed the corporation's petition regarding a pension case, questioning why facts were not presented during the hearing. This sets a precedent for future pension disputes.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="government" data-title="Government land on NH-49 registered in private name sparks panic in Janjgir / जांजगीर में एनएच-49 किनारे की शासकीय भूमि निजी नाम पर दर्ज, मचा हड़कंप" data-summary="A large land scam in Janjgir involves government land along NH-49 being illegally registered under a private name, causing widespread alarm." data-source="Nai Dunia Bilaspur">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Government land on NH-49 registered in private name sparks panic in Janjgir / जांजगीर में एनएच-49 किनारे की शासकीय भूमि निजी नाम पर दर्ज, मचा हड़कंप', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A large land scam in Janjgir involves government land along NH-49 being illegally registered under a private name, causing widespread alarm.', 'https://www.naidunia.com/chhattisgarh/bilaspur-big-land-game-in-janjgir-government-land-along-nh49-registered-in-private-name-causing-uproar-8451188')">
+<img src="https://img.naidunia.com/naidunia/ndnimg/13072026/13_07_2026-nh49jameen.jpg" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Government land on NH-49 registered in private name sparks panic in Janjgir / जांजगीर में एनएच-49 किनारे की शासकीय भूमि निजी नाम पर दर्ज, मचा हड़कंप', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A large land scam in Janjgir involves government land along NH-49 being illegally registered under a private name, causing widespread alarm.', 'https://www.naidunia.com/chhattisgarh/bilaspur-big-land-game-in-janjgir-government-land-along-nh49-registered-in-private-name-causing-uproar-8451188')">Government land on NH-49 registered in private name sparks panic in Janjgir / जांजगीर में एनएच-49 किनारे की शासकीय भूमि निजी नाम पर दर्ज, मचा हड़कंप</a></div>
+<div class="s">Nai Dunia Bilaspur &middot; <span class="tm">Published: Mon, 13 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Government land on NH-49 registered in private name sparks panic in Janjgir / जांजगीर में एनएच-49 किनारे की शासकीय भूमि निजी नाम पर दर्ज, मचा हड़कंप', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A large land scam in Janjgir involves government land along NH-49 being illegally registered under a private name, causing widespread alarm.', 'https://www.naidunia.com/chhattisgarh/bilaspur-big-land-game-in-janjgir-government-land-along-nh49-registered-in-private-name-causing-uproar-8451188')">A large land scam in Janjgir involves government land along NH-49 being illegally registered under a private name, causing widespread alarm.</div>
 </div>
 </div>
 </div><div class="ni news-item-wrapper" data-category="government" data-title="Chhattisgarh to set up new IT parks, CM announces 34,000 jobs / छत्तीसगढ़ में नए आईटी पार्क, 34,000 नौकरियाँ मिलने की घोषणा" data-summary="Chief Minister announced plans for new IT parks in the state, attracting investments that will create over 34,000 jobs. The initiative aims to boost the tech sector and employment. Details of locations and incentives will follow soon." data-source="The Hitavada">
@@ -1273,31 +1372,9 @@ function closeReaderModal() {
 
 </div>
 </div>
-</div><div class="ni news-item-wrapper" data-category="government" data-title="Swavalambi Chhattisgarh Scheme" data-summary="" data-source="Guru Ghasidas Vishwavidyalaya">
-<div class="ni-content">
-<div class="ni-thumb" onclick="openReaderModal('Swavalambi Chhattisgarh Scheme', 'Guru Ghasidas Vishwavidyalaya', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'https://ggu.ac.in/social-connect/swavalambi-chhattisgarh-scheme/')">
-<img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&amp;auto=format&amp;fit=crop&amp;q=60" alt="Cover Image" />
-</div>
-<div class="ni-text">
-<div class="t"><a onclick="openReaderModal('Swavalambi Chhattisgarh Scheme', 'Guru Ghasidas Vishwavidyalaya', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'https://ggu.ac.in/social-connect/swavalambi-chhattisgarh-scheme/')">Swavalambi Chhattisgarh Scheme</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 11:16:12">2026-07-14 11:16:12</span></span></div>
-
-</div>
-</div>
-</div><div class="ni news-item-wrapper" data-category="government" data-title="GGV Saarthi Yojana" data-summary="" data-source="Guru Ghasidas Vishwavidyalaya">
-<div class="ni-content">
-<div class="ni-thumb" onclick="openReaderModal('GGV Saarthi Yojana', 'Guru Ghasidas Vishwavidyalaya', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'https://ggu.ac.in/social-connect/saarthi-yojana/')">
-<img src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&amp;auto=format&amp;fit=crop&amp;q=60" alt="Cover Image" />
-</div>
-<div class="ni-text">
-<div class="t"><a onclick="openReaderModal('GGV Saarthi Yojana', 'Guru Ghasidas Vishwavidyalaya', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', '', 'https://ggu.ac.in/social-connect/saarthi-yojana/')">GGV Saarthi Yojana</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 11:16:12">2026-07-14 11:16:12</span></span></div>
-
-</div>
-</div>
 </div></div>
 </div><div class="sec" id="health">
-<div class="sh"><span>HEALTH</span><span class="c">4</span></div>
+<div class="sh"><span>HEALTH</span><span class="c">5</span></div>
 <div class="sb"><div class="ni news-item-wrapper" data-category="health" data-title="Mega health camp in Hardi, free check-ups for hundreds / हरदी में मेगा हेल्थ कैंप, सैकड़ों ग्रामीणों ने नि:शुल्क जांच" data-summary="JRC Associates organized a mega health camp in Hardi village, offering free medical examinations to hundreds of villagers. The event provided essential healthcare services to the rural community." data-source="Lokswar">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('Mega health camp in Hardi, free check-ups for hundreds / हरदी में मेगा हेल्थ कैंप, सैकड़ों ग्रामीणों ने नि:शुल्क जांच', 'Lokswar', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'JRC Associates organized a mega health camp in Hardi village, offering free medical examinations to hundreds of villagers. The event provided essential healthcare services to the rural community.', 'https://www.lokswar.in/mega-health-camp-organised-in-hardi-hundreds-of-villagers-got-free-health-check-up-done/')">
@@ -1340,6 +1417,17 @@ function closeReaderModal() {
 <div class="t"><a onclick="openReaderModal('Narayani Hospital inaugurated on NH130A, Bilaspur / नारायणी अस्पताल एनएच130ए पर खोला गया', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'Narayani Hospital, a new healthcare facility, has opened its doors in green garden colony, Bilaspur. It provides medical services to the local community.', 'https://www.openstreetmap.org/?mlat=22.0919880&amp;mlon=82.1279049')">Narayani Hospital inaugurated on NH130A, Bilaspur / नारायणी अस्पताल एनएच130ए पर खोला गया</a></div>
 <div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 15:23:48">2026-07-14 15:23:48</span></span></div>
 <div class="summary" onclick="openReaderModal('Narayani Hospital inaugurated on NH130A, Bilaspur / नारायणी अस्पताल एनएच130ए पर खोला गया', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'Narayani Hospital, a new healthcare facility, has opened its doors in green garden colony, Bilaspur. It provides medical services to the local community.', 'https://www.openstreetmap.org/?mlat=22.0919880&amp;mlon=82.1279049')">Narayani Hospital, a new healthcare facility, has opened its doors in green garden colony, Bilaspur. It provides medical services to the local community.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="health" data-title="Multi Super Specialty Hospital opens in Bilaspur / बिलासपुर में मल्टी सुपर स्पेशियलिटी हॉस्पिटल का उद्घाटन" data-summary="The new Multi Super Specialty Hospital on Seepat Road, Bilaspur, provides advanced medical services to the region." data-source="OpenStreetMap">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Multi Super Specialty Hospital opens in Bilaspur / बिलासपुर में मल्टी सुपर स्पेशियलिटी हॉस्पिटल का उद्घाटन', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The new Multi Super Specialty Hospital on Seepat Road, Bilaspur, provides advanced medical services to the region.', 'https://www.openstreetmap.org/?mlat=22.1109604&amp;mlon=82.1399692')">
+<img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?w=500&amp;auto=format&amp;fit=crop&amp;q=60" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Multi Super Specialty Hospital opens in Bilaspur / बिलासपुर में मल्टी सुपर स्पेशियलिटी हॉस्पिटल का उद्घाटन', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The new Multi Super Specialty Hospital on Seepat Road, Bilaspur, provides advanced medical services to the region.', 'https://www.openstreetmap.org/?mlat=22.1109604&amp;mlon=82.1399692')">Multi Super Specialty Hospital opens in Bilaspur / बिलासपुर में मल्टी सुपर स्पेशियलिटी हॉस्पिटल का उद्घाटन</a></div>
+<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Multi Super Specialty Hospital opens in Bilaspur / बिलासपुर में मल्टी सुपर स्पेशियलिटी हॉस्पिटल का उद्घाटन', 'OpenStreetMap', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The new Multi Super Specialty Hospital on Seepat Road, Bilaspur, provides advanced medical services to the region.', 'https://www.openstreetmap.org/?mlat=22.1109604&amp;mlon=82.1399692')">The new Multi Super Specialty Hospital on Seepat Road, Bilaspur, provides advanced medical services to the region.</div>
 </div>
 </div>
 </div></div>
@@ -1432,6 +1520,39 @@ function closeReaderModal() {
 <div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 11:34:38">2026-07-14 11:34:38</span></span></div>
 <div class="summary" onclick="openReaderModal('Bilaspur Smart City Launches Intelligent Waste Management System (IWMS) / बिलासपुर स्मार्ट सिटी ने इंटेलिजेंट वेस्ट मैनेजमेंट सिस्टम (IWMS) लॉन्च किया', 'Bilaspur Smart City', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:34:38&quot;&gt;2026-07-14 11:34:38&lt;/span&gt;', 'The system uses sensors and automated collection to optimize waste disposal and reduce environmental impact across the city. Residents can track bin status via a mobile app.', 'https://www.icccbilaspur.in/iwms.html')">The system uses sensors and automated collection to optimize waste disposal and reduce environmental impact across the city. Residents can track bin status via a mobile app.</div>
 </div>
+</div>
+</div></div>
+</div><div class="sec" id="instagram">
+<div class="sh"><span>INSTAGRAM NEWS</span><span class="c">2</span></div>
+<div class="sb grid"><div class="ni soc-card news-item-wrapper" data-category="instagram" data-title="Foodguyrishi on Instagram: &quot;Bilaspur's First Biryani Spot ..." data-summary="Foodguyrishi on Instagram: &quot;Bilaspur's First Biryani Spot ..." data-source="Instagram/@bilaspur_insight">
+<div class="soc-banner" onclick="openReaderModal('Foodguyrishi on Instagram: &quot;Bilaspur\'s First Biryani Spot ...', 'Instagram/@bilaspur_insight', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Foodguyrishi on Instagram: &quot;Bilaspur\'s First Biryani Spot ...', 'https://www.instagram.com/reel/DYZ2BEOIe_6/')">
+<img src="data:image/jpeg;base64,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" alt="Featured Image" />
+</div>
+<div class="soc-body">
+<div class="soc-header">
+<img class="soc-avatar" src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Avatar" />
+<div class="soc-meta">
+<span class="soc-author">Instagram/@bilaspur_insight</span>
+<span class="soc-time">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span>
+</div>
+</div>
+<div class="soc-title"><a onclick="openReaderModal('Foodguyrishi on Instagram: &quot;Bilaspur\'s First Biryani Spot ...', 'Instagram/@bilaspur_insight', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Foodguyrishi on Instagram: &quot;Bilaspur\'s First Biryani Spot ...', 'https://www.instagram.com/reel/DYZ2BEOIe_6/')">Foodguyrishi on Instagram: &quot;Bilaspur's First Biryani Spot ...</a></div>
+<div class="soc-desc" onclick="openReaderModal('Foodguyrishi on Instagram: &quot;Bilaspur\'s First Biryani Spot ...', 'Instagram/@bilaspur_insight', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Foodguyrishi on Instagram: &quot;Bilaspur\'s First Biryani Spot ...', 'https://www.instagram.com/reel/DYZ2BEOIe_6/')">Foodguyrishi on Instagram: &quot;Bilaspur's First Biryani Spot ...</div>
+</div>
+</div><div class="ni soc-card news-item-wrapper" data-category="instagram" data-title="Our favorite customer? It's YOU! ❄️ Every smile, every laugh ..." data-summary="Our favorite customer? It's YOU! ❄️ Every smile, every laugh ..." data-source="Instagram/@bilaspur_insight">
+<div class="soc-banner" onclick="openReaderModal('Our favorite customer? It\'s YOU! ❄️ Every smile, every laugh ...', 'Instagram/@bilaspur_insight', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Our favorite customer? It\'s YOU! ❄️ Every smile, every laugh ...', 'https://www.instagram.com/reel/DaKeShKkoIG/')">
+<img src="data:image/jpeg;base64,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" alt="Featured Image" />
+</div>
+<div class="soc-body">
+<div class="soc-header">
+<img class="soc-avatar" src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Avatar" />
+<div class="soc-meta">
+<span class="soc-author">Instagram/@bilaspur_insight</span>
+<span class="soc-time">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span>
+</div>
+</div>
+<div class="soc-title"><a onclick="openReaderModal('Our favorite customer? It\'s YOU! ❄️ Every smile, every laugh ...', 'Instagram/@bilaspur_insight', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Our favorite customer? It\'s YOU! ❄️ Every smile, every laugh ...', 'https://www.instagram.com/reel/DaKeShKkoIG/')">Our favorite customer? It's YOU! ❄️ Every smile, every laugh ...</a></div>
+<div class="soc-desc" onclick="openReaderModal('Our favorite customer? It\'s YOU! ❄️ Every smile, every laugh ...', 'Instagram/@bilaspur_insight', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Our favorite customer? It\'s YOU! ❄️ Every smile, every laugh ...', 'https://www.instagram.com/reel/DaKeShKkoIG/')">Our favorite customer? It's YOU! ❄️ Every smile, every laugh ...</div>
 </div>
 </div></div>
 </div><div class="sec" id="news">
@@ -1664,7 +1785,7 @@ function closeReaderModal() {
 </div>
 </div></div>
 </div><div class="sec" id="police">
-<div class="sh"><span>POLICE</span><span class="c">6</span></div>
+<div class="sh"><span>POLICE</span><span class="c">12</span></div>
 <div class="sb"><div class="ni news-item-wrapper" data-category="police" data-title="Mentally ill man climbs goods train at Pendra Road, RPF saves life / पेंड्रारोड पर मानसिक रोगी मालगाड़ी पर चढ़ा, आरपीएफ ने बचाया" data-summary="A mentally ill person climbed onto a goods train at Pendra Road railway station, prompting an emergency response. RPF personnel quickly closed the overhead equipment and secured the area, preventing a potential disaster. No injuries were reported." data-source="Nai Dunia Bilaspur">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('Mentally ill man climbs goods train at Pendra Road, RPF saves life / पेंड्रारोड पर मानसिक रोगी मालगाड़ी पर चढ़ा, आरपीएफ ने बचाया', 'Nai Dunia Bilaspur', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:34:38&quot;&gt;2026-07-14 11:34:38&lt;/span&gt;', 'A mentally ill person climbed onto a goods train at Pendra Road railway station, prompting an emergency response. RPF personnel quickly closed the overhead equipment and secured the area, preventing a potential disaster. No injuries were reported.', 'https://www.naidunia.com/chhattisgarh/bilaspur-major-accident-averted-in-pendra-road-mentally-ill-man-climbed-on-top-of-goods-train-rpf-saved-him-by-shutting-down-ohe-8451424')">
@@ -1709,6 +1830,39 @@ function closeReaderModal() {
 <div class="summary" onclick="openReaderModal('Land dispute turns violent, deadly clash over house construction / जमीन विवाद ने लिया हिंसक रूप, घर निर्माण को लेकर खूनी संघर्ष', 'Lokswar', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'A land dispute escalated into a violent clash in Doudki village, resulting in a deadly fight over house construction. The incident highlights ongoing property conflicts in the area.', 'https://www.lokswar.in/land-dispute-turns-violent-bloody-clash-over-house-construction/')">A land dispute escalated into a violent clash in Doudki village, resulting in a deadly fight over house construction. The incident highlights ongoing property conflicts in the area.</div>
 </div>
 </div>
+</div><div class="ni news-item-wrapper" data-category="police" data-title="Traffic Police deploys 120 volunteers in Bilaspur / बिलासपुर में 120 चेतना यातायात मितान उतारे गए" data-summary="The Bilaspur traffic police launched 120 'Chetna Traffic Mitran' volunteers to boost road safety and involve the public. This initiative aims to turn road safety into a mass movement, improving traffic management and awareness." data-source="CG Wall">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Traffic Police deploys 120 volunteers in Bilaspur / बिलासपुर में 120 चेतना यातायात मितान उतारे गए', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The Bilaspur traffic police launched 120 \'Chetna Traffic Mitran\' volunteers to boost road safety and involve the public. This initiative aims to turn road safety into a mass movement, improving traffic management and awareness.', 'https://cgwall.in/now-the-police-are-not-alone-on-the-roads-120-chetna-traffic-mitans-descended-on-bilaspur/')">
+<img src="https://cgwall.in/wp-content/uploads/2026/07/20260714_215905-scaled.webp" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Traffic Police deploys 120 volunteers in Bilaspur / बिलासपुर में 120 चेतना यातायात मितान उतारे गए', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The Bilaspur traffic police launched 120 \'Chetna Traffic Mitran\' volunteers to boost road safety and involve the public. This initiative aims to turn road safety into a mass movement, improving traffic management and awareness.', 'https://cgwall.in/now-the-police-are-not-alone-on-the-roads-120-chetna-traffic-mitans-descended-on-bilaspur/')">Traffic Police deploys 120 volunteers in Bilaspur / बिलासपुर में 120 चेतना यातायात मितान उतारे गए</a></div>
+<div class="s">CG Wall &middot; <span class="tm">Published: Tue, 14 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Traffic Police deploys 120 volunteers in Bilaspur / बिलासपुर में 120 चेतना यातायात मितान उतारे गए', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The Bilaspur traffic police launched 120 \'Chetna Traffic Mitran\' volunteers to boost road safety and involve the public. This initiative aims to turn road safety into a mass movement, improving traffic management and awareness.', 'https://cgwall.in/now-the-police-are-not-alone-on-the-roads-120-chetna-traffic-mitans-descended-on-bilaspur/')">The Bilaspur traffic police launched 120 'Chetna Traffic Mitran' volunteers to boost road safety and involve the public. This initiative aims to turn road safety into a mass movement, improving traffic management and awareness.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="police" data-title="Wall dispute turns violent, one arrested for attempted murder / दीवार विवाद में हत्या के प्रयास के आरोप में एक गिरफ्तार, दो फरार" data-summary="A property wall dispute in Bilaspur escalated into a deadly clash, resulting in an arrest for attempted murder and two suspects on the run. The incident highlights the seriousness of neighborhood property conflicts." data-source="CG Wall">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Wall dispute turns violent, one arrested for attempted murder / दीवार विवाद में हत्या के प्रयास के आरोप में एक गिरफ्तार, दो फरार', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A property wall dispute in Bilaspur escalated into a deadly clash, resulting in an arrest for attempted murder and two suspects on the run. The incident highlights the seriousness of neighborhood property conflicts.', 'https://cgwall.in/the-war-broke-out-on-the-wall-not-on-the-land-one-arrested-on-charges-of-attempt-to-murder-search-for-two/')">
+<img src="https://cgwall.in/wp-content/uploads/2026/07/IMG-20260714-WA0016.webp" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><a onclick="openReaderModal('Wall dispute turns violent, one arrested for attempted murder / दीवार विवाद में हत्या के प्रयास के आरोप में एक गिरफ्तार, दो फरार', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A property wall dispute in Bilaspur escalated into a deadly clash, resulting in an arrest for attempted murder and two suspects on the run. The incident highlights the seriousness of neighborhood property conflicts.', 'https://cgwall.in/the-war-broke-out-on-the-wall-not-on-the-land-one-arrested-on-charges-of-attempt-to-murder-search-for-two/')">Wall dispute turns violent, one arrested for attempted murder / दीवार विवाद में हत्या के प्रयास के आरोप में एक गिरफ्तार, दो फरार</a></div>
+<div class="s">CG Wall &middot; <span class="tm">Published: Tue, 14 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Wall dispute turns violent, one arrested for attempted murder / दीवार विवाद में हत्या के प्रयास के आरोप में एक गिरफ्तार, दो फरार', 'CG Wall', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A property wall dispute in Bilaspur escalated into a deadly clash, resulting in an arrest for attempted murder and two suspects on the run. The incident highlights the seriousness of neighborhood property conflicts.', 'https://cgwall.in/the-war-broke-out-on-the-wall-not-on-the-land-one-arrested-on-charges-of-attempt-to-murder-search-for-two/')">A property wall dispute in Bilaspur escalated into a deadly clash, resulting in an arrest for attempted murder and two suspects on the run. The incident highlights the seriousness of neighborhood property conflicts.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="police" data-title="Burglary in Chakarbatha, lakhs in jewelry and cash stolen / चकरभाठा में चोरी, लाखों के जेवर और नकदी चोरी" data-summary="Thieves targeted an empty house in Chakarbatha, stealing jewelry and cash worth several lakhs. The incident highlights vulnerability of unoccupied homes and prompts police vigilance." data-source="Lokswar">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Burglary in Chakarbatha, lakhs in jewelry and cash stolen / चकरभाठा में चोरी, लाखों के जेवर और नकदी चोरी', 'Lokswar', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Thieves targeted an empty house in Chakarbatha, stealing jewelry and cash worth several lakhs. The incident highlights vulnerability of unoccupied homes and prompts police vigilance.', 'https://www.lokswar.in/thieves-raided-a-vacant-house-in-chakarbhatta-stealing-jewellery-and-cash-worth-lakhs/')">
+<img src="https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&amp;auto=format&amp;fit=crop&amp;q=60" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><a onclick="openReaderModal('Burglary in Chakarbatha, lakhs in jewelry and cash stolen / चकरभाठा में चोरी, लाखों के जेवर और नकदी चोरी', 'Lokswar', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Thieves targeted an empty house in Chakarbatha, stealing jewelry and cash worth several lakhs. The incident highlights vulnerability of unoccupied homes and prompts police vigilance.', 'https://www.lokswar.in/thieves-raided-a-vacant-house-in-chakarbhatta-stealing-jewellery-and-cash-worth-lakhs/')">Burglary in Chakarbatha, lakhs in jewelry and cash stolen / चकरभाठा में चोरी, लाखों के जेवर और नकदी चोरी</a></div>
+<div class="s">Lokswar &middot; <span class="tm">Published: Tue, 14 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Burglary in Chakarbatha, lakhs in jewelry and cash stolen / चकरभाठा में चोरी, लाखों के जेवर और नकदी चोरी', 'Lokswar', 'Published: Tue, 14 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Thieves targeted an empty house in Chakarbatha, stealing jewelry and cash worth several lakhs. The incident highlights vulnerability of unoccupied homes and prompts police vigilance.', 'https://www.lokswar.in/thieves-raided-a-vacant-house-in-chakarbhatta-stealing-jewellery-and-cash-worth-lakhs/')">Thieves targeted an empty house in Chakarbatha, stealing jewelry and cash worth several lakhs. The incident highlights vulnerability of unoccupied homes and prompts police vigilance.</div>
+</div>
+</div>
 </div><div class="ni news-item-wrapper" data-category="police" data-title="Speeding car kills scooter rider, minor driver suspected / तेज रफ्तार कार से स्कूटी सवार की मौत, नाबालिग चालक" data-summary="A speeding car collided with a scooter, killing the rider in Bilaspur, with a minor allegedly at the wheel. Police are reviewing CCTV footage and vow stricter traffic checks." data-source="Nai Dunia Bilaspur">
 <div class="ni-content">
 <div class="ni-thumb" onclick="openReaderModal('Speeding car kills scooter rider, minor driver suspected / तेज रफ्तार कार से स्कूटी सवार की मौत, नाबालिग चालक', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:45:18&quot;&gt;2026-07-14 11:45:18&lt;/span&gt;', 'A speeding car collided with a scooter, killing the rider in Bilaspur, with a minor allegedly at the wheel. Police are reviewing CCTV footage and vow stricter traffic checks.', 'https://www.naidunia.com/chhattisgarh/bilaspur-minor-driving-speeding-car-hits-scooter-crashes-into-school-bus-in-bilaspur-youth-dies-8451276')">
@@ -1731,6 +1885,39 @@ function closeReaderModal() {
 <div class="summary" onclick="openReaderModal('Watchman killed in revenge after theft video / चोरी के वीडियो से रंजिश, चौकीदार की हत्या', 'CG Wall', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:45:18&quot;&gt;2026-07-14 11:45:18&lt;/span&gt;', 'A watchman was killed in revenge after a video of his catching a fish thief circulated. The attack took place at Khutaghat dam in Ratanpur, prompting a police investigation.', 'https://cgwall.in/the-video-of-theft-was-leaked-and-the-watchman-was-killed-in-the-fire-of-heavy-revenge/')">A watchman was killed in revenge after a video of his catching a fish thief circulated. The attack took place at Khutaghat dam in Ratanpur, prompting a police investigation.</div>
 </div>
 </div>
+</div><div class="ni news-item-wrapper" data-category="police" data-title="Security guard killed, four minors escape from Bilaspur Juvenile Home / बिलासपुर बाल संप्रेक्षण गृह में सुरक्षा गार्ड की हत्या, चार नाबालिग फरार" data-summary="A security guard was murdered while on duty at the Bilaspur Juvenile Home, and four minor inmates have escaped, prompting a police investigation." data-source="Nai Dunia Bilaspur">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Security guard killed, four minors escape from Bilaspur Juvenile Home / बिलासपुर बाल संप्रेक्षण गृह में सुरक्षा गार्ड की हत्या, चार नाबालिग फरार', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A security guard was murdered while on duty at the Bilaspur Juvenile Home, and four minor inmates have escaped, prompting a police investigation.', 'https://www.naidunia.com/chhattisgarh/bilaspur-sensation-in-bilaspur-child-protection-home-security-guard-on-duty-murdered-four-minor-inmates-absconding-8451165')">
+<img src="https://img.naidunia.com/naidunia/ndnimg/13072026/13_07_2026-balsanrakshangaurd.jpg" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Security guard killed, four minors escape from Bilaspur Juvenile Home / बिलासपुर बाल संप्रेक्षण गृह में सुरक्षा गार्ड की हत्या, चार नाबालिग फरार', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A security guard was murdered while on duty at the Bilaspur Juvenile Home, and four minor inmates have escaped, prompting a police investigation.', 'https://www.naidunia.com/chhattisgarh/bilaspur-sensation-in-bilaspur-child-protection-home-security-guard-on-duty-murdered-four-minor-inmates-absconding-8451165')">Security guard killed, four minors escape from Bilaspur Juvenile Home / बिलासपुर बाल संप्रेक्षण गृह में सुरक्षा गार्ड की हत्या, चार नाबालिग फरार</a></div>
+<div class="s">Nai Dunia Bilaspur &middot; <span class="tm">Published: Mon, 13 Ju | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Security guard killed, four minors escape from Bilaspur Juvenile Home / बिलासपुर बाल संप्रेक्षण गृह में सुरक्षा गार्ड की हत्या, चार नाबालिग फरार', 'Nai Dunia Bilaspur', 'Published: Mon, 13 Ju | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A security guard was murdered while on duty at the Bilaspur Juvenile Home, and four minor inmates have escaped, prompting a police investigation.', 'https://www.naidunia.com/chhattisgarh/bilaspur-sensation-in-bilaspur-child-protection-home-security-guard-on-duty-murdered-four-minor-inmates-absconding-8451165')">A security guard was murdered while on duty at the Bilaspur Juvenile Home, and four minor inmates have escaped, prompting a police investigation.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="police" data-title="ASI suspended after video shows diesel thieves' release / डीजल चोरों को छोड़ना पड़ा महंगा, वीडियो वायरल होते ही ASI निलंबित" data-summary="An ASI was suspended after a video surfaced showing him releasing diesel thieves, drawing public anger over corruption. The incident prompts calls for stricter action against fuel theft." data-source="G News Bilaspur">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('ASI suspended after video shows diesel thieves\' release / डीजल चोरों को छोड़ना पड़ा महंगा, वीडियो वायरल होते ही ASI निलंबित', 'G News Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'An ASI was suspended after a video surfaced showing him releasing diesel thieves, drawing public anger over corruption. The incident prompts calls for stricter action against fuel theft.', 'https://youtube.com/watch?v=thsCE62E-F8')">
+<img src="images/img_8aad740c9af1b012bd163ef1d5ca1c6d.jpg" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('ASI suspended after video shows diesel thieves\' release / डीजल चोरों को छोड़ना पड़ा महंगा, वीडियो वायरल होते ही ASI निलंबित', 'G News Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'An ASI was suspended after a video surfaced showing him releasing diesel thieves, drawing public anger over corruption. The incident prompts calls for stricter action against fuel theft.', 'https://youtube.com/watch?v=thsCE62E-F8')">ASI suspended after video shows diesel thieves' release / डीजल चोरों को छोड़ना पड़ा महंगा, वीडियो वायरल होते ही ASI निलंबित</a></div>
+<div class="s">G News Bilaspur &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('ASI suspended after video shows diesel thieves\' release / डीजल चोरों को छोड़ना पड़ा महंगा, वीडियो वायरल होते ही ASI निलंबित', 'G News Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'An ASI was suspended after a video surfaced showing him releasing diesel thieves, drawing public anger over corruption. The incident prompts calls for stricter action against fuel theft.', 'https://youtube.com/watch?v=thsCE62E-F8')">An ASI was suspended after a video surfaced showing him releasing diesel thieves, drawing public anger over corruption. The incident prompts calls for stricter action against fuel theft.</div>
+</div>
+</div>
+</div><div class="ni news-item-wrapper" data-category="police" data-title="Murder case registered, four accused absconding in Bilaspur juvenile home / बाल सुधार गृह हत्याकांड में हत्या का केस दर्ज, चार आरोपी फरार" data-summary="A murder case has been filed following the brutal killing in Bilaspur’s juvenile home, with four suspects still at large. Police are conducting a manhunt and seeking public help to capture the accused." data-source="G News Bilaspur">
+<div class="ni-content">
+<div class="ni-thumb" onclick="openReaderModal('Murder case registered, four accused absconding in Bilaspur juvenile home / बाल सुधार गृह हत्याकांड में हत्या का केस दर्ज, चार आरोपी फरार', 'G News Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A murder case has been filed following the brutal killing in Bilaspur’s juvenile home, with four suspects still at large. Police are conducting a manhunt and seeking public help to capture the accused.', 'https://youtube.com/watch?v=hkHUMRyNH6o')">
+<img src="images/img_383f3a04744e42f69d4a7bdb5ac12d58.jpg" alt="Cover Image" />
+</div>
+<div class="ni-text">
+<div class="t"><span class="badge breaking">BREAKING</span><a onclick="openReaderModal('Murder case registered, four accused absconding in Bilaspur juvenile home / बाल सुधार गृह हत्याकांड में हत्या का केस दर्ज, चार आरोपी फरार', 'G News Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A murder case has been filed following the brutal killing in Bilaspur’s juvenile home, with four suspects still at large. Police are conducting a manhunt and seeking public help to capture the accused.', 'https://youtube.com/watch?v=hkHUMRyNH6o')">Murder case registered, four accused absconding in Bilaspur juvenile home / बाल सुधार गृह हत्याकांड में हत्या का केस दर्ज, चार आरोपी फरार</a></div>
+<div class="s">G News Bilaspur &middot; <span class="tm">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span></div>
+<div class="summary" onclick="openReaderModal('Murder case registered, four accused absconding in Bilaspur juvenile home / बाल सुधार गृह हत्याकांड में हत्या का केस दर्ज, चार आरोपी फरार', 'G News Bilaspur', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'A murder case has been filed following the brutal killing in Bilaspur’s juvenile home, with four suspects still at large. Police are conducting a manhunt and seeking public help to capture the accused.', 'https://youtube.com/watch?v=hkHUMRyNH6o')">A murder case has been filed following the brutal killing in Bilaspur’s juvenile home, with four suspects still at large. Police are conducting a manhunt and seeking public help to capture the accused.</div>
+</div>
+</div>
 </div></div>
 </div><div class="sec" id="social">
 <div class="sh"><span>SOCIAL</span><span class="c">1</span></div>
@@ -1747,7 +1934,7 @@ function closeReaderModal() {
 </div>
 </div></div>
 </div><div class="sec" id="youtube">
-<div class="sh"><span>YOUTUBE VIDEOS</span><span class="c">18</span></div>
+<div class="sh"><span>YOUTUBE VIDEOS</span><span class="c">24</span></div>
 <div class="sb grid"><div class="ni soc-card news-item-wrapper" data-category="youtube" data-title="मदनपुर में सचिव पर भ्रष्टाचार के आरोप, सचिव को हटाने की उठी मांग  #grand #news #chhattisgarhnews" data-summary="मदनपुर में सचिव पर भ्रष्टाचार के आरोप, सचिव को हटाने की उठी मांग #grand ..." data-source="Bilaspur Grand News">
 <div class="soc-banner" onclick="openReaderModal('मदनपुर में सचिव पर भ्रष्टाचार के आरोप, सचिव को हटाने की उठी मांग  #grand #news #chhattisgarhnews', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 11:16:12&quot;&gt;2026-07-14 11:16:12&lt;/span&gt;', 'मदनपुर में सचिव पर भ्रष्टाचार के आरोप, सचिव को हटाने की उठी मांग #grand ...', 'https://youtube.com/watch?v=dIgFoX2-hz8')">
 <img src="images/img_d983445831a54da7a732c145ddf1273d.jpg" alt="Featured Image" />
@@ -2017,6 +2204,36 @@ function closeReaderModal() {
 </div>
 <div class="soc-title"><a onclick="openReaderModal('Deadly clash with sticks over house construction / घर निर्माण को लेकर भिड़े दो पक्ष डंडों से जानलेवा हमला', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'Two groups engaged in a violent clash using sticks over a house construction dispute, resulting in serious injuries. The incident underscores local tensions regarding property rights.', 'https://youtube.com/watch?v=kMJJGnl1kzQ')">Deadly clash with sticks over house construction / घर निर्माण को लेकर भिड़े दो पक्ष डंडों से जानलेवा हमला</a></div>
 <div class="soc-desc" onclick="openReaderModal('Deadly clash with sticks over house construction / घर निर्माण को लेकर भिड़े दो पक्ष डंडों से जानलेवा हमला', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 15:23:48&quot;&gt;2026-07-14 15:23:48&lt;/span&gt;', 'Two groups engaged in a violent clash using sticks over a house construction dispute, resulting in serious injuries. The incident underscores local tensions regarding property rights.', 'https://youtube.com/watch?v=kMJJGnl1kzQ')">Two groups engaged in a violent clash using sticks over a house construction dispute, resulting in serious injuries. The incident underscores local tensions regarding property rights.</div>
+</div>
+</div><div class="ni soc-card news-item-wrapper" data-category="youtube" data-title="Grand News Bilaspur Evening Final News 14.07.2026 / ग्रैंड न्यूज़ बिलासपुर इवनिंग फाइनल न्यूज़ 14.07.2026" data-summary="The evening final news bulletin from Grand News Bilaspur on 14 July 2026 delivers the day’s key updates, community highlights, and official announcements for residents." data-source="Bilaspur Grand News">
+<div class="soc-banner" onclick="openReaderModal('Grand News Bilaspur Evening Final News 14.07.2026 / ग्रैंड न्यूज़ बिलासपुर इवनिंग फाइनल न्यूज़ 14.07.2026', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The evening final news bulletin from Grand News Bilaspur on 14 July 2026 delivers the day’s key updates, community highlights, and official announcements for residents.', 'https://youtube.com/watch?v=fgLdwaiVvt8')">
+<img src="images/img_0f9b075267a079e38c924bec4432a3e7.jpg" alt="Featured Image" />
+</div>
+<div class="soc-body">
+<div class="soc-header">
+<img class="soc-avatar" src="images/img_62cf24d441534d06a0927aa29e3213ba.jpg" alt="Avatar" />
+<div class="soc-meta">
+<span class="soc-author">Bilaspur Grand News</span>
+<span class="soc-time">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span>
+</div>
+</div>
+<div class="soc-title"><a onclick="openReaderModal('Grand News Bilaspur Evening Final News 14.07.2026 / ग्रैंड न्यूज़ बिलासपुर इवनिंग फाइनल न्यूज़ 14.07.2026', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The evening final news bulletin from Grand News Bilaspur on 14 July 2026 delivers the day’s key updates, community highlights, and official announcements for residents.', 'https://youtube.com/watch?v=fgLdwaiVvt8')">Grand News Bilaspur Evening Final News 14.07.2026 / ग्रैंड न्यूज़ बिलासपुर इवनिंग फाइनल न्यूज़ 14.07.2026</a></div>
+<div class="soc-desc" onclick="openReaderModal('Grand News Bilaspur Evening Final News 14.07.2026 / ग्रैंड न्यूज़ बिलासपुर इवनिंग फाइनल न्यूज़ 14.07.2026', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'The evening final news bulletin from Grand News Bilaspur on 14 July 2026 delivers the day’s key updates, community highlights, and official announcements for residents.', 'https://youtube.com/watch?v=fgLdwaiVvt8')">The evening final news bulletin from Grand News Bilaspur on 14 July 2026 delivers the day’s key updates, community highlights, and official announcements for residents.</div>
+</div>
+</div><div class="ni soc-card news-item-wrapper" data-category="youtube" data-title="Eviction threat looms over 50-year families in Bilaspur Ghatku / बिलासपुर घुटकू में 50 साल से बसे परिवारों पर बेदखली का खतरा" data-summary="Authorities plan to evict families settled in Ghatku for five decades, threatening long‑time residents with loss of homes. The move has sparked protests and legal challenges over housing rights." data-source="Bilaspur Grand News">
+<div class="soc-banner" onclick="openReaderModal('Eviction threat looms over 50-year families in Bilaspur Ghatku / बिलासपुर घुटकू में 50 साल से बसे परिवारों पर बेदखली का खतरा', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Authorities plan to evict families settled in Ghatku for five decades, threatening long‑time residents with loss of homes. The move has sparked protests and legal challenges over housing rights.', 'https://youtube.com/watch?v=jYK-e0X8xMU')">
+<img src="images/img_249a5ccc0bd10bb0355dae46eac6c090.jpg" alt="Featured Image" />
+</div>
+<div class="soc-body">
+<div class="soc-header">
+<img class="soc-avatar" src="images/img_e6c3f4598addb9871162a3e218e35d3e.jpg" alt="Avatar" />
+<div class="soc-meta">
+<span class="soc-author">Bilaspur Grand News</span>
+<span class="soc-time">Published: 2026-07-14 | Scraped: <span class="local-time" data-utc="2026-07-14 17:11:46">2026-07-14 17:11:46</span></span>
+</div>
+</div>
+<div class="soc-title"><a onclick="openReaderModal('Eviction threat looms over 50-year families in Bilaspur Ghatku / बिलासपुर घुटकू में 50 साल से बसे परिवारों पर बेदखली का खतरा', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Authorities plan to evict families settled in Ghatku for five decades, threatening long‑time residents with loss of homes. The move has sparked protests and legal challenges over housing rights.', 'https://youtube.com/watch?v=jYK-e0X8xMU')">Eviction threat looms over 50-year families in Bilaspur Ghatku / बिलासपुर घुटकू में 50 साल से बसे परिवारों पर बेदखली का खतरा</a></div>
+<div class="soc-desc" onclick="openReaderModal('Eviction threat looms over 50-year families in Bilaspur Ghatku / बिलासपुर घुटकू में 50 साल से बसे परिवारों पर बेदखली का खतरा', 'Bilaspur Grand News', 'Published: 2026-07-14 | Scraped: &lt;span class=&quot;local-time&quot; data-utc=&quot;2026-07-14 17:11:46&quot;&gt;2026-07-14 17:11:46&lt;/span&gt;', 'Authorities plan to evict families settled in Ghatku for five decades, threatening long‑time residents with loss of homes. The move has sparked protests and legal challenges over housing rights.', 'https://youtube.com/watch?v=jYK-e0X8xMU')">Authorities plan to evict families settled in Ghatku for five decades, threatening long‑time residents with loss of homes. The move has sparked protests and legal challenges over housing rights.</div>
 </div>
 </div></div>
 </div>
