@@ -62,6 +62,7 @@ jobs:
       - name: Build Static Dashboard
         run: |
           python src/build_static.py
+          echo "bsp.is-a.dev" > dist/CNAME
 
       - name: Commit and Push database changes
         run: |
