@@ -710,11 +710,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // Hide empty section headers dynamically
     const sections = document.querySelectorAll(".sec");
     sections.forEach(sec => {
-      const visibleItems = sec.querySelectorAll(".news-item-wrapper[style='']");
-      if (visibleItems.length === 0 && query !== "") {
-        sec.style.display = "none";
-      } else {
+      const items = sec.querySelectorAll(".news-item-wrapper");
+      let hasVisible = false;
+      items.forEach(item => {
+        if (item.style.display !== "none") {
+          hasVisible = true;
+        }
+      });
+      if (hasVisible) {
         sec.style.display = "";
+      } else {
+        sec.style.display = "none";
       }
     });
   }
@@ -787,6 +793,9 @@ function closeReaderModal() {
             <button class="tab-btn" data-tab="police">Police</button>
             <button class="tab-btn" data-tab="education">Education</button>
             <button class="tab-btn" data-tab="business">Business</button>
+            <button class="tab-btn" data-tab="infrastructure">Smart City & PWD</button>
+            <button class="tab-btn" data-tab="health">Health & Medical</button>
+            <button class="tab-btn" data-tab="event">Events & Festivals</button>
             <button class="tab-btn" data-tab="news">Publishers</button>
             <button class="tab-btn" data-tab="instagram">Instagram</button>
             <button class="tab-btn" data-tab="youtube">YouTube</button>
@@ -836,18 +845,76 @@ def _card(name: str, count: int) -> str:
 
 
 CATEGORY_IMAGES = {
-    "government": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=500&auto=format&fit=crop&q=60",
-    "police": "https://images.unsplash.com/photo-1593115057322-e94b77572f20?w=500&auto=format&fit=crop&q=60",
-    "education": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&auto=format&fit=crop&q=60",
-    "business": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&auto=format&fit=crop&q=60",
-    "event": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&auto=format&fit=crop&q=60",
-    "health": "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=500&auto=format&fit=crop&q=60",
-    "railway": "https://images.unsplash.com/photo-1532103054090-334e6e60ab29?w=500&auto=format&fit=crop&q=60",
-    "infrastructure": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&auto=format&fit=crop&q=60",
-    "news": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
-    "general": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
-    "other": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60"
+    "government": [
+        "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1577495508048-b635879837f1?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=500&auto=format&fit=crop&q=60"
+    ],
+    "police": [
+        "https://images.unsplash.com/photo-1593115057322-e94b77572f20?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1450133064473-71024230f91b?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1600456899121-68eda5705257?w=500&auto=format&fit=crop&q=60"
+    ],
+    "education": [
+        "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=500&auto=format&fit=crop&q=60"
+    ],
+    "business": [
+        "https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&auto=format&fit=crop&q=60"
+    ],
+    "event": [
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1506157786151-b8491531f063?w=500&auto=format&fit=crop&q=60"
+    ],
+    "health": [
+        "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=500&auto=format&fit=crop&q=60"
+    ],
+    "railway": [
+        "https://images.unsplash.com/photo-1532103054090-334e6e60ab29?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1474487548417-781cb71495f3?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1541427468627-a89a96e5ca1d?w=500&auto=format&fit=crop&q=60"
+    ],
+    "infrastructure": [
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1508962914676-134849a727f0?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1590069261209-f8e9b8642343?w=500&auto=format&fit=crop&q=60"
+    ],
+    "news": [
+        "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1495020689067-958852a6565d?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1504711311083-8419687e8347?w=500&auto=format&fit=crop&q=60"
+    ],
+    "general": [
+        "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1495020689067-958852a6565d?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1585829365295-ab7cd400c167?w=500&auto=format&fit=crop&q=60"
+    ],
+    "other": [
+        "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
+        "https://images.unsplash.com/photo-1495020689067-958852a6565d?w=500&auto=format&fit=crop&q=60"
+    ]
 }
+
+
+def _get_fallback_image(category: str, title: str) -> str:
+    import hashlib
+    clean_cat = category.lower().strip()
+    img_list = CATEGORY_IMAGES.get(clean_cat, CATEGORY_IMAGES["news"])
+    title_hash = int(hashlib.md5(title.encode("utf-8")).hexdigest(), 16)
+    idx = title_hash % len(img_list)
+    return img_list[idx]
 
 
 def _section(name: str, items: list) -> str:
@@ -887,7 +954,7 @@ def _section(name: str, items: list) -> str:
                 default_banner = "https://cdn-icons-png.flaticon.com/512/120/120084.png"
                 default_avatar = "https://cdn-icons-png.flaticon.com/512/174/174855.png"
                 
-            img_url = item[7] or CATEGORY_IMAGES.get(clean_cat, default_banner)
+            img_url = item[7] or _get_fallback_image(clean_cat, item[1])
             img_url_2 = item[8] or default_avatar
             
             rows += f"""<div class="ni soc-card news-item-wrapper" data-category="{clean_cat}" data-title="{_e(item[1])}" data-summary="{_e(summary_text)}" data-source="{_e(item[0])}">
@@ -911,7 +978,7 @@ def _section(name: str, items: list) -> str:
             breaking_badge = '<span class="badge breaking">BREAKING</span>' if is_breaking else ''
             summary_html = f'<div class="summary" onclick="{click_handler}">{_e(item[6])}</div>' if item[6] else ''
             
-            img_url = item[7] if (len(item) > 7 and item[7]) else CATEGORY_IMAGES.get(clean_cat, CATEGORY_IMAGES["news"])
+            img_url = item[7] if (len(item) > 7 and item[7]) else _get_fallback_image(clean_cat, item[1])
             thumb_html = f"""<div class="ni-thumb" onclick="{click_handler}">
 <img src="{_e(img_url)}" alt="Cover Image" />
 </div>"""

@@ -94,11 +94,22 @@ def _extract_notices_from_homepage(html: str, base_url: str) -> list[NewsItem]:
             continue
         seen.add(full_url)
 
+        img_url = ""
+        try:
+            img_tag = a.find("img")
+            if not img_tag and a.parent:
+                img_tag = a.parent.find("img")
+            if img_tag and img_tag.get("src"):
+                img_url = urljoin(base_url, img_tag["src"])
+        except Exception:
+            pass
+
         items.append(NewsItem(
             source="",
             title=text[:200],
             url=full_url,
             published_at=datetime.now().isoformat()[:10],
+            image_url=img_url,
         ))
 
     return items
@@ -122,11 +133,22 @@ def _extract_all_links(html: str, base_url: str) -> list[NewsItem]:
             continue
         seen.add(full_url)
 
+        img_url = ""
+        try:
+            img_tag = a.find("img")
+            if not img_tag and a.parent:
+                img_tag = a.parent.find("img")
+            if img_tag and img_tag.get("src"):
+                img_url = urljoin(base_url, img_tag["src"])
+        except Exception:
+            pass
+
         items.append(NewsItem(
             source="",
             title=text[:200],
             url=full_url,
             published_at=datetime.now().isoformat()[:10],
+            image_url=img_url,
         ))
 
     return items

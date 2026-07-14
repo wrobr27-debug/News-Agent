@@ -55,6 +55,31 @@ def _parse_rss(url: str, source_name: str) -> list[NewsItem]:
     feed = feedparser.parse(url)
     items = []
     for entry in feed.entries[:20]:
+        img = ""
+        # 1. Check enclosures
+        if entry.get("enclosures"):
+            for enc in entry.enclosures:
+                if enc.get("type", "").startswith("image/") or enc.get("url"):
+                    img = enc.url
+                    break
+        # 2. Check media:content
+        if not img and "media_content" in entry:
+            media = entry.media_content
+            if isinstance(media, list) and len(media) > 0:
+                img = media[0].get("url", "")
+            elif isinstance(media, dict):
+                img = media.get("url", "")
+        # 3. Check description / summary HTML for img tag
+        if not img and (entry.get("summary") or entry.get("description")):
+            desc = entry.get("summary") or entry.get("description")
+            try:
+                soup = BeautifulSoup(desc, "lxml")
+                img_tag = soup.find("img")
+                if img_tag and img_tag.get("src"):
+                    img = img_tag["src"]
+            except Exception:
+                pass
+
         items.append(NewsItem(
             source=source_name,
             title=entry.get("title", ""),
@@ -62,6 +87,7 @@ def _parse_rss(url: str, source_name: str) -> list[NewsItem]:
             summary=entry.get("summary", "")[:300],
             published_at=entry.get("published", datetime.now().isoformat())[:10],
             category="news",
+            image_url=img,
         ))
     return items
 
@@ -94,11 +120,33 @@ def _extract_article_links(html: str, base_url: str) -> list[NewsItem]:
             continue
         seen.add(url)
 
+        img_url = ""
+        try:
+            # Find image inside the heading, next siblings, or parent card
+            img_tag = tag.find("img")
+            if not img_tag:
+                for sib in tag.next_siblings:
+                    if sib.name == "img":
+                        img_tag = sib
+                        break
+                    if sib.name in ["div", "span"]:
+                        img_tag = sib.find("img")
+                        if img_tag:
+                            break
+            if not img_tag and tag.parent:
+                img_tag = tag.parent.find("img")
+            
+            if img_tag and img_tag.get("src"):
+                img_url = urljoin(base_url, img_tag["src"])
+        except Exception:
+            pass
+
         items.append(NewsItem(
             source="",
             title=text[:200],
             url=url,
             category="news",
+            image_url=img_url,
         ))
 
     return items
