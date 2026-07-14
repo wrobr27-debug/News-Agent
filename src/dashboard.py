@@ -59,15 +59,15 @@ HEAD = """<!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-deep: #080c14;
-    --card-bg: rgba(18, 25, 41, 0.7);
-    --border-glow: rgba(139, 92, 246, 0.35);
-    --primary-purple: #8b5cf6;
-    --primary-blue: #3b82f6;
-    --accent-red: #ff3366;
+    --bg-deep: #f8fafc;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --border-glow: rgba(124, 58, 237, 0.2);
+    --primary-purple: #7c3aed;
+    --primary-blue: #2563eb;
+    --accent-red: #ef4444;
     --accent-green: #10b981;
-    --text-light: #f3f4f6;
-    --text-muted: #9ca3af;
+    --text-light: #1e293b;
+    --text-muted: #64748b;
 }
 
 * {
@@ -83,8 +83,8 @@ body {
     min-height: 100vh;
     padding: 2.5rem 1.5rem;
     line-height: 1.6;
-    background-image: radial-gradient(circle at 5% 10%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
-                      radial-gradient(circle at 95% 85%, rgba(59, 130, 246, 0.15) 0%, transparent 40%);
+    background-image: radial-gradient(circle at 5% 10%, rgba(124, 58, 237, 0.08) 0%, transparent 40%),
+                      radial-gradient(circle at 95% 85%, rgba(37, 99, 235, 0.08) 0%, transparent 40%);
     background-attachment: fixed;
 }
 
@@ -96,7 +96,7 @@ body {
 /* Header */
 .hdr {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     backdrop-filter: blur(16px);
     padding: 1.75rem 2.5rem;
     border-radius: 1.25rem;
@@ -104,13 +104,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
 }
 
 .hdr h1 {
     font-size: 2.2rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+    background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -1px;
@@ -123,9 +123,9 @@ body {
 }
 
 .btn {
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(0, 0, 0, 0.04);
     color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     padding: 0.7rem 1.3rem;
     border-radius: 0.6rem;
     font-size: 0.85rem;
@@ -138,8 +138,8 @@ body {
 }
 
 .btn:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.12);
     transform: translateY(-1px);
 }
 
@@ -156,20 +156,20 @@ body {
 .search-input {
     width: 100%;
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.07);
     color: var(--text-light);
     padding: 1.1rem 1.5rem 1.1rem 3rem;
     border-radius: 1rem;
     font-size: 1rem;
     backdrop-filter: blur(12px);
     transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .search-input:focus {
     outline: none;
     border-color: var(--primary-purple);
-    box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.15);
 }
 
 .search-icon {
@@ -196,13 +196,13 @@ body {
 }
 
 .tabs::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     border-radius: 10px;
 }
 
 .tab-btn {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.04);
     color: var(--text-muted);
     padding: 0.6rem 1.3rem;
     border-radius: 50px;
@@ -215,9 +215,9 @@ body {
 
 .tab-btn.active, .tab-btn:hover {
     background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
-    color: var(--text-light);
+    color: #ffffff;
     border-color: transparent;
-    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
 }
 
 /* Stats Cards */
@@ -242,18 +242,18 @@ body {
 
 .sc {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.04);
     padding: 1.25rem;
     border-radius: 1rem;
     text-align: center;
     backdrop-filter: blur(12px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
 }
 
 .sc .n {
     font-size: 2.2rem;
     font-weight: 800;
-    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -283,13 +283,13 @@ body {
 }
 
 .sh .c {
-    background: rgba(139, 92, 246, 0.15);
-    color: #c084fc;
+    background: rgba(124, 58, 237, 0.1);
+    color: #7c3aed;
     padding: 0.2rem 0.75rem;
     border-radius: 50px;
     font-size: 0.85rem;
     font-weight: 700;
-    border: 1px solid rgba(139, 92, 246, 0.25);
+    border: 1px solid rgba(124, 58, 237, 0.18);
 }
 
 .sb {
@@ -307,17 +307,17 @@ body {
 /* Standard News Item */
 .ni {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.04);
     border-radius: 1.25rem;
     padding: 1.5rem;
     backdrop-filter: blur(12px);
     transition: all 0.25s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
 }
 
 .ni:hover {
-    border-color: rgba(139, 92, 246, 0.3);
-    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.1);
+    border-color: rgba(124, 58, 237, 0.25);
+    box-shadow: 0 8px 25px rgba(124, 58, 237, 0.05);
     transform: scale(1.005);
 }
 
@@ -333,7 +333,7 @@ body {
     height: 100px;
     border-radius: 0.75rem;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.06);
     cursor: pointer;
 }
 
@@ -360,13 +360,13 @@ body {
 }
 
 .ni-text .t a {
-    color: #ffffff;
+    color: #0f172a;
     text-decoration: none;
     cursor: pointer;
 }
 
 .ni-text .t a:hover {
-    color: #c084fc;
+    color: #7c3aed;
 }
 
 .ni-text .s {
@@ -382,18 +382,21 @@ body {
 
 .ni-text .summary {
     font-size: 0.9rem;
-    color: #d1d5db;
+    color: #334155;
     margin-top: 0.75rem;
     line-height: 1.5;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.02);
     padding: 0.75rem 1rem;
     border-radius: 0.6rem;
     border-left: 3px solid var(--primary-purple);
+    border-right: 1px solid rgba(0,0,0,0.03);
+    border-top: 1px solid rgba(0,0,0,0.03);
+    border-bottom: 1px solid rgba(0,0,0,0.03);
     cursor: pointer;
 }
 
 .ni-text .summary:hover {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.04);
 }
 
 .badge {
@@ -411,7 +414,7 @@ body {
 .badge.breaking {
     background: var(--accent-red);
     color: #fff;
-    box-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
 }
 
 /* Social Media Card */
@@ -424,7 +427,7 @@ body {
 
 .ni.soc-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(139, 92, 246, 0.3);
+    border-color: rgba(124, 58, 237, 0.25);
 }
 
 .soc-banner {
@@ -433,7 +436,7 @@ body {
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    background: #111827;
+    background: #f1f5f9;
 }
 
 .soc-banner img {
@@ -453,8 +456,8 @@ body {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    background: rgba(255, 255, 255, 0.75);
+    color: #000;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -462,7 +465,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    border: 2px solid #fff;
+    border: 2px solid #000;
     opacity: 0.85;
     transition: all 0.2s ease;
 }
@@ -470,6 +473,8 @@ body {
 .soc-banner:hover::after {
     transform: translate(-50%, -50%) scale(1.1);
     background: var(--primary-purple);
+    color: #fff;
+    border-color: transparent;
     opacity: 1;
 }
 
@@ -503,7 +508,7 @@ body {
 .soc-author {
     font-weight: 700;
     font-size: 0.85rem;
-    color: #ffffff;
+    color: #0f172a;
 }
 
 .soc-time {
@@ -519,19 +524,19 @@ body {
 }
 
 .soc-title a {
-    color: #ffffff;
+    color: #0f172a;
     text-decoration: none;
 }
 
 .soc-title a:hover {
-    color: #cbd5e1;
+    color: #7c3aed;
 }
 
 .soc-desc {
     font-size: 0.85rem;
-    color: #d1d5db;
+    color: #334155;
     line-height: 1.45;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.02);
     padding: 0.75rem;
     border-radius: 0.6rem;
     border-left: 3px solid #ff4081;
@@ -541,7 +546,7 @@ body {
 }
 
 .soc-desc:hover {
-    background: rgba(0, 0, 0, 0.25);
+    background: rgba(0, 0, 0, 0.04);
 }
 
 /* Modal details popup */
@@ -551,7 +556,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(15, 23, 42, 0.4);
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
@@ -568,13 +573,13 @@ body {
 }
 
 .modal-content {
-    background: #0f172a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 1.5rem;
     max-width: 650px;
     width: 90%;
     padding: 2rem;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
     transform: translateY(20px);
     transition: transform 0.3s ease;
     position: relative;
@@ -597,7 +602,7 @@ body {
 }
 
 .modal-close:hover {
-    color: #fff;
+    color: #000;
 }
 
 .modal-source {
@@ -612,7 +617,7 @@ body {
 .modal-title {
     font-size: 1.4rem;
     font-weight: 800;
-    color: #fff;
+    color: #0f172a;
     margin-bottom: 1rem;
     line-height: 1.35;
 }
@@ -625,14 +630,14 @@ body {
 
 .modal-body {
     font-size: 0.95rem;
-    color: #cbd5e1;
+    color: #334155;
     line-height: 1.6;
     margin-bottom: 1.5rem;
     white-space: pre-wrap;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.01);
     padding: 1.25rem;
     border-radius: 0.75rem;
-    border: 1px solid rgba(255,255,255,0.03);
+    border: 1px solid rgba(0,0,0,0.03);
 }
 
 .modal-footer {
@@ -830,6 +835,21 @@ def _card(name: str, count: int) -> str:
     return f'<a href="#{clean_id}" class="sc-link"><div class="sc"><div class="n">{count}</div><div class="l">{_e(display_name)}</div></div></a>'
 
 
+CATEGORY_IMAGES = {
+    "government": "https://images.unsplash.com/photo-1541872703-74c5e44368f9?w=500&auto=format&fit=crop&q=60",
+    "police": "https://images.unsplash.com/photo-1593115057322-e94b77572f20?w=500&auto=format&fit=crop&q=60",
+    "education": "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&auto=format&fit=crop&q=60",
+    "business": "https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&auto=format&fit=crop&q=60",
+    "event": "https://images.unsplash.com/photo-1511578314322-379afb476865?w=500&auto=format&fit=crop&q=60",
+    "health": "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=500&auto=format&fit=crop&q=60",
+    "railway": "https://images.unsplash.com/photo-1532103054090-334e6e60ab29?w=500&auto=format&fit=crop&q=60",
+    "infrastructure": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&auto=format&fit=crop&q=60",
+    "news": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
+    "general": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60",
+    "other": "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&auto=format&fit=crop&q=60"
+}
+
+
 def _section(name: str, items: list) -> str:
     is_grid = name.lower() in ["instagram", "youtube"]
     sb_class = "sb grid" if is_grid else "sb"
@@ -867,7 +887,7 @@ def _section(name: str, items: list) -> str:
                 default_banner = "https://cdn-icons-png.flaticon.com/512/120/120084.png"
                 default_avatar = "https://cdn-icons-png.flaticon.com/512/174/174855.png"
                 
-            img_url = item[7] or default_banner
+            img_url = item[7] or CATEGORY_IMAGES.get(clean_cat, default_banner)
             img_url_2 = item[8] or default_avatar
             
             rows += f"""<div class="ni soc-card news-item-wrapper" data-category="{clean_cat}" data-title="{_e(item[1])}" data-summary="{_e(summary_text)}" data-source="{_e(item[0])}">
@@ -891,10 +911,9 @@ def _section(name: str, items: list) -> str:
             breaking_badge = '<span class="badge breaking">BREAKING</span>' if is_breaking else ''
             summary_html = f'<div class="summary" onclick="{click_handler}">{_e(item[6])}</div>' if item[6] else ''
             
-            thumb_html = ""
-            if len(item) > 7 and item[7]:
-                thumb_html = f"""<div class="ni-thumb" onclick="{click_handler}">
-<img src="{_e(item[7])}" alt="Cover Image" />
+            img_url = item[7] if (len(item) > 7 and item[7]) else CATEGORY_IMAGES.get(clean_cat, CATEGORY_IMAGES["news"])
+            thumb_html = f"""<div class="ni-thumb" onclick="{click_handler}">
+<img src="{_e(img_url)}" alt="Cover Image" />
 </div>"""
 
             rows += f"""<div class="ni news-item-wrapper" data-category="{clean_cat}" data-title="{_e(item[1])}" data-summary="{_e(summary_text)}" data-source="{_e(item[0])}">

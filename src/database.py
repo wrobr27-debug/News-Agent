@@ -95,8 +95,10 @@ def get_todays_items():
     cutoff = (datetime.utcnow() - timedelta(hours=24)).strftime("%Y-%m-%d %H:%M:%S")
     rows = conn.execute(
         "SELECT source_name, title, url, published_at, first_seen_at, category, summary, image_url, image_url_2 "
-        "FROM seen_items WHERE first_seen_at > ? ORDER BY first_seen_at DESC",
+        "FROM seen_items WHERE first_seen_at > ? "
+        "ORDER BY COALESCE(NULLIF(published_at, ''), first_seen_at) DESC",
         (cutoff,),
     ).fetchall()
     conn.close()
     return rows
+

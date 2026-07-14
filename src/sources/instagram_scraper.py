@@ -13,6 +13,10 @@ INSTAGRAM_ACCOUNTS = [
     "bilaspur_today_news",
     "lokswar.in",
     "bilaspurdiaries",
+    "bilaspurct",
+    "bilaspurdist",
+    "bilaspur_insight",
+    "whatsupbsp",
 ]
 
 

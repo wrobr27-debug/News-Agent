@@ -49,15 +49,18 @@ def _process_batch(client: OpenAI, batch: list[NewsItem]):
             {
                 "role": "system",
                 "content": (
-                    "You categorize Bilaspur news. Return a JSON array. "
-                    "Each object: category (government/police/education/business/event/news/social/infrastructure/health/railway/other), "
+                    "You categorize and summarize Bilaspur news. Return a JSON array of objects. "
+                    "Each object must have: "
+                    "category (government/police/education/business/event/news/social/infrastructure/health/railway/other), "
                     "headline (format: 'English Headline / हिंदी हेडलाइन', max 120 chars total), "
-                    "importance (1-5). ONLY valid JSON."
+                    "summary (a detailed 2-3 sentence summary/description of the story in Hindi or English, max 200 chars), "
+                    "importance (1-5). "
+                    "ONLY return valid JSON. Do not include markdown code block backticks."
                 )
             },
             {
                 "role": "user",
-                "content": f"Categorize:\n{texts}"
+                "content": f"Categorize and summarize:\n{texts}"
             }
         ],
         temperature=0.1,
@@ -80,8 +83,8 @@ def _process_batch(client: OpenAI, batch: list[NewsItem]):
                 batch[j].category = result.get("category", batch[j].category)
                 if result.get("headline"):
                     batch[j].title = result.get("headline")
-                if not batch[j].summary:
-                    batch[j].summary = result.get("headline", "")
+                # Update summary with the generated detailed summary
+                batch[j].summary = result.get("summary", batch[j].summary or result.get("headline", ""))
                 if result.get("importance", 0) >= 4:
                     batch[j].category = "breaking:" + batch[j].category
     except Exception:

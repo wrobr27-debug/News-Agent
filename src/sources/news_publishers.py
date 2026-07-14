@@ -28,6 +28,26 @@ PUBLISHER_SOURCES = [
         "url": "https://www.thehitavada.com/",
         "rss": "https://www.thehitavada.com/rss.xml",
     },
+    {
+        "name": "Nai Dunia Bilaspur",
+        "url": "https://www.naidunia.com/chhattisgarh/bilaspur",
+        "rss": "https://rss.jagran.com/naidunia/chhattisgarh/bilaspur.xml",
+    },
+    {
+        "name": "CG Wall",
+        "url": "https://cgwall.in/category/bilaspur/",
+        "rss": "https://cgwall.in/category/bilaspur/feed",
+    },
+    {
+        "name": "Easy News",
+        "url": "https://easynews.co.in/",
+        "rss": "https://easynews.co.in/feed",
+    },
+    {
+        "name": "Lokswar",
+        "url": "https://www.lokswar.in/",
+        "rss": "https://www.lokswar.in/feed",
+    },
 ]
 
 

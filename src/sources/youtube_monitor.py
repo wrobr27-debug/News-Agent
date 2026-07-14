@@ -16,6 +16,8 @@ CHANNELS = [
     {"name": "IBC24", "id": "UCEXw0LZRKl9J4w65JPFvT_g"},
     {"name": "News18 Chhattisgarh", "id": "UCx2Q2Id9Q0uykQAqB4be7yQ"},
     {"name": "Zee MPCG", "id": "UC_SR1NuYftrRGIkCfP4uTiQ"},
+    {"name": "G News Bilaspur", "id": "UCi28i1jIeBGJfe3PnWOTFyQ"},
+    {"name": "Tirandaj", "id": "UCyrosQ70_jnhSsuwQAUpOaw"},
 ]
 
 
