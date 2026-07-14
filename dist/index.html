@@ -3,47 +3,611 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bilaspur News Agent</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Bilaspur News Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;background:#f8f9fa;color:#212529;padding:24px;line-height:1.5}
-.hdr{background:linear-gradient(135deg, #1a237e 0%, #303f9f 100%);color:#fff;padding:24px 32px;border-radius:16px;margin-bottom:30px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 4px 20px rgba(26, 35, 126, 0.15)}
-.hdr h1{font-size:26px;font-weight:700;letter-spacing:-0.5px}
-.hdr .meta{font-size:14px;opacity:.9;margin-top:4px}
-.btn{background:rgba(255,255,255,0.15);color:#fff;border:none;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;transition:all 0.2s;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.25)}
-.btn:hover{background:rgba(255,255,255,0.25);transform:translateY(-1px)}
-.stats{display:flex;gap:16px;margin-bottom:30px;flex-wrap:wrap}
-.sc-link{text-decoration:none;display:block;flex:1;min-width:140px;transition:all 0.2s}
-.sc-link:hover{transform:translateY(-4px)}
-.sc{background:#fff;padding:16px 20px;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,.02), 0 1px 3px rgba(0,0,0,.05);text-align:center;border:1px solid #f1f3f5;height:100%}
-.sc .n{font-size:32px;font-weight:800;color:#1a237e}
-.sc .l{font-size:12px;color:#495057;margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
-.sec{background:#fff;border-radius:12px;box-shadow:0 4px 6px rgba(0,0,0,.02), 0 1px 3px rgba(0,0,0,.05);margin-bottom:24px;overflow:hidden;border:1px solid #e9ecef;scroll-margin-top:24px}
-.sh{padding:16px 24px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #f1f3f5;background:#f8f9fa;color:#1a237e}
-.sh .c{background:#e8eaf6;color:#1a237e;padding:2px 12px;border-radius:20px;font-size:13px;font-weight:700}
-.sb{padding:8px 0}
-.ni{padding:16px 24px;border-bottom:1px solid #f1f3f5;transition:background 0.2s}
-.ni:hover{background:#f8f9fa}
-.ni-content{display:flex;gap:16px;align-items:flex-start}
-.ni-thumb{flex-shrink:0;width:95px;height:95px;border-radius:8px;overflow:hidden;border:1px solid #e9ecef}
-.ni-thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.2s}
-.ni-thumb img:hover{transform:scale(1.05)}
-.ni-text{flex:1}
-.ni-text .t{font-size:15px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;flex-wrap:wrap;gap:8px}
-.ni-text .t a{color:#1a237e;text-decoration:none;line-height:1.4}
-.ni-text .t a:hover{color:#303f9f;text-decoration:underline}
-.ni-text .s{font-size:12px;color:#6c757d;font-weight:500}
-.ni-text .tm{color:#6c757d;font-weight:400;margin-left:4px}
-.ni-text .summary{font-size:13.5px;color:#495057;margin-top:8px;line-height:1.5;background:#fdfdfd;padding:10px 14px;border-radius:6px;border-left:3px solid #3f51b5;border-right:1px solid #eee;border-top:1px solid #eee;border-bottom:1px solid #eee}
-.badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
-.badge.breaking{background:#ff1744;color:#fff}
-.empty{text-align:center;padding:60px 20px;color:#888}
-.empty h2{margin-bottom:12px}
+:root {
+    --bg-deep: #080c14;
+    --card-bg: rgba(18, 25, 41, 0.7);
+    --border-glow: rgba(139, 92, 246, 0.35);
+    --primary-purple: #8b5cf6;
+    --primary-blue: #3b82f6;
+    --accent-red: #ff3366;
+    --accent-green: #10b981;
+    --text-light: #f3f4f6;
+    --text-muted: #9ca3af;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+body {
+    background-color: var(--bg-deep);
+    color: var(--text-light);
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem;
+    line-height: 1.6;
+    background-image: radial-gradient(circle at 5% 10%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                      radial-gradient(circle at 95% 85%, rgba(59, 130, 246, 0.15) 0%, transparent 40%);
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 1250px;
+    margin: 0 auto;
+}
+
+/* Header */
+.hdr {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    padding: 1.75rem 2.5rem;
+    border-radius: 1.25rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.hdr h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #c084fc 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
+}
+
+.hdr .meta {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+}
+
+.btn {
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text-light);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.7rem 1.3rem;
+    border-radius: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+}
+
+.btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Top Toolbar: Search & Categories */
+.toolbar {
+    margin-bottom: 2.5rem;
+}
+
+.search-wrapper {
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-light);
+    padding: 1.1rem 1.5rem 1.1rem 3rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 15px rgba(139, 92, 246, 0.25);
+}
+
+.search-icon {
+    position: absolute;
+    left: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    pointer-events: none;
+}
+
+/* Category Filter Tabs */
+.tabs {
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.tabs::-webkit-scrollbar {
+    height: 4px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.tab-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    color: var(--text-muted);
+    padding: 0.6rem 1.3rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.tab-btn.active, .tab-btn:hover {
+    background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%);
+    color: var(--text-light);
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+/* Stats Cards */
+.stats {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.sc-link {
+    text-decoration: none;
+    display: block;
+    flex: 1;
+    min-width: 150px;
+    transition: transform 0.2s ease;
+}
+
+.sc-link:hover {
+    transform: translateY(-3px);
+}
+
+.sc {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1.25rem;
+    border-radius: 1rem;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.sc .n {
+    font-size: 2.2rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.sc .l {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Grid & Section layouts */
+.sec {
+    margin-bottom: 3rem;
+    scroll-margin-top: 2rem;
+}
+
+.sh {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sh .c {
+    background: rgba(139, 92, 246, 0.15);
+    color: #c084fc;
+    padding: 0.2rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border: 1px solid rgba(139, 92, 246, 0.25);
+}
+
+.sb {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.sb.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.75rem;
+}
+
+/* Standard News Item */
+.ni {
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.ni:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.1);
+    transform: scale(1.005);
+}
+
+.ni-content {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+}
+
+.ni-thumb {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+}
+
+.ni-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.ni-thumb img:hover {
+    transform: scale(1.05);
+}
+
+.ni-text {
+    flex: 1;
+}
+
+.ni-text .t {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+    line-height: 1.35;
+}
+
+.ni-text .t a {
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ni-text .t a:hover {
+    color: #c084fc;
+}
+
+.ni-text .s {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.ni-text .tm {
+    font-weight: 400;
+    opacity: 0.85;
+}
+
+.ni-text .summary {
+    font-size: 0.9rem;
+    color: #d1d5db;
+    margin-top: 0.75rem;
+    line-height: 1.5;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.75rem 1rem;
+    border-radius: 0.6rem;
+    border-left: 3px solid var(--primary-purple);
+    cursor: pointer;
+}
+
+.ni-text .summary:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 0.35rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
+
+.badge.breaking {
+    background: var(--accent-red);
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 23, 68, 0.3);
+}
+
+/* Social Media Card */
+.ni.soc-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.ni.soc-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.soc-banner {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: #111827;
+}
+
+.soc-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.soc-banner img:hover {
+    transform: scale(1.02);
+}
+
+.soc-banner::after {
+    content: "▶";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    border: 2px solid #fff;
+    opacity: 0.85;
+    transition: all 0.2s ease;
+}
+
+.soc-banner:hover::after {
+    transform: translate(-50%, -50%) scale(1.1);
+    background: var(--primary-purple);
+    opacity: 1;
+}
+
+.soc-body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.soc-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.soc-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--primary-purple);
+}
+
+.soc-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.soc-author {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #ffffff;
+}
+
+.soc-time {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.soc-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.35;
+}
+
+.soc-title a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.soc-title a:hover {
+    color: #cbd5e1;
+}
+
+.soc-desc {
+    font-size: 0.85rem;
+    color: #d1d5db;
+    line-height: 1.45;
+    background: rgba(0, 0, 0, 0.15);
+    padding: 0.75rem;
+    border-radius: 0.6rem;
+    border-left: 3px solid #ff4081;
+    flex: 1;
+    white-space: pre-wrap;
+    cursor: pointer;
+}
+
+.soc-desc:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* Modal details popup */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1.5rem;
+    max-width: 650px;
+    width: 90%;
+    padding: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+    position: relative;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.25rem;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #fff;
+}
+
+.modal-source {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--primary-purple);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.modal-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 1rem;
+    line-height: 1.35;
+}
+
+.modal-time {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 1.25rem;
+}
+
+.modal-body {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    white-space: pre-wrap;
+    background: rgba(0,0,0,0.2);
+    padding: 1.25rem;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.empty {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: var(--card-bg);
+    border-radius: 1.25rem;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.empty h2 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.empty p {
+    color: var(--text-muted);
+}
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  // Convert last updated time to local browser timezone
+  // Convert timestamps to local browser timezone
   const lastUpdatedEl = document.getElementById("last-updated-time");
   if (lastUpdatedEl) {
     const utcStr = lastUpdatedEl.getAttribute("data-utc");
@@ -53,7 +617,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
   
-  // Convert news scraped time to local time (extracting just the hour:minute)
   document.querySelectorAll(".local-time").forEach(el => {
     const utcStr = el.getAttribute("data-utc");
     if (utcStr) {
@@ -61,1094 +624,140 @@ document.addEventListener("DOMContentLoaded", () => {
       el.textContent = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
     }
   });
+
+  // Client-side search and category filtering
+  const searchInput = document.getElementById("search-box");
+  const tabButtons = document.querySelectorAll(".tab-btn");
+  let activeCategory = "all";
+
+  function filterNews() {
+    const query = searchInput.value.toLowerCase().strip ? searchInput.value.toLowerCase().trim() : "";
+    const items = document.querySelectorAll(".news-item-wrapper");
+
+    items.forEach(item => {
+      const category = item.getAttribute("data-category");
+      const title = item.getAttribute("data-title").toLowerCase();
+      const summary = item.getAttribute("data-summary").toLowerCase();
+      const source = item.getAttribute("data-source").toLowerCase();
+
+      const matchesCategory = (activeCategory === "all" || category === activeCategory);
+      const matchesSearch = (!query || title.includes(query) || summary.includes(query) || source.includes(query));
+
+      if (matchesCategory && matchesSearch) {
+        item.style.display = "";
+      } else {
+        item.style.display = "none";
+      }
+    });
+
+    // Hide empty section headers dynamically
+    const sections = document.querySelectorAll(".sec");
+    sections.forEach(sec => {
+      const visibleItems = sec.querySelectorAll(".news-item-wrapper[style='']");
+      if (visibleItems.length === 0 && query !== "") {
+        sec.style.display = "none";
+      } else {
+        sec.style.display = "";
+      }
+    });
+  }
+
+  if (searchInput) {
+    searchInput.addEventListener("input", filterNews);
+  }
+
+  tabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeCategory = btn.getAttribute("data-tab");
+      
+      // Scroll to category section if filtering specifically
+      if (activeCategory !== "all") {
+        const targetSec = document.getElementById(activeCategory);
+        if (targetSec) {
+          targetSec.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      filterNews();
+    });
+  });
 });
+
+// Modal Detail Popup Handlers
+function openReaderModal(title, source, time, summary, url) {
+  document.getElementById("modal-source").textContent = source;
+  document.getElementById("modal-title").textContent = title;
+  document.getElementById("modal-time").textContent = time;
+  document.getElementById("modal-body").textContent = summary;
+  
+  const linkBtn = document.getElementById("modal-link-btn");
+  if (url && url !== "#") {
+    linkBtn.href = url;
+    linkBtn.style.display = "inline-block";
+  } else {
+    linkBtn.style.display = "none";
+  }
+  
+  document.getElementById("reader-modal").classList.add("active");
+}
+
+function closeReaderModal() {
+  document.getElementById("reader-modal").classList.remove("active");
+}
 </script>
 </head>
 <body>
-<div class="hdr">
-<div><h1>Bilaspur News Agent</h1><div class="meta">Last updated: <span id="last-updated-time" data-utc="2026-07-13T05:23:53.433146">2026-07-13T05:23:53.433146</span> &middot; 206 items today</div></div>
-
-</div>
-<div class="stats">
-<a href="#business" class="sc-link"><div class="sc"><div class="n">10</div><div class="l">business</div></div></a><a href="#education" class="sc-link"><div class="sc"><div class="n">39</div><div class="l">education</div></div></a><a href="#government" class="sc-link"><div class="sc"><div class="n">36</div><div class="l">government</div></div></a><a href="#health" class="sc-link"><div class="sc"><div class="n">9</div><div class="l">health</div></div></a><a href="#infrastructure" class="sc-link"><div class="sc"><div class="n">9</div><div class="l">infrastructure</div></div></a><a href="#news" class="sc-link"><div class="sc"><div class="n">56</div><div class="l">news</div></div></a><a href="#police" class="sc-link"><div class="sc"><div class="n">9</div><div class="l">police</div></div></a><a href="#railway" class="sc-link"><div class="sc"><div class="n">38</div><div class="l">railway</div></div></a>
-</div>
-<div class="sec" id="business">
-<div class="sh"><span>BUSINESS</span><span class="c">10</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/1/15/Symbiosis-Institute-of-Business-Management-SIBM-Nagpur-s-MBA-programme-Earns-National-Board-of-Accreditation.html" target="_blank" rel="noopener">Symbiosis Institute of Business Management (SIBM) Nagpur’s MBA programme Earns National Board of Accreditation (NBA)</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.1358957&amp;mlon=82.1306238" target="_blank" rel="noopener">New Restaurant: Canteen GEC Bilaspur</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0573285&amp;mlon=82.1705626" target="_blank" rel="noopener">New Restaurant: DADA BIRYANI</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0721701&amp;mlon=82.1618509" target="_blank" rel="noopener">New Cafe: Urban Bistro</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0704946&amp;mlon=82.1748814" target="_blank" rel="noopener">New Hotel: Hotel INTERCITY</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0572189&amp;mlon=82.1708100" target="_blank" rel="noopener">New Hotel: MarWARI HOTEL AND LODGE</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0945833&amp;mlon=82.1255491" target="_blank" rel="noopener">New Hotel: Marriott Courtyard</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0750555&amp;mlon=82.1582231" target="_blank" rel="noopener">New Hotel: न्यू भगत लॉज, पुराना बस स्टेन्ड, बिलासपुर</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0736454&amp;mlon=82.1622104" target="_blank" rel="noopener">New Hotel: JEET CONTINENTIAL</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/media/notices/tendereoi/CATENDER2026.pdf" target="_blank" rel="noopener">E-Tender Ref. No. 37/CA Services/Store/GGV/2026 DATE: 09/06/2026</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="education">
-<div class="sh"><span>EDUCATION</span><span class="c">39</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/2/7/treat-exams-like-festivals-focus-on-improving-life-pm-modi.html" target="_blank" rel="noopener">Treat exams like festivals, focus on improving life: PM Modi</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/centre-point-school-swimmers-shine.html" target="_blank" rel="noopener">Centre Point School swimmers shine</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/Laboratory_Assistant-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Laboratory Assistant</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/LDC-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Lower Division Clerk (LDC)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/Steno-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Stenographer</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/media/recruitment/UDC-Web_List_19.6.25.pdf" target="_blank" rel="noopener">List of Shortlisted/Not Shortlisted Candidates for Examination/ Skill/Practical Test/Written Test for Upper Division Clerk (UDC)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/notice/international-affairs-admissions" target="_blank" rel="noopener">International Affairs Admissions</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://cdoe.ggu.ac.in/course-libary" target="_blank" rel="noopener">Online Courses Admission Open</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2026/07/Whatsapp-Scan-4-July-2026-at-12.59.37.pdf" target="_blank" rel="noopener">Admission Rules for First Year 2026-27</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2026/07/Whatsapp-Scan-4-July-2026-at-13.01.25.pdf" target="_blank" rel="noopener">Admission instruction for upcoming First Year students of B.Tech &amp; M.Tech(Counselling Process, Fees Details &amp; Admission Form) (2026-27)</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/12/Our-Recruiters-GEC-Bilaspur.pdf" target="_blank" rel="noopener">Our Recruiters</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/10/notice-scholarship.pdf" target="_blank" rel="noopener">— Notice regarding scholarship of students for session 2025-26</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/11/Document-80.pdf" target="_blank" rel="noopener">–Walk-in-Interview for Part Time Lecturer in Mining Engg. Department on 18.11.2025</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/07/Document-49-1.pdf" target="_blank" rel="noopener">–Walk-in-Interview for Part Time Lecturer in Civil, Electrical, ET&amp;T &amp; Mining Engg. Department on 12.08.2025</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/02/Order_PTL-27-Feb-2025-15-53-361.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (Elect. Dept.) (Even Sem 2024-25)</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/01/PTL_CSE-IT-Maths-2025-20-Jan-2025-11-35-14.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (CSE, IT, &amp; Maths Dept.) (Even Sem 2024-25)</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2025/01/PTL_CE-EE-2025-20-Jan-2025-11-31-14.pdf" target="_blank" rel="noopener">–Selection List of Part Time Lecturer (Civil &amp; Elect. Dept) (Even Sem 2024-25)</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/?page_id=6517" target="_blank" rel="noopener">RECRUITMENT</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/?page_id=6528" target="_blank" rel="noopener">Quotation &amp; TENDER</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="http://gecbsp.ac.in/wp-content/uploads/2020/04/aaaaa-converted.pdf" target="_blank" rel="noopener">Help Desk (CSVTU Exams)</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="government">
-<div class="sh"><span>GOVERNMENT</span><span class="c">36</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><span class="badge breaking">BREAKING</span><a href="https://www.thehitavada.com/Encyc/2026/7/13/ram-temple-trust-to-decide-ceos-powers-no-govt-interference.html" target="_blank" rel="noopener">Ram Temple Trust to decide CEO powers, no govt interference / राम मंदिर ट्रस्ट सीईओ के अधिकारों का निर्णय लेगा, कोई सरकारी हस्तक्षेप नहीं</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-13 05:23:29">2026-07-13 05:23:29</span></span></div>
-<div class="summary">Ram Temple Trust to decide CEO powers, no govt interference / राम मंदिर ट्रस्ट सीईओ के अधिकारों का निर्णय लेगा, कोई सरकारी हस्तक्षेप नहीं</div>
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><span class="badge breaking">BREAKING</span><a href="https://www.thehitavada.com/Encyc/2026/7/13/chinas-claims-in-south-china-sea-illegal-14-nations-eu-reaffirm.html" target="_blank" rel="noopener">China’s South China Sea claims illegal, 14 nations &amp; EU reaffirm / चीन के सागर में दावे अवैध, 14 देशों और संघ ने फिर पुष्टि की</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-13 05:23:29">2026-07-13 05:23:29</span></span></div>
-<div class="summary">China’s South China Sea claims illegal, 14 nations &amp; EU reaffirm / चीन के सागर में दावे अवैध, 14 देशों और संघ ने फिर पुष्टि की</div>
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice/tender-for-the-supply-of-food-items-for-mess-operations-at-the-prayas-residential-school-boys-girls-and-other-backward-classes-obc-hostel/" target="_blank" rel="noopener">Tender for the supply of food items for mess operations at the Prayas Residential School (Boys/Girls) and Other Backward Classes (OBC) hostel.</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 20:35:35">2026-07-12 20:35:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/only-2650-of-states-villages-certified-under-har-ghar-jal-scheme-till-2024-cag.html" target="_blank" rel="noopener">Only 26.50% of State’s villages certified under ‘Har Ghar Jal’ scheme till 2024: CAG</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/youth-dreams-aspirations-take-wings-in-mp-govt-focuses-on-employment-cm-dr-yadav.html" target="_blank" rel="noopener">Youth dreams, aspirations take wings in MP, Govt focuses on employment: CM Dr Yadav</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://ggu.ac.in/social-connect/swavalambi-chhattisgarh-scheme/" target="_blank" rel="noopener">Swavalambi Chhattisgarh Scheme</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://ggu.ac.in/social-connect/saarthi-yojana/" target="_blank" rel="noopener">GGV Saarthi Yojana</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://ggu.ac.in//social-connect/sudama-yojana/" target="_blank" rel="noopener">GGV Sudama Yojana</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://ggu.ac.in/amenity/nss/" target="_blank" rel="noopener">National Service Scheme (NSS)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/amenity/dsw/notice/notification/" target="_blank" rel="noopener">Welfare Schemes</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://gecbsp.ac.in/?p=7880" target="_blank" rel="noopener">PM Internship Scheme</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://gecbsp.ac.in/?p=7652" target="_blank" rel="noopener">Agniveer Scheme</a></div>
-<div class="s">Government Engineering College Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/amenity/nss/" target="_blank" rel="noopener">National Service Scheme (NSS)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.ggu.ac.in/media/notices/admissions/B._Tech._Lateral_Entry_vacant_seat_detail_27.6.25.pdf" target="_blank" rel="noopener">Vacant Seat Details for admission in B.Tech. 2nd Year (III Semester) through lateral entry Scheme (2025-26)</a></div>
-<div class="s">Guru Ghasidas Vishwavidyalaya &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/announcements/" target="_blank" rel="noopener">Announcements</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/recruitment/" target="_blank" rel="noopener">Recruitment</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/admission-forms/" target="_blank" rel="noopener">Admission Forms</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/assembly-election-2018" target="_blank" rel="noopener">Assembly Election 2018</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/loksabha-election-2019" target="_blank" rel="noopener">Loksabha Election 2019</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.gov.in/en/notice_category/local-election-2020" target="_blank" rel="noopener">Local Election 2020</a></div>
-<div class="s">District Administration Bilaspur &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="health">
-<div class="sh"><span>HEALTH</span><span class="c">9</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0916740&amp;mlon=82.1263636" target="_blank" rel="noopener">New Clinic Opened: Vandana Hospital / वंदना अस्पताल का उद्घाटन</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 19:15:22">2026-07-12 19:15:22</span></span></div>
-<div class="summary">Vandana Hospital, NH130A, green garden colony, Bilaspur, Bilaspur Tahsil, Bilaspur, Chhattisgarh, 495001, India</div>
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0880880&amp;mlon=82.1365760" target="_blank" rel="noopener">New Clinic/Hospital: Usha memorial Skin &amp; Eye Hospital</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/jt-task-force-launches-campaign-against-illegal-mining-in-patan.html" target="_blank" rel="noopener">Jt task force launches campaign against illegal mining in Patan</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/multilingual-health-app-helping-women-detect-breast-cancer-earlier.html" target="_blank" rel="noopener">Multilingual health app helpingwomen detect breast cancer earlier</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.1109604&amp;mlon=82.1399692" target="_blank" rel="noopener">New Clinic/Hospital: Multi Super Specialty Hospital</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0979110&amp;mlon=82.1304350" target="_blank" rel="noopener">New Clinic/Hospital: Bilaspur Hospital</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0975946&amp;mlon=82.1629147" target="_blank" rel="noopener">New Clinic/Hospital: Shri Childrens Hospital</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0922070&amp;mlon=82.1276340" target="_blank" rel="noopener">New Clinic/Hospital: Shri Krishna Hospital</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.openstreetmap.org/?mlat=22.0919880&amp;mlon=82.1279049" target="_blank" rel="noopener">New Clinic/Hospital: Narayani Hospital</a></div>
-<div class="s">OpenStreetMap &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="infrastructure">
-<div class="sh"><span>INFRASTRUCTURE</span><span class="c">9</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="tel:18008333068" target="_blank" rel="noopener">1800 833 3068 (Helpline)</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://icccbilaspur.zohodesk.in/portal/en/newticket" target="_blank" rel="noopener">Submit Your Complaint</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/#itprojects" target="_blank" rel="noopener">Explore Our Smart Projects</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/gis.html" target="_blank" rel="noopener">Geographical Information Centre (GIS)</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/iwms.html" target="_blank" rel="noopener">Intelligent Waste Management System (IWMS)</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/epathsala.html" target="_blank" rel="noopener">E-Paathshaala (Smart Classrooms)</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/iot-water-project.html" target="_blank" rel="noopener">IoT-based Digitalization of Potable Water Distribution Network</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/smart_street_light.html" target="_blank" rel="noopener">Smart Street Light Monitoring System</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.presear.com" target="_blank" rel="noopener">Presear Softwares PVT LTD</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="news">
-<div class="sh"><span>NEWS</span><span class="c">56</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://youtube.com/watch?v=sp17pNXi46g" target="_blank" rel="noopener">GRAND NEWS BILASPUR: EVENING FINAL NEWS 12.07.2026</a></div>
-<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://youtube.com/watch?v=Ow58VYbCxPI" target="_blank" rel="noopener">GRAND NEWS BILASPUR:चिकित्सा सेवा है, व्यापार नहीं&amp;#39;— मरीजों के हित में सख्त कार्रवाई की मांग</a></div>
-<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://youtube.com/watch?v=nXco4zbWn_s" target="_blank" rel="noopener">GRAND NEWS BILASPUR:इमरान प्रतापगढ़ी की हुंकार, शिक्षा व्यवस्था की खामियों पर सरकार को घेरा</a></div>
-<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://youtube.com/watch?v=2vMamqez-6Q" target="_blank" rel="noopener">GRAND NEWS BILASPUR: FINAL NEWS 12.07.2026 MORNING</a></div>
-<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://youtube.com/watch?v=7YR6qWh0N1s" target="_blank" rel="noopener">GRAND NEWS BILASPUR:अम्बा पेट्रोल पंप पर छात्रों का खौफनाक तांडव</a></div>
-<div class="s">Bilaspur Grand News &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 15:15:35">2026-07-12 15:15:35</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/12/23-Naxalites-with-cumulative-bounty-of-Rs-1.18-cr-surrender-in-Chhattisgarh.html" target="_blank" rel="noopener">23 Naxalites with cumulative bounty of Rs 1.18 cr surrender in Chhattisgarh</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/12/Can-t-draw-conclusions-from-preliminary-report_-pilots--conversation-brief--Minister-on-AAIB-report.html" target="_blank" rel="noopener">Can't draw conclusions from preliminary report, pilots' conversation brief: Minister on AAIB report</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/india-seeks-review-of-tariff-cites-flaws-in-ustrs-labour-report.html" target="_blank" rel="noopener">India seeks review of tariff, cites flaws in USTR’s labour report</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/nita-ambani-ranks-1st-on-this-years-fortune-most-powerful-women-list.html" target="_blank" rel="noopener">Nita Ambani ranks 1st on this year’s Fortune Most Powerful Women list</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/15-indian-tourists-killed-in-vietnam-boat-capsize.html" target="_blank" rel="noopener">15 Indian tourists killed in Vietnam boat capsize</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/ins-mahendragiri-to-strengthen-indias-maritime-reach-bolster-eastern-seaboard.html" target="_blank" rel="noopener">‘INS Mahendragiri to strengthen India’s maritime reach, bolster eastern seaboard’</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/ukrainian-drones-hit-more-russian-oil-facilities-set-two-oil-tankers-ablaze-.html" target="_blank" rel="noopener">Ukrainian drones hit more Russian oil facilities, set two oil tankers ablaze</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/chanting-mahamritunjya-mantra-may-help-reduce-blood-pressure-heart-rate-study.html" target="_blank" rel="noopener">Chanting ‘Mahamritunjya mantra’ may help reduce blood pressure, heart rate: Study</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/nep-implementation-status-55-pc-universities-participate-in-nirf-56-pc-offer-four-year-ug-course.html" target="_blank" rel="noopener">NEP implementation status:, 55 pc universities participate in NIRF; 56 pc offer four-year UG course</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/v-p-launches-loa-for-sustainable-harnessing-of-fisheries-in-high-seas.html" target="_blank" rel="noopener">V-P launches LoA for sustainable harnessing of fisheries in high seas</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/10/around-3k-lpg-cylinders-swept-into-river-in-raigad-after-hpcl-plant-wall-collapses.html" target="_blank" rel="noopener">Around 3K LPG cylinders swept into river in Raigad after HPCL plant wall collapses</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/12/1/solar-group-signs-agreement-with-csir-nal-to-develop-indigenous-150-kg-loitering-munition-uav.html" target="_blank" rel="noopener">Solar Group signs agreement with CSIR-NAL To develop indigenous 150 kg loitering munition UAV</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/4/5/Leadership-Learning-and-Legacy-SIBM-Nagpur-Celebrates-a-Year-of-Growth.html" target="_blank" rel="noopener">Leadership, Learning, and Legacy: SIBM Nagpur Celebrates a Year of Growth</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/4/9/pmmy-reflects-every-dream-given-support-to-grow-pm.html" target="_blank" rel="noopener">PMMY reflects every dream given support to grow: PM</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/air-india-to-resume-ngp-mum-flights.html" target="_blank" rel="noopener">Air India to resume Ngp-Mum flights;</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="police">
-<div class="sh"><span>POLICE</span><span class="c">9</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/3/26/91000-missing-girls-traced-in-mah-over-13-yrs-most-cases-linked-to-love-ties-says-fadnavis.html" target="_blank" rel="noopener">91,000 missing girls traced in Mah over 13 yrs, most cases linked to love ties, says Fadnavis</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2238,2574" target="_blank" rel="noopener">ZONAL SAFETY CIRCULARS</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2239,2705" target="_blank" rel="noopener">Question and Answar Key  CVI (Traffic) Exam</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/press-release" target="_blank" rel="noopener">Press Releases</a></div>
-<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-12/bsp-range-constable-recruitment-result-23-24_0.pdf" target="_blank" rel="noopener">Final result of Chhattisgarh Police constable recruitment exam 2023-24 With Marks (Bilaspur range- Dist -Bilaspur,Korba,Mungeli,GPM) chhattisgarh</a></div>
-<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-12/bsp-selection-waiting-list.pdf" target="_blank" rel="noopener">Final result of Chhattisgarh Police constable recruitment exam 2023-24- Bilaspur</a></div>
-<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://bilaspur.cgpolice.gov.in/sites/default/files/2025-11/press-note-regarding-trade-test-constable-trade-centre-no.01-bilaspur-range.pdf" target="_blank" rel="noopener">Press note regarding trade test of Constable(trade) for Constable recruitment 2023-24, Centre no. 01,Bilaspur Range</a></div>
-<div class="s">Bilaspur Police &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/servicesSingle.html" target="_blank" rel="noopener">Real-timemonitoring of Security, Traffic, and City Utilities.</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.icccbilaspur.in/itms.html" target="_blank" rel="noopener">Intelligent Traffic Management System (ITMS)</a></div>
-<div class="s">Bilaspur Smart City &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:50">2026-07-12 14:08:50</span></span></div>
-
-</div>
-</div>
-</div></div>
-</div><div class="sec" id="railway">
-<div class="sh"><span>RAILWAY</span><span class="c">38</span></div>
-<div class="sb"><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2026/7/12/ngt-restrains-sports-activities-at-intl-cricket-stadium-pending-compliance.html" target="_blank" rel="noopener">NGT restrains sports activities at Int’l cricket stadium pending compliance</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:53">2026-07-12 14:08:53</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/23/ed-files-fema-case-against-e-commerce-platform-myntra-linked-companies-and-directors-for-contravention-of-over.html" target="_blank" rel="noopener">ED files FEMA case against e-commerce platform Myntra, linked companies and directors for 'contravention' of over Rs 1,654 crore.</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://www.thehitavada.com/Encyc/2025/7/14/Citizens-must-know-value-of-freedom-of-speech_-expression-and-observe-self-regulation_-restraint--SC..html" target="_blank" rel="noopener">Citizens must know value of freedom of speech, expression and observe self regulation, restraint: SC.</a></div>
-<div class="s">The Hitavada &middot; <span class="tm">Scraped: <span class="local-time" data-utc="2026-07-12 14:08:52">2026-07-12 14:08:52</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,1443,268" target="_blank" rel="noopener">Press Releases</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2676" target="_blank" rel="noopener">Gaz. Office Order 2025</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2701" target="_blank" rel="noopener">Gaz. Office Order 2026</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531" target="_blank" rel="noopener">Gaz. Office Order 2024</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2578" target="_blank" rel="noopener">Office Order 2019</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2579" target="_blank" rel="noopener">Office Order 2020</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2580" target="_blank" rel="noopener">Office Order 2021</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2606" target="_blank" rel="noopener">Office Order 2022</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2232,2531,2619" target="_blank" rel="noopener">Office Order 2023</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2235,2585" target="_blank" rel="noopener">Standing Orders</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2211,2239,2694" target="_blank" rel="noopener">Compendium Of Vigilance Circulars</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2270,2284,2550" target="_blank" rel="noopener">NOTIFICATIONS</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2536" target="_blank" rel="noopener">Selection Calendar-चयन कैलेंडर</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2301,2569" target="_blank" rel="noopener">NOTIFICATION-अधिसूचना</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2271,2304,2415" target="_blank" rel="noopener">Junior Clerk (Level 2) Selection – Against 33 1Ú3 % Quota</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2272,2315,2495" target="_blank" rel="noopener">Notification</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div><div class="ni">
-<div class="ni-content">
-
-<div class="ni-text">
-<div class="t"><a href="https://secr.indianrailways.gov.in/view_section.jsp?fontColor=black&amp;backgroundColor=LIGHTSTEELBLUE&amp;lang=0&amp;id=0,4,2212,2272,2315,2644" target="_blank" rel="noopener">Trade Union Secret Ballot Election-2024</a></div>
-<div class="s">Bilaspur Railway Division &middot; <span class="tm">Published: 2026-07-12 &middot; Scraped: <span class="local-time" data-utc="2026-07-12 14:08:51">2026-07-12 14:08:51</span></span></div>
-
-</div>
-</div>
-</div></div>
+<div class="container">
+    <div class="hdr">
+        <div>
+            <h1>Bilaspur News Hub</h1>
+            <div class="meta">Last updated: <span id="last-updated-time" data-utc="2026-07-14T11:01:30.326803">2026-07-14T11:01:30.326803</span> &middot; 0 items today</div>
+        </div>
+        
+    </div>
+
+    <!-- Search & Filters Toolbar -->
+    <div class="toolbar">
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-box" class="search-input" placeholder="Search news titles, summaries, or publishers...">
+        </div>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="all">All News</button>
+            <button class="tab-btn" data-tab="government">Government</button>
+            <button class="tab-btn" data-tab="police">Police</button>
+            <button class="tab-btn" data-tab="education">Education</button>
+            <button class="tab-btn" data-tab="business">Business</button>
+            <button class="tab-btn" data-tab="news">Publishers</button>
+            <button class="tab-btn" data-tab="instagram">Instagram</button>
+            <button class="tab-btn" data-tab="youtube">YouTube</button>
+            <button class="tab-btn" data-tab="general">General</button>
+        </div>
+    </div>
+
+    <div class="stats">
+    
+    </div>
+
+    <div id="news-container">
+    <div class="empty"><h2>No news collected yet</h2><p>Check back later.</p></div>
+    </div>
+</div>
+
+<!-- Details Reader Modal -->
+<div id="reader-modal" class="modal-overlay" onclick="if(event.target === this) closeReaderModal()">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeReaderModal()">&times;</button>
+        <div id="modal-source" class="modal-source">Government</div>
+        <h2 id="modal-title" class="modal-title">Custom Title</h2>
+        <div id="modal-time" class="modal-time">scraped...</div>
+        <div id="modal-body" class="modal-body">summary details...</div>
+        <div class="modal-footer">
+            <a id="modal-link-btn" href="#" target="_blank" class="btn" style="background: linear-gradient(135deg, var(--primary-purple) 0%, var(--primary-blue) 100%); border-color: transparent;">Read Full Story on Source</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>
