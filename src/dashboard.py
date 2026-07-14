@@ -578,11 +578,14 @@ body {
     border-radius: 1.5rem;
     max-width: 650px;
     width: 90%;
+    max-height: 90vh;
     padding: 2rem;
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
     transform: translateY(20px);
     transition: transform 0.3s ease;
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-overlay.active .modal-content {
@@ -638,6 +641,8 @@ body {
     padding: 1.25rem;
     border-radius: 0.75rem;
     border: 1px solid rgba(0,0,0,0.03);
+    overflow-y: auto;
+    flex: 1;
 }
 
 .modal-footer {
@@ -660,6 +665,67 @@ body {
 
 .empty p {
     color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 1.5rem 1rem;
+    }
+    .hdr {
+        flex-direction: column;
+        gap: 1.25rem;
+        align-items: stretch;
+        padding: 1.5rem;
+        text-align: center;
+    }
+    .hdr h1 {
+        font-size: 1.8rem;
+    }
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem;
+    }
+    .sc-link {
+        min-width: 0;
+    }
+    .sc {
+        padding: 1rem;
+    }
+    .sc .n {
+        font-size: 1.8rem;
+    }
+    .sh {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .ni-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .ni-thumb {
+        width: 100%;
+        height: 180px;
+    }
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    .modal-title {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
 }
 </style>
 <script>
