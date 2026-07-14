@@ -688,7 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let activeCategory = "all";
 
   function filterNews() {
-    const query = searchInput.value.toLowerCase().strip ? searchInput.value.toLowerCase().trim() : "";
+    const query = searchInput.value.toLowerCase().trim ? searchInput.value.toLowerCase().trim() : "";
     const items = document.querySelectorAll(".news-item-wrapper");
 
     items.forEach(item => {
