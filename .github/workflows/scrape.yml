@@ -62,7 +62,7 @@ jobs:
       - name: Build Static Dashboard
         run: |
           python src/build_static.py
-          echo "bsp.is-a.dev" > dist/CNAME
+          echo "Bypassing custom domain CNAME"
 
       - name: Commit and Push database changes
         run: |
@@ -71,7 +71,7 @@ jobs:
           git add data/news_agent.db || true
           git add data/instagram_state.json || true
           git add dist/index.html || true
-          git add dist/CNAME || true
+          # git add dist/CNAME || true
           git add dist/images/* || true
           git commit -m "Auto-update news feed [skip ci]" || echo "No changes to commit"
           git push origin main
